@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Cleaning & Preparation Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ebe6e4;
+            --primary-dark: #47447d;
+            --secondary: #47375a;
+            --accent: #4e35f5;
+            --dark: #0f172a;
+            --dark-light: #1e293b;
+            --text: #ffffff;
+            --text-muted: #c9ced4;
+            --bg: #060e31;
+            --card-bg: #1e293b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.4;
+            background: radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 90%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(21, 36, 69, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(99, 102, 241, 0.2);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Service Page */
+        .service-page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 30px;
+        }
+
+        /* Hero Section */
+        .service-hero {
+            text-align: center;
+            margin-bottom: 80px;
+            padding: 60px 30px;
+            background: linear-gradient(135deg, rgba(99, 101, 241, 0.092), rgba(139, 92, 246, 0.05));
+            border-radius: 20px;
+        }
+
+        .service-hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .pricing-badge {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: var(--accent);
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+
+        /* Section Header */
+        .section-header {
+            margin-bottom: 50px;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+        }
+
+        /* Case Study Banner */
+        .case-study-banner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            background: linear-gradient(135deg, rgba(99, 101, 241, 0.092), rgba(139, 92, 246, 0.05));
+            padding: 3rem;
+            border-radius: 16px;
+            margin: 3rem 0;
+            border: 2px solid rgba(99, 102, 241, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .case-study-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(78, 53, 245, 0.15) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .case-study-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .case-study-label {
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 12px rgba(78, 53, 245, 0.4);
+        }
+
+        .case-study-banner h3 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .case-study-banner p {
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .case-study-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(78, 53, 245, 0.4);
+        }
+
+        .case-study-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(78, 53, 245, 0.6);
+        }
+
+        .case-study-btn .arrow {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .case-study-btn:hover .arrow {
+            transform: translateX(5px);
+        }
+
+        .case-study-preview {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .preview-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 5px 15px rgba(78, 53, 245, 0.3));
+        }
+
+        .preview-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: var(--card-bg);
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* What I Offer Section */
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            color: var(--text);
+            margin: 3rem 0 2rem;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.6rem;
+            color: var(--accent);
+            margin: 2rem 0 1rem;
+            font-weight: 600;
+        }
+
+        h4 {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin: 1.5rem 0 0.75rem;
+            font-weight: 600;
+        }
+
+        .offer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .offer-item {
+            background: var(--card-bg);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            padding: 2rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .offer-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+
+        .offer-item h3 {
+            font-size: 1.4rem;
+            margin-top: 0;
+        }
+
+        .offer-item p {
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        /* What You'll Receive */
+        ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 1.5rem 0;
+        }
+
+        ul li {
+            padding: 0.75rem 0 0.75rem 2rem;
+            position: relative;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* My Approach */
+        .approach-steps {
+            display: grid;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .step {
+            display: flex;
+            gap: 2rem;
+            align-items: start;
+            padding: 2rem;
+            background: var(--card-bg);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .step:hover {
+            transform: translateX(10px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.15);
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .step-content h4 {
+            margin-top: 0;
+            color: var(--text);
+        }
+
+        .step-content p {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* Ideal For */
+        .ideal-for-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .ideal-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .ideal-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+
+        .ideal-card h4 {
+            margin-top: 0;
+            color: var(--text);
+        }
+
+        .ideal-card p {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* Why Work With Me */
+        .why-section {
+            background: linear-gradient(135deg, rgba(99, 101, 241, 0.092), rgba(139, 92, 246, 0.05));
+            color: var(--text);
+            padding: 3rem;
+            border-radius: 16px;
+            margin: 3rem 0;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .why-section h3 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-top: 0;
+        }
+
+        .why-section p {
+            line-height: 1.8;
+            font-size: 1.05rem;
+            color: var(--text-muted);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            padding: 3rem;
+            border-radius: 16px;
+            margin: 3rem 0;
+        }
+
+        .cta-section h3 {
+            margin-top: 0;
+            color: white;
+            font-size: 2.5rem;
+        }
+
+        .cta-section p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: var(--accent);
+            padding: 1rem 3rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .turnaround {
+            margin-top: 2rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(99, 102, 241, 0.2);
+            margin-top: 4rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .service-hero h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .case-study-banner {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 2rem;
+            }
+
+            .preview-stats {
+                gap: 1rem;
+            }
+
+            .stat-item {
+                padding: 1rem 1.5rem;
+            }
+
+            .approach-steps {
+                gap: 1rem;
+            }
+
+            .step {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1.5rem;
+            }
+
+            .step:hover {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-gradient"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">PORTFOLIO</div>
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Service Page Content -->
+    <div class="service-page">
+        <!-- Hero Section -->
+        <div class="service-hero">
+            <h1>Data Cleaning & Preparation</h1>
+            <p class="subtitle">Transform messy datasets into reliable, analysis-ready data that drives confident decision-making</p>
+            <div class="pricing-badge">€25 – €35/hour | Project-based pricing available</div>
+        </div>
+
+        <!-- Intro -->
+        <div class="section-header">
+            <p>Most data projects fail not because of poor analysis, but because of poor data quality. Organizations spend up to 80% of their analytics time wrestling with data issues rather than extracting insights. I help businesses and researchers cut through this inefficiency by transforming raw, inconsistent data into clean, structured datasets that enable confident analysis and decision-making.</p>
+        </div>
+
+        <!-- Case Study Banner -->
+        <div class="case-study-banner">
+            <div class="case-study-content">
+                <div class="case-study-label">
+                    <span class="badge">✨ FEATURED PROJECT</span>
+                </div>
+                <h3>See This Service in Action</h3>
+                <p>View a complete case study showcasing how I transformed a messy dataset into analysis-ready data with interactive visualizations and comprehensive documentation.</p>
+                <a href="Service_1.html" class="case-study-btn">
+                    <span>View Full Case Study</span>
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+            <div class="case-study-preview">
+                <div class="preview-icon">📊</div>
+                <div class="preview-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">Quality Validation</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">80%</div>
+                        <div class="stat-label">Time Saved</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- What I Offer -->
+        <h2>What I Offer</h2>
+        <div class="offer-grid">
+            <div class="offer-item">
+                <h3>Missing Value Treatment</h3>
+                <p>I identify patterns in missing data and apply appropriate imputation strategies—whether statistical methods, predictive modeling, or domain-informed decisions—that preserve your data's integrity and maximize usable information.</p>
+            </div>
+
+            <div class="offer-item">
+                <h3>Data Consistency & Validation</h3>
+                <p>I establish validation rules, standardize formats across sources, and ensure consistency throughout your datasets. This includes handling duplicate records, enforcing business rules, and creating data quality checks.</p>
+            </div>
+
+            <div class="offer-item">
+                <h3>Outlier Detection & Management</h3>
+                <p>Using statistical methods and domain knowledge, I detect anomalies and outliers in your data, then work with you to determine whether these represent errors requiring correction or important signals to preserve.</p>
+            </div>
+
+            <div class="offer-item">
+                <h3>Format Standardization</h3>
+                <p>I harmonize data types, date formats, naming conventions, and structures across multiple sources, making your data ready for seamless integration, analysis, or modeling across platforms and tools.</p>
+            </div>
+        </div>
+
+        <!-- What You'll Receive -->
+        <h3>What You'll Receive</h3>
+        <ul>
+            <li>Clean, analysis-ready datasets in your preferred format (CSV, Excel, SQL database)</li>
+            <li>Detailed documentation of all cleaning steps and decisions made</li>
+            <li>Data quality report highlighting issues found and how they were resolved</li>
+            <li>Reproducible code (Python/SQL) so you can apply the same process to future data</li>
+            <li>Clear recommendations for maintaining data quality going forward</li>
+        </ul>
+
+        <!-- My Approach -->
+        <h2>My Approach</h2>
+        <div class="approach-steps">
+            <div class="step">
+                <div class="step-number">01</div>
+                <div class="step-content">
+                    <h4>Discovery Call</h4>
+                    <p>We discuss your data sources, business objectives, and specific challenges you're facing with data quality.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">02</div>
+                <div class="step-content">
+                    <h4>Initial Assessment</h4>
+                    <p>I perform a comprehensive audit of your data to identify quality issues, patterns, and potential challenges.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">03</div>
+                <div class="step-content">
+                    <h4>Cleaning Strategy</h4>
+                    <p>I develop a tailored approach for your specific data, outlining methods and decisions for your review and approval.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">04</div>
+                <div class="step-content">
+                    <h4>Execution</h4>
+                    <p>I implement the cleaning process with regular progress updates and flagging any unexpected issues that require discussion.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">05</div>
+                <div class="step-content">
+                    <h4>Delivery & Walkthrough</h4>
+                    <p>You receive cleaned data, complete documentation, and a walkthrough session to ensure you understand the changes and can maintain quality.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ideal For -->
+        <h2>Ideal For</h2>
+        <div class="ideal-for-grid">
+            <div class="ideal-card">
+                <h4>Startups & Small Businesses</h4>
+                <p>Preparing data for first machine learning models or analytics initiatives where clean data is essential but internal resources are limited.</p>
+            </div>
+
+            <div class="ideal-card">
+                <h4>Research Teams</h4>
+                <p>Working with datasets from multiple sources that require standardization and validation before analysis can begin.</p>
+            </div>
+
+            <div class="ideal-card">
+                <h4>Legacy System Teams</h4>
+                <p>Inheriting systems where data quality has degraded over time and needs comprehensive cleanup before migration.</p>
+            </div>
+
+            <div class="ideal-card">
+                <h4>"Garbage In, Garbage Out" Problems</h4>
+                <p>Experiencing issues where unreliable data is undermining the value of analysis and decision-making.</p>
+            </div>
+        </div>
+
+        <!-- Why Work With Me -->
+        <div class="why-section">
+            <h3>Why Work With Me</h3>
+            <p>As a recent graduate in data science, I bring current best practices and modern methodologies to data quality challenges. I use industry-standard tools including Python (pandas, NumPy), SQL, and statistical validation techniques, ensuring your data preparation follows established professional standards.</p>
+            <p style="margin-top: 1.5rem;">What distinguishes my approach is clear communication throughout the process. I explain technical decisions in accessible language, ensuring you understand not just what was done to your data, but why each decision was made. This transparency builds confidence in the cleaned dataset and enables you to maintain quality standards independently going forward.</p>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-section">
+            <h3>Let's Talk About Your Data</h3>
+            <p>Every dataset has its own challenges. Share a brief description of your data and what you're trying to achieve, and I'll let you know exactly how I can help.</p>
+            <a href="../index.html#contact" class="cta-button">Get In Touch</a>
+            <p class="turnaround">Typical turnaround: 3-7 days depending on dataset size and complexity | Free initial consultation</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Kostanca Kovaci</p>
+    </footer>
+</body>
+</html>

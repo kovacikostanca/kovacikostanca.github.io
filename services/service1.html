@@ -2,612 +2,1025 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Data Cleaning & Preparation Services</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <title>Data Analysis & Insights Report | Kostanca Kovaci</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
+    :root {
+      --primary: #6366f1;
+      --secondary: #8b5cf6;
+      --dark: #0f172a;
+      --card-bg: #1e293b;
+      --text: #ffffff;
+      --text-muted: #94a3b8;
+      --bg: #0a0e1a;
+      --gradient: linear-gradient(135deg, #6366f1, #8b5cf6);
+      --accent: #10b981;
+    }
+
+    [data-theme="light"] {
+      --dark: #ffffff;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --bg: #f8fafc;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    :root {
-      --primary: #ebe6e4;
-      --primary-dark: #47447d;
-      --secondary: #47375a;
-      --accent: #4e35f5;
-      --dark: #0f172a;
-      --dark-light: #1e293b;
-      --text: #ffffff;
-      --text-muted: #c9ced4;
-      --bg: #060e31;
-      --card-bg: #1e293b;
-    }
-
     body {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Inter', sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
-      overflow-x: hidden;
+      transition: background 0.3s ease, color 0.3s ease;
     }
 
-    /* Animated Background */
-    .bg-gradient {
-      position: fixed;
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    /* Navigation */
+    .nav {
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+    }
+
+    [data-theme="light"] .nav {
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .back-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+
+    .back-link:hover {
+      color: var(--primary);
+      gap: 12px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .theme-toggle {
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: var(--text);
+    }
+
+    .theme-toggle:hover {
+      background: var(--gradient);
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .nav-cta {
+      background: var(--gradient);
+      color: white;
+      padding: 10px 25px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 80px 0 60px;
+      background: linear-gradient(135deg, #0a0e1a 0%, #1a1f3a 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    [data-theme="light"] .hero {
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: -1;
-      opacity: 0.4;
-      background: radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-                  radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-                  radial-gradient(circle at 40% 90%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+      z-index: 0;
     }
 
-    /* Navigation */
-    nav {
-      position: sticky;
-      top: 0;
-      background: rgba(21, 36, 69, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 2px solid rgba(99, 102, 241, 0.2);
-      z-index: 100;
-      transition: all 0.3s ease;
-    }
-
-    .nav-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 30px;
-    }
-
-    .logo {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.8rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 30px;
-    }
-
-    .nav-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s ease;
+    .hero-content {
       position: relative;
-    }
-
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--primary), var(--accent));
-      transition: width 0.3s ease;
-    }
-
-    .nav-links a:hover {
-      color: var(--text);
-    }
-
-    .nav-links a:hover::after {
-      width: 100%;
-    }
-
-    /* Service Page Container */
-    .service-page {
-      max-width: 1200px;
+      z-index: 1;
+      max-width: 800px;
       margin: 0 auto;
-      padding: 100px 30px;
-    }
-
-    /* Hero Section */
-    .service-hero {
       text-align: center;
-      margin-bottom: 80px;
-      padding: 60px 30px;
-      background: linear-gradient(135deg, rgba(99, 101, 241, 0.092), rgba(139, 92, 246, 0.05));
-      border-radius: 20px;
     }
 
-    .service-hero h1 {
-      font-size: 3.5rem;
+    .service-badge {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--primary);
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    .hero h1 {
+      font-size: 3rem;
       font-weight: 700;
       margin-bottom: 20px;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
+      line-height: 1.2;
+      background: var(--gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
 
-    .service-hero .subtitle {
-      font-size: 1.4rem;
+    .hero-subtitle {
+      font-size: 1.25rem;
       color: var(--text-muted);
       margin-bottom: 30px;
       line-height: 1.6;
     }
 
-    .pricing-badge {
-      display: inline-block;
-      background: rgba(99, 102, 241, 0.1);
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      padding: 12px 30px;
-      border-radius: 30px;
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: var(--accent);
-      margin-top: 20px;
+    .hero-description {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 700px;
+      margin: 0 auto;
     }
 
-    /* Section Headers */
+    /* At a Glance Section */
+    .glance-section {
+      padding: 60px 0;
+    }
+
+    .glance-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .glance-item {
+      text-align: center;
+      padding: 30px 20px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid rgba(99, 102, 241, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    [data-theme="light"] .glance-item {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .glance-item:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary);
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
+    }
+
+    .glance-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .glance-label {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* Process Section */
+    .process-section {
+      padding: 80px 0;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(139, 92, 246, 0.03));
+    }
+
+    [data-theme="light"] .process-section {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.02), rgba(139, 92, 246, 0.02));
+    }
+
     .section-header {
-      margin-bottom: 50px;
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 50px;
     }
 
-    .section-header h2 {
+    .section-title {
       font-size: 2.5rem;
       font-weight: 700;
       margin-bottom: 15px;
+    }
+
+    .section-description {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      margin-top: 50px;
+    }
+
+    .process-card {
+      background: var(--card-bg);
+      padding: 35px;
+      border-radius: 12px;
+      border: 1px solid rgba(99, 102, 241, 0.1);
+      transition: all 0.3s ease;
+      display: flex;
+      gap: 20px;
+    }
+
+    [data-theme="light"] .process-card {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .process-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary);
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
+    }
+
+    .process-number {
+      width: 45px;
+      height: 45px;
+      background: var(--gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .process-content h3 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
       color: var(--text);
     }
 
-    .section-header p {
+    .process-content p {
       color: var(--text-muted);
-      font-size: 1.1rem;
-      line-height: 1.8;
+      line-height: 1.6;
+      font-size: 0.95rem;
     }
 
-    /* Services Grid */
-    .services-grid {
+    /* Deliverables Section */
+    .deliverables-section {
+      padding: 80px 0;
+    }
+
+    .deliverables-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-      margin-bottom: 80px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
     }
 
-    .service-card {
+    .deliverable-card {
       background: var(--card-bg);
-      border: 1px solid rgba(99, 102, 241, 0.2);
-      border-radius: 15px;
-      padding: 35px;
+      padding: 30px;
+      border-radius: 12px;
+      border-left: 4px solid var(--primary);
       transition: all 0.3s ease;
+    }
+
+    [data-theme="light"] .deliverable-card {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .deliverable-card:hover {
+      transform: translateX(8px);
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
+    }
+
+    .deliverable-card h3 {
+      font-size: 1.2rem;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .deliverable-card p {
+      color: var(--text-muted);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    /* Tools Section */
+    .tools-section {
+      padding: 80px 0;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(139, 92, 246, 0.03));
+    }
+
+    [data-theme="light"] .tools-section {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.02), rgba(139, 92, 246, 0.02));
+    }
+
+    .tools-list {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      max-width: 600px;
+      margin: 40px auto 0;
+    }
+
+    .tool-badge {
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      padding: 12px 25px;
+      border-radius: 25px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--primary);
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+    }
+
+    .tool-badge:hover {
+      background: var(--gradient);
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    /* For Section */
+    .for-section {
+      padding: 80px 0;
+    }
+
+    .for-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .for-card {
+      background: var(--card-bg);
+      padding: 35px;
+      border-radius: 12px;
+      border: 1px solid rgba(99, 102, 241, 0.1);
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    [data-theme="light"] .for-card {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .for-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
+      transform: translateY(-5px);
+    }
+
+    .for-icon {
+      width: 70px;
+      height: 70px;
+      background: var(--gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: white;
+      margin: 0 auto 20px;
+    }
+
+    .for-card h3 {
+      font-size: 1.2rem;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .for-card p {
+      color: var(--text-muted);
+      line-height: 1.6;
+      font-size: 0.9rem;
+    }
+
+    /* Pricing Section */
+    .pricing-section {
+      padding: 80px 0;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(139, 92, 246, 0.03));
+    }
+
+    [data-theme="light"] .pricing-section {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.02), rgba(139, 92, 246, 0.02));
+    }
+
+    .pricing-card {
+      max-width: 650px;
+      margin: 50px auto 0;
+      background: var(--card-bg);
+      padding: 45px;
+      border-radius: 16px;
+      border: 2px solid var(--primary);
       position: relative;
       overflow: hidden;
     }
 
-    .service-card::before {
+    [data-theme="light"] .pricing-card {
+      box-shadow: 0 10px 40px rgba(99, 102, 241, 0.1);
+    }
+
+    .pricing-card::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 4px;
-      background: linear-gradient(90deg, var(--primary), var(--accent));
-      transform: scaleX(0);
-      transition: transform 0.3s ease;
+      background: var(--gradient);
     }
 
-    .service-card:hover::before {
-      transform: scaleX(1);
-    }
-
-    .service-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--primary);
-      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
-    }
-
-    .service-card h3 {
-      font-size: 1.4rem;
-      margin-bottom: 15px;
-      color: var(--accent);
-    }
-
-    .service-card p {
-      color: var(--text-muted);
-      line-height: 1.7;
-      font-size: 1.05rem;
-    }
-
-    /* Deliverables Box */
-    .deliverables-box {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
-      border: 2px solid rgba(99, 102, 241, 0.2);
-      border-radius: 15px;
-      padding: 40px;
-      margin: 60px 0;
-    }
-
-    .deliverables-box h3 {
-      font-size: 2rem;
-      color: var(--accent);
-      margin-bottom: 25px;
-    }
-
-    .deliverables-box ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .deliverables-box li {
-      padding: 12px 0 12px 35px;
-      position: relative;
-      color: var(--text-muted);
-      font-size: 1.05rem;
-      line-height: 1.7;
-    }
-
-    .deliverables-box li::before {
-      content: "✓";
-      position: absolute;
-      left: 0;
-      color: var(--accent);
+    .pricing-amount {
+      font-size: 3rem;
       font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .pricing-amount span {
       font-size: 1.3rem;
+      color: var(--text-muted);
+      font-weight: 500;
     }
 
-    /* Process Steps */
-    .process-section {
-      margin: 80px 0;
+    .pricing-note {
+      color: var(--text-muted);
+      margin-bottom: 30px;
+      font-size: 1rem;
+      line-height: 1.6;
     }
 
-    .process-steps {
-      display: grid;
-      gap: 25px;
+    .pricing-includes {
+      margin-top: 30px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(99, 102, 241, 0.1);
     }
 
-    .step {
-      display: flex;
-      gap: 20px;
-      padding: 30px;
-      background: var(--card-bg);
-      border-radius: 15px;
-      border: 1px solid rgba(99, 102, 241, 0.2);
-      transition: all 0.3s ease;
-    }
-
-    .step:hover {
-      border-color: var(--primary);
-      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.15);
-    }
-
-    .step-number {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--accent);
-      min-width: 50px;
-    }
-
-    .step-content h4 {
-      font-size: 1.3rem;
+    .pricing-includes h4 {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
       color: var(--text);
-      margin-bottom: 8px;
     }
 
-    .step-content p {
-      color: var(--text-muted);
-      line-height: 1.7;
-      font-size: 1.05rem;
-    }
-
-    /* Ideal For Section */
-    .ideal-for-section {
-      margin: 80px 0;
-    }
-
-    .ideal-for-grid {
+    .pricing-includes ul {
+      list-style: none;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 25px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
     }
 
-    .ideal-card {
-      background: var(--card-bg);
-      border: 1px solid rgba(99, 102, 241, 0.2);
-      border-radius: 15px;
-      padding: 30px;
-      transition: all 0.3s ease;
-    }
-
-    .ideal-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--primary);
-      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
-    }
-
-    .ideal-card h4 {
-      font-size: 1.2rem;
-      color: var(--accent);
-      margin-bottom: 12px;
-    }
-
-    .ideal-card p {
+    .pricing-includes li {
       color: var(--text-muted);
-      line-height: 1.7;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.95rem;
+    }
+
+    .pricing-includes li i {
+      color: var(--accent);
+      font-size: 0.9rem;
     }
 
     /* CTA Section */
     .cta-section {
-      background: linear-gradient(135deg, var(--accent), #8b5cf6);
-      border-radius: 20px;
-      padding: 60px 40px;
+      padding: 100px 0;
       text-align: center;
-      margin: 80px 0;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg);
     }
 
-    .cta-section h3 {
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle, rgba(99, 102, 241, 0.5) 2px, transparent 2px);
+      background-size: 40px 40px;
+      z-index: 0;
+    }
+
+    .cta-section::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 950px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(139, 92, 246, 0.3) 0%, rgba(99, 102, 241, 0.2) 40%, transparent 70%);
+      border-radius: 20px;
+      transform: translate(-50%, -50%);
+      filter: blur(80px);
+      animation: glowPulse 8s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    @keyframes dotPulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes glowPulse {
+      0%, 100% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      50% {
+        opacity: 0.9;
+        transform: translate(-50%, -50%) scale(1.05);
+      }
+    }
+
+    .cta-box {
+      background: var(--gradient);
+      padding: 70px 50px;
+      border-radius: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-box h2 {
       font-size: 2.5rem;
       color: white;
       margin-bottom: 20px;
+      font-weight: 700;
     }
 
-    .cta-section p {
+    .cta-box p {
       font-size: 1.2rem;
       color: rgba(255, 255, 255, 0.9);
-      margin-bottom: 30px;
-      line-height: 1.7;
+      margin-bottom: 35px;
+      line-height: 1.6;
     }
 
-    .cta-button {
-      display: inline-block;
-      padding: 16px 45px;
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
       background: white;
-      color: var(--accent);
-      font-weight: 700;
+      color: var(--primary);
+      padding: 16px 40px;
       border-radius: 8px;
       text-decoration: none;
-      transition: all 0.3s ease;
-      font-size: 1.1rem;
-    }
-
-    .cta-button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Why Work With Me */
-    .why-section {
-      margin: 80px 0;
-      padding: 50px;
-      background: linear-gradient(135deg, rgba(99, 101, 241, 0.092), rgba(139, 92, 246, 0.05));
-      border-radius: 20px;
-    }
-
-    .why-section h3 {
-      font-size: 2rem;
-      color: var(--accent);
-      margin-bottom: 25px;
-    }
-
-    .why-section p {
-      color: var(--text-muted);
+      font-weight: 700;
       font-size: 1.05rem;
-      line-height: 1.8;
-      margin-bottom: 20px;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    /* Footer Note */
-    .footer-note {
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: white;
+      padding: 16px 40px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.05rem;
+      border: 2px solid white;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-secondary:hover {
+      background: white;
+      color: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    /* Footer */
+    .service-footer {
+      padding: 40px 0;
       text-align: center;
+      border-top: 1px solid rgba(99, 102, 241, 0.1);
+    }
+
+    .service-footer p {
       color: var(--text-muted);
       font-size: 0.95rem;
-      font-style: italic;
-      padding: 30px 0;
-      border-top: 1px solid rgba(99, 102, 241, 0.2);
     }
 
     /* Responsive */
-    @media (max-width: 768px) {
-      .service-hero h1 {
-        font-size: 2.5rem;
+    @media (max-width: 968px) {
+      .hero h1 {
+        font-size: 2.3rem;
       }
 
-      .service-hero .subtitle {
-        font-size: 1.1rem;
-      }
-
-      .section-header h2 {
-        font-size: 2rem;
-      }
-
-      .services-grid,
-      .ideal-for-grid {
+      .process-grid,
+      .deliverables-grid,
+      .for-grid,
+      .glance-grid {
         grid-template-columns: 1fr;
       }
 
-      .step {
+      .pricing-includes ul {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-buttons {
         flex-direction: column;
+        align-items: center;
+      }
+
+      .cta-box {
+        padding: 50px 30px;
+      }
+
+      .cta-box h2 {
+        font-size: 2rem;
       }
     }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 0 20px;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .pricing-amount {
+        font-size: 2.5rem;
+      }
+
+      .nav-right {
+        gap: 10px;
+      }
+
+      .nav-cta {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+      }
+    }
+    
+    /* ===== 3. FOOTER SPAN STYLING (Restored) ===== */
+.footer-name {
+    color: var(--primary); /* Uses your #6366f1 indigo */
+    font-weight: 600;
+}
   </style>
 </head>
 <body>
-  <!-- Animated Background -->
-  <div class="bg-gradient"></div>
+
   <!-- Navigation -->
-  <nav>
-    <div class="nav-container">
-      <div class="logo">PORTFOLIO</div>
-      <div class="nav-links">
-        <a href="../index.html">Home</a>
-        <a href="../index.html#contact">Contact</a>
+  <nav class="nav">
+    <div class="container">
+      <div class="nav-content">
+        <a href="../index.html#service" class="back-link">
+          <i class="fa-solid fa-arrow-left"></i> Back to Portfolio
+        </a>
+        <div class="nav-right">
+          <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+            <span class="theme-icon">🌙</span>
+          </button>
+          <a href="mailto:kovacikostanca@gmail.com?subject=Data%20Analysis%20Service%20Inquiry" class="nav-cta">
+            Get Started
+          </a>
+        </div>
       </div>
     </div>
   </nav>
-  <!-- Service Page Content -->
-  <div class="service-page">
-<!-- Hero Section -->
-<div class="service-hero">
-  <h1>Data Cleaning & Preparation</h1>
-  <p class="subtitle">Transform messy datasets into reliable, analysis-ready data that drives confident decision-making</p>
-  <div class="pricing-badge">€25 – €35/hour | Project-based pricing available</div>
-</div>
 
-<!-- Intro -->
-<div class="section-header">
-  <p>Most data projects fail not because of poor analysis, but because of poor data quality. Organizations spend up to 80% of their analytics time wrestling with data issues rather than extracting insights. I help businesses and researchers cut through this inefficiency by transforming raw, inconsistent data into clean, structured datasets that enable confident analysis and decision-making.</p>
-</div>
-
-<!-- Services -->
-<div class="section-header">
-  <h2>What I Offer</h2>
-</div>
-
-<div class="services-grid">
-  <div class="service-card">
-    <h3>Missing Value Treatment</h3>
-    <p>I identify patterns in missing data and apply appropriate imputation strategies—whether statistical methods, predictive modeling, or domain-informed decisions—that preserve your data's integrity and maximize usable information.</p>
-  </div>
-
-  <div class="service-card">
-    <h3>Data Consistency & Validation</h3>
-    <p>I establish validation rules, standardize formats across sources, and ensure consistency throughout your datasets. This includes handling duplicate records, enforcing business rules, and creating data quality checks.</p>
-  </div>
-
-  <div class="service-card">
-    <h3>Outlier Detection & Management</h3>
-    <p>Using statistical methods and domain knowledge, I detect anomalies and outliers in your data, then work with you to determine whether these represent errors requiring correction or important signals to preserve.</p>
-  </div>
-
-  <div class="service-card">
-    <h3>Format Standardization</h3>
-    <p>I harmonize data types, date formats, naming conventions, and structures across multiple sources, making your data ready for seamless integration, analysis, or modeling across platforms and tools.</p>
-  </div>
-</div>
-
-<!-- Deliverables -->
-<div class="deliverables-box">
-  <h3>What You'll Receive</h3>
-  <ul>
-    <li>Clean, analysis-ready datasets in your preferred format (CSV, Excel, SQL database)</li>
-    <li>Detailed documentation of all cleaning steps and decisions made</li>
-    <li>Data quality report highlighting issues found and how they were resolved</li>
-    <li>Reproducible code (Python/SQL) so you can apply the same process to future data</li>
-    <li>Clear recommendations for maintaining data quality going forward</li>
-  </ul>
-</div>
-
-<!-- Process -->
-<div class="process-section">
-  <div class="section-header">
-    <h2>My Approach</h2>
-  </div>
-
-  <div class="process-steps">
-    <div class="step">
-      <div class="step-number">01</div>
-      <div class="step-content">
-        <h4>Discovery Call</h4>
-        <p>We discuss your data sources, business objectives, and specific challenges you're facing with data quality.</p>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <span class="service-badge">Data Analysis Service</span>
+        <h1>Data Analysis & Insights Report</h1>
+        <p class="hero-subtitle">Turn raw data into clear insights and actionable recommendations</p>
+        <p class="hero-description">I help teams and individuals understand their data by cleaning it, analyzing patterns, and translating results into clear, practical insights that support better decisions.</p>
       </div>
     </div>
+  </section>
 
-    <div class="step">
-      <div class="step-number">02</div>
-      <div class="step-content">
-        <h4>Initial Assessment</h4>
-        <p>I perform a comprehensive audit of your data to identify quality issues, patterns, and potential challenges.</p>
+  <!-- At a Glance Section -->
+  <section class="glance-section">
+    <div class="container">
+      <div class="glance-grid">
+        <div class="glance-item">
+          <span class="glance-number">5–10</span>
+          <span class="glance-label">Key Insights</span>
+        </div>
+        <div class="glance-item">
+          <span class="glance-number">3–7</span>
+          <span class="glance-label">Business Days</span>
+        </div>
+        <div class="glance-item">
+          <span class="glance-number">100%</span>
+          <span class="glance-label">Actionable</span>
+        </div>
       </div>
     </div>
+  </section>
 
-    <div class="step">
-      <div class="step-number">03</div>
-      <div class="step-content">
-        <h4>Cleaning Strategy</h4>
-        <p>I develop a tailored approach for your specific data, outlining methods and decisions for your review and approval.</p>
+  <!-- Process Section -->
+  <section class="process-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-description">A simple, transparent process from raw data to insights</p>
+      </div>
+
+      <div class="process-grid">
+        <div class="process-card">
+          <div class="process-number">1</div>
+          <div class="process-content">
+            <h3>Scoping & Questions</h3>
+            <p>We discuss your goals, business questions, and data sources to define clear objectives.</p>
+          </div>
+        </div>
+
+        <div class="process-card">
+          <div class="process-number">2</div>
+          <div class="process-content">
+            <h3>Data Cleaning & Preparation</h3>
+            <p>I clean and structure your data so it's reliable and ready for analysis.</p>
+          </div>
+        </div>
+
+        <div class="process-card">
+          <div class="process-number">3</div>
+          <div class="process-content">
+            <h3>Analysis & Insight Discovery</h3>
+            <p>I explore trends, patterns, and relationships using visual and statistical analysis.</p>
+          </div>
+        </div>
+
+        <div class="process-card">
+          <div class="process-number">4</div>
+          <div class="process-content">
+            <h3>Report & Recommendations</h3>
+            <p>You receive a clear report with insights, visualizations, and practical next steps.</p>
+          </div>
+        </div>
       </div>
     </div>
+  </section>
 
-    <div class="step">
-      <div class="step-number">04</div>
-      <div class="step-content">
-        <h4>Execution</h4>
-        <p>I implement the cleaning process with regular progress updates and flagging any unexpected issues that require discussion.</p>
+  <!-- Deliverables Section -->
+  <section class="deliverables-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">What You Receive</h2>
+      </div>
+
+      <div class="deliverables-grid">
+        <div class="deliverable-card">
+          <h3>Cleaned Dataset</h3>
+          <p>Structured data (CSV or Excel) ready for use or further analysis.</p>
+        </div>
+
+        <div class="deliverable-card">
+          <h3>Visual Analysis</h3>
+          <p>Clear charts and graphs that make patterns easy to understand.</p>
+        </div>
+
+        <div class="deliverable-card">
+          <h3>Key Insights (5–10)</h3>
+          <p>Business-focused findings explained in plain language.</p>
+        </div>
+
+        <div class="deliverable-card">
+          <h3>Actionable Recommendations</h3>
+          <p>Data-driven suggestions you can implement immediately.</p>
+        </div>
       </div>
     </div>
+  </section>
 
-    <div class="step">
-      <div class="step-number">05</div>
-      <div class="step-content">
-        <h4>Delivery & Walkthrough</h4>
-        <p>You receive cleaned data, complete documentation, and a walkthrough session to ensure you understand the changes and can maintain quality.</p>
+  <!-- Tools Section -->
+  <section class="tools-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Tools</h2>
+      </div>
+
+      <div class="tools-list">
+        <div class="tool-badge">Python</div>
+        <div class="tool-badge">SQL</div>
+        <div class="tool-badge">Excel</div>
+        <div class="tool-badge">Power BI</div>
       </div>
     </div>
-  </div>
-</div>
+  </section>
 
-<!-- Ideal For -->
-<div class="ideal-for-section">
-  <div class="section-header">
-    <h2>Ideal For</h2>
-  </div>
+  <!-- For Section -->
+  <section class="for-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Who This Is For</h2>
+      </div>
 
-  <div class="ideal-for-grid">
-    <div class="ideal-card">
-      <h4>Startups & Small Businesses</h4>
-      <p>Preparing data for first machine learning models or analytics initiatives where clean data is essential but internal resources are limited.</p>
+      <div class="for-grid">
+        <div class="for-card">
+          <div class="for-icon">
+            <i class="fa-solid fa-store"></i>
+          </div>
+          <h3>Small Businesses & Startups</h3>
+          <p>Gain clarity on sales, customers, or performance without hiring a full-time analyst.</p>
+        </div>
+
+        <div class="for-card">
+          <div class="for-icon">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <h3>Students & Academic Projects</h3>
+          <p>Support for data analysis, surveys, or thesis-related work.</p>
+        </div>
+
+        <div class="for-card">
+          <div class="for-icon">
+            <i class="fa-solid fa-users"></i>
+          </div>
+          <h3>Teams Without Analytics Resources</h3>
+          <p>Get reliable insights for ad-hoc analysis or decision support.</p>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <div class="ideal-card">
-      <h4>Research Teams</h4>
-      <p>Working with datasets from multiple sources that require standardization and validation before analysis can begin.</p>
+  <!-- Pricing Section -->
+  <section class="pricing-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Pricing</h2>
+      </div>
+
+      <div class="pricing-card">
+        <div class="pricing-amount">
+          €100<span> starting from</span>
+        </div>
+        <p class="pricing-note">Final price depends on dataset size and complexity. Most projects range between €100–€300.</p>
+        
+        <div class="pricing-includes">
+          <h4>Includes:</h4>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Initial discussion & scoping</li>
+            <li><i class="fa-solid fa-check"></i> Complete data cleaning & analysis</li>
+            <li><i class="fa-solid fa-check"></i> Visualizations and insights</li>
+            <li><i class="fa-solid fa-check"></i> PDF report or Jupyter Notebook</li>
+            <li><i class="fa-solid fa-check"></i> Clean dataset (CSV / Excel)</li>
+            <li><i class="fa-solid fa-check"></i> One round of revisions</li>
+          </ul>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <div class="ideal-card">
-      <h4>Legacy System Teams</h4>
-      <p>Inheriting systems where data quality has degraded over time and needs comprehensive cleanup before migration.</p>
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-box">
+        <div class="cta-content">
+          <h2>Ready to Get Started?</h2>
+          <p>If you'd like help understanding your data or answering specific questions, feel free to message me on LinkedIn or contact me directly. I'm happy to review your project and see if I'm a good fit.</p>
+          <div class="cta-buttons">
+            <a href="mailto:kovacikostanca@gmail.com?subject=Data%20Analysis%20Service%20Inquiry" class="btn-primary">
+              <i class="fa-solid fa-envelope"></i> Email Me
+            </a>
+            <a href="https://linkedin.com/in/kostanca-kovaci/" target="_blank" class="btn-secondary">
+              <i class="fa-brands fa-linkedin"></i> Connect on LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <div class="ideal-card">
-      <h4>"Garbage In, Garbage Out" Problems</h4>
-      <p>Experiencing issues where unreliable data is undermining the value of analysis and decision-making.</p>
-    </div>
-  </div>
-</div>
-
-<!-- Why Work With Me -->
-<div class="why-section">
-  <h3>Why Work With Me</h3>
-  <p>As a recent graduate in data science, I bring current best practices and modern methodologies to data quality challenges. I use industry-standard tools including Python (pandas, NumPy), SQL, and statistical validation techniques, ensuring your data preparation follows established professional standards.</p>
-  <p>What distinguishes my approach is clear communication throughout the process. I explain technical decisions in accessible language, ensuring you understand not just what was done to your data, but why each decision was made. This transparency builds confidence in the cleaned dataset and enables you to maintain quality standards independently going forward.</p>
-</div>
-
-<!-- CTA -->
-<div class="cta-section">
-  <h3>Let's Talk About Your Data</h3>
-  <p>Every dataset has its own challenges. Share a brief description of your data and what you're trying to achieve, and I'll let you know exactly how I can help.</p>
-  <a href="../index.html#contact" class="cta-button">Get In Touch</a>
-</div>
-
-<!-- Footer Note -->
-<div class="footer-note">
-  Typical turnaround: 3-7 days depending on dataset size and complexity | Free initial consultation
-  <br />
-</div> 
+  </section>
 
   <!-- Footer -->
-  <footer style="text-align: center; padding: 20px 0; border-top: 1px solid rgba(99, 102, 241, 0.2); margin-top: 40px;">
-    <p>© 2025 Kostanca Kovaci</p>
+  <footer class="service-footer">
+    <div class="container">
+      <p>© 2026 <span class="footer-name">Kostanca Kovaci</span>. All Rights Reserved.</p>
+    </div>
   </footer>
 
-  </div>
+  <!-- Theme Toggle Script -->
+  <script>
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.querySelector('.theme-icon');
+    
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    updateThemeIcon(currentTheme);
+    
+    themeToggle.addEventListener('click', () => {
+      const theme = document.documentElement.getAttribute('data-theme');
+      const newTheme = theme === 'dark' ? 'light' : 'dark';
+      
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeIcon(newTheme);
+    });
+    
+    function updateThemeIcon(theme) {
+      themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
+    }
+  </script>
 
- 
 </body>
 </html>

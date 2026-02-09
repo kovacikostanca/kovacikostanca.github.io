@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Cleaning & Preparation Service</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #1a1a2e;
+            --primary-accent: #0f4c75;
+            --secondary-accent: #3282b8;
+            --highlight: #bbe1fa;
+            --text-dark: #2d3436;
+            --text-light: #636e72;
+            --background: #ffffff;
+            --card-bg: #f8f9fa;
+            --success: #00b894;
+            --shadow: rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: var(--background);
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--primary-dark);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px var(--shadow);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: var(--background);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--background);
+            text-decoration: none;
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--highlight);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-accent) 100%);
+            color: var(--background);
+            padding: 5rem 2rem 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--highlight);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* Section Styling */
+        .section {
+            margin-bottom: 5rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        h4 {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Overview Cards */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .overview-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-accent);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .overview-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+
+        .card-text {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Challenge Section */
+        .challenge-box {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+            border-left: 5px solid #e74c3c;
+            padding: 2.5rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+
+        .challenge-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .challenge-list li {
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+        }
+
+        .challenge-list li::before {
+            content: '⚠️';
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        /* Solution Pillars */
+        .pillars {
+            display: grid;
+            gap: 3rem;
+            margin: 3rem 0;
+        }
+
+        .pillar {
+            background: white;
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 5px 20px var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .pillar:hover {
+            transform: translateX(10px);
+        }
+
+        .pillar-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .pillar-number {
+            background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .pillar-content h4 {
+            margin: 0;
+        }
+
+        .pillar-section {
+            margin-top: 1.5rem;
+        }
+
+        .pillar-section-title {
+            font-weight: 600;
+            color: var(--primary-accent);
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .pillar-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .pillar-list li {
+            padding: 0.5rem 0 0.5rem 1.5rem;
+            position: relative;
+            color: var(--text-dark);
+        }
+
+        .pillar-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--secondary-accent);
+            font-weight: 700;
+        }
+
+        .result-badge {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border-left: 4px solid var(--success);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            font-weight: 600;
+            color: #155724;
+        }
+
+        /* Deliverables Grid */
+        .deliverables-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .deliverable-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 3px 15px var(--shadow);
+            border-top: 4px solid var(--secondary-accent);
+            transition: all 0.3s ease;
+        }
+
+        .deliverable-card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .deliverable-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .deliverable-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+        }
+
+        .deliverable-text {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .tech-item {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .tech-item:hover {
+            background: var(--primary-accent);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .tech-category {
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            opacity: 0.7;
+        }
+
+        .tech-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Impact Section */
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .impact-item {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid var(--success);
+        }
+
+        .impact-check {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .impact-text {
+            font-weight: 600;
+            color: #1b5e20;
+            font-size: 1.05rem;
+        }
+
+        /* Skills Section */
+        .skills-showcase {
+            background: var(--primary-dark);
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 16px;
+            margin: 3rem 0;
+        }
+
+        .skills-showcase h3 {
+            color: white;
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .skills-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .skills-list li {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border-left: 4px solid var(--highlight);
+        }
+
+        .skill-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--highlight);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-accent) 0%, var(--secondary-accent) 100%);
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 16px;
+            text-align: center;
+            margin: 4rem 0;
+        }
+
+        .cta-section h2 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: var(--primary-accent);
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .hero-stats {
+                gap: 1.5rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .pillar {
+                padding: 2rem;
+            }
+
+            .pillar:hover {
+                transform: translateY(-5px);
+            }
+        }
+
+        
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">PORTFOLIO</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="project-badge">CASE STUDY: SERVICE_1</div>
+            <h1>Data Cleaning & Preparation</h1>
+            <p class="hero-subtitle">Transforming Messy Data into Business Intelligence</p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-value">100%</span>
+                    <span class="stat-label">Data Quality Validation</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">80%</span>
+                    <span class="stat-label">Time Saved</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">4</span>
+                    <span class="stat-label">Core Pillars</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Overview -->
+    <section class="container">
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon"></div>
+                <h2>Project Overview</h2>
+                <p class="section-subtitle" style="text-align: left;">This project demonstrates my comprehensive approach to data cleaning and preparation—the foundation of reliable analytics. I transformed a raw dataset riddled with quality issues into a pristine, analysis-ready resource complete with interactive visualizations and automated quality controls.</p>
+            </div>
+
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <div class="card-icon">📊</div>
+                    <div class="card-title" style="font-size: 1.5rem;">Clean Dataset</div>
+                    <p class="card-text">Analysis-ready data with proper validation and zero critical missing values</p>
+                </div>
+                <div class="overview-card">
+                    <div class="card-icon">📈</div>
+                    <div class="card-title" style="font-size: 1.5rem;">Data Visualization</div>
+                    <p class="card-text">Visual exploration tools with quality metrics and distribution analysis</p>
+                </div>
+                <div class="overview-card">
+                    <div class="card-icon">💻</div>
+                    <div class="card-title" style="font-size: 1.5rem;">Reproducible Code</div>
+                    <p class="card-text">Clean Python scripts that can be applied to future data batches</p>
+                </div>
+                <div class="overview-card">
+                    <div class="card-icon">📝</div>
+                    <div class="card-title" style="font-size: 1.5rem;">Complete Documentation</div>
+                    <p class="card-text">Every decision documented and justified with clear methodology</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- The Challenge -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon"></div>
+                <h2>The Challenge</h2>
+            </div>
+
+            <div class="challenge-box">
+                <h3>Real-World Data Quality Issues</h3>
+                <p>Like most real-world data, this dataset arrived with typical but critical quality issues that organizations spend 80% of their analytics time wrestling with:</p>
+                <ul class="challenge-list">
+                    <li>
+                        <div>
+                            <strong>Missing values</strong> scattered across multiple variables with different patterns requiring intelligent treatment strategies
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <strong>Inconsistent formatting</strong> in dates, text fields, and categorical entries undermining data reliability
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <strong>Outliers and anomalies</strong> requiring careful analysis to distinguish errors from legitimate extreme values
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <strong>Structural issues</strong> needing standardization for seamless downstream analysis and integration
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Solution: Four Pillars -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon"></div>
+                <h2>My Solution: A Four-Pillar Approach</h2>
+            </div>
+
+            <div class="pillars">
+                <!-- Pillar 1 -->
+                <div class="pillar fade-in">
+                    <div class="pillar-header">
+                        <div class="pillar-number">1</div>
+                        <div class="pillar-content">
+                            <h4>Missing Value Treatment</h4>
+                        </div>
+                    </div>
+                    
+                    <p><strong>What I did:</strong> Analyzed missingness patterns and implemented intelligent imputation strategies tailored to each variable type.</p>
+                    
+                    <div class="pillar-section">
+                        <div class="pillar-section-title">Technical Approach:</div>
+                        <ul class="pillar-list">
+                            <li>Statistical imputation (mean/median) for numerical variables with random missingness</li>
+                            <li>Forward-fill techniques for time-series continuity</li>
+                            <li>Mode imputation for categorical variables</li>
+                            <li>Created visualizations showing missingness impact on distributions</li>
+                        </ul>
+                    </div>
+
+                    <div class="result-badge">
+                        ✓ Result: Maximum usable information preserved while maintaining data integrity
+                    </div>
+                </div>
+
+                <!-- Pillar 2 -->
+                <div class="pillar fade-in">
+                    <div class="pillar-header">
+                        <div class="pillar-number">2</div>
+                        <div class="pillar-content">
+                            <h4>Data Consistency & Validation</h4>
+                        </div>
+                    </div>
+                    
+                    <p><strong>What I did:</strong> Established comprehensive validation framework ensuring data reliability across all fields.</p>
+                    
+                    <div class="pillar-section">
+                        <div class="pillar-section-title">Technical Approach:</div>
+                        <ul class="pillar-list">
+                            <li>Range validation for numerical variables</li>
+                            <li>Categorical consistency checks across the dataset</li>
+                            <li>Cross-field business logic validation</li>
+                            <li>Duplicate detection using intelligent matching</li>
+                            <li>Text standardization (casing, trimming, format unification)</li>
+                        </ul>
+                    </div>
+
+                    <div class="result-badge">
+                        ✓ Result: Every record validated against defined business rules with automated quality gates
+                    </div>
+                </div>
+
+                <!-- Pillar 3 -->
+                <div class="pillar fade-in">
+                    <div class="pillar-header">
+                        <div class="pillar-number">3</div>
+                        <div class="pillar-content">
+                            <h4>Outlier Detection & Management</h4>
+                        </div>
+                    </div>
+                    
+                    <p><strong>What I did:</strong> Applied statistical methods and domain reasoning to identify and appropriately handle anomalies.</p>
+                    
+                    <div class="pillar-section">
+                        <div class="pillar-section-title">Technical Approach:</div>
+                        <ul class="pillar-list">
+                            <li>IQR and Z-score analysis for outlier detection</li>
+                            <li>Visual inspection using box plots and distribution charts</li>
+                            <li>Documented decision framework: correct, remove, or preserve</li>
+                            <li>Flagged extreme values requiring special treatment</li>
+                        </ul>
+                    </div>
+
+                    <div class="result-badge">
+                        ✓ Result: Clear distinction between data errors and legitimate extreme values
+                    </div>
+                </div>
+
+                <!-- Pillar 4 -->
+                <div class="pillar fade-in">
+                    <div class="pillar-header">
+                        <div class="pillar-number">4</div>
+                        <div class="pillar-content">
+                            <h4>Format Standardization</h4>
+                        </div>
+                    </div>
+                    
+                    <p><strong>What I did:</strong> Harmonized all data structures, types, and formats for seamless integration and analysis.</p>
+                    
+                    <div class="pillar-section">
+                        <div class="pillar-section-title">Technical Approach:</div>
+                        <ul class="pillar-list">
+                            <li>Unified date formats to ISO standard</li>
+                            <li>Standardized numerical precision</li>
+                            <li>Normalized text fields consistently</li>
+                            <li>Converted categorical variables with proper encoding</li>
+                            <li>Created structured, analysis-ready output</li>
+                        </ul>
+                    </div>
+
+                    <div class="result-badge">
+                        ✓ Result: Plug-and-play dataset compatible with any analytics tool or database
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- What You Get -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon"></div>
+                <h2>What You Get</h2>
+            </div>
+
+            <div class="deliverables-grid">
+                <div class="deliverable-card">
+                    <div class="deliverable-icon">🗂️</div>
+                    <div class="deliverable-title">Clean Dataset</div>
+                    <p class="deliverable-text">CSV format with properly typed columns, zero critical missing values, validated against business rules, and ready for immediate analysis</p>
+                </div>
+
+                <div class="deliverable-card">
+                    <div class="deliverable-icon">📈</div>
+                    <div class="deliverable-title">Interactive Dashboard</div>
+                    <p class="deliverable-text">Data quality metrics, distribution visualizations, correlation heatmaps, and exploratory analysis tools built with modern web technologies</p>
+                </div>
+
+                <div class="deliverable-card">
+                    <div class="deliverable-icon">📝</div>
+                    <div class="deliverable-title">Complete Documentation</div>
+                    <p class="deliverable-text">Data quality report with before/after comparisons, all decisions documented, data dictionary, and quality metrics dashboard</p>
+                </div>
+
+                <div class="deliverable-card">
+                    <div class="deliverable-icon">💻</div>
+                    <div class="deliverable-title">Reproducible Code</div>
+                    <p class="deliverable-text">Clean, commented Python scripts with modular functions that follow best practices and can be applied to future data batches</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Stack -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon"></div>
+                <h2>Technical Stack</h2>
+            </div>
+
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <div class="tech-category">Data Processing</div>
+                    <div class="tech-name">Python (pandas, numpy)</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-category">Visualization</div>
+                    <div class="tech-name">Plotly, Seaborn</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-category">Statistical Analysis</div>
+                    <div class="tech-name">Scikit-learn, SciPy</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-category">Documentation</div>
+                    <div class="tech-name">Jupyter Notebook</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Impact -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-icon"></div>
+                <h2>The Impact</h2>
+            </div>
+
+            <div class="impact-grid">
+                <div class="impact-item">
+                    <div class="impact-check">✓</div>
+                    <p class="impact-text">80% Time Saved: Eliminated data wrangling time for downstream analysis</p>
+                </div>
+                <div class="impact-item">
+                    <div class="impact-check">✓</div>
+                    <p class="impact-text">100% Quality Assured: Complete validation coverage with automated checks</p>
+                </div>
+                <div class="impact-item">
+                    <div class="impact-check">✓</div>
+                    <p class="impact-text">Reproducible: Complete workflow applicable to future data batches</p>
+                </div>
+                <div class="impact-item">
+                    <div class="impact-check">✓</div>
+                    <p class="impact-text">Transparent: Every decision documented and justified</p>
+                </div>
+                <div class="impact-item">
+                    <div class="impact-check">✓</div>
+                    <p class="impact-text">Actionable: Interactive dashboard enables immediate exploration</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skills Showcase -->
+        <div class="skills-showcase">
+            <h3>What This Demonstrates</h3>
+            <ul class="skills-list">
+                <li>
+                    <div class="skill-title">Real-World Data Handling</div>
+                    <p>Professional approach to messy data with informed, documented decisions</p>
+                </li>
+                <li>
+                    <div class="skill-title">Statistical Rigor</div>
+                    <p>Balance between statistical methods and practical business needs</p>
+                </li>
+                <li>
+                    <div class="skill-title">Complete Solutions</div>
+                    <p>Not just clean data, but tools for ongoing quality management</p>
+                </li>
+                <li>
+                    <div class="skill-title">User-Friendly Deliverables</div>
+                    <p>Interactive, accessible outputs that stakeholders can use immediately</p>
+                </li>
+                <li>
+                    <div class="skill-title">Production-Ready Code</div>
+                    <p>Reproducible workflows following industry best practices</p>
+                </li>
+                <li>
+                    <div class="skill-title">Clear Communication</div>
+                    <p>Technical decisions explained in accessible language</p>
+                </li>
+            </ul>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-section">
+            <h2>Ready to Transform Your Data?</h2>
+            <p>This isn't just data cleaning—it's building the foundation for confident decision-making.</p>
+            <a href="../index.html#contact" class="cta-button">Get In Touch</a>
+            <p style="margin-top: 2rem; font-size: 0.95rem;">€25 – €35/hour | Project-based pricing available | Free initial consultation</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Kostanca Kovaci</p>
+    </footer>
+</body>
+</html>
