@@ -261,6 +261,11 @@ ul {
   padding: 100px 0;
   position: relative;
   overflow: hidden;
+  background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+}
+
+[data-theme="light"] .hero {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
 }
 
 /* Animated Background for Hero */
@@ -293,6 +298,8 @@ ul {
   grid-template-columns: 1fr 1fr;
   gap: 60px;
   align-items: center;
+  position: relative;
+  z-index: 1;
 }
 
 .hero-text h1 {
@@ -358,6 +365,137 @@ ul {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   animation: fadeInFloat 1s ease-out;
   white-space: nowrap;
+}
+
+/* Particles Background for Hero - 12 Particles */
+.particles-bg-hero {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.particle-hero {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+  /* Changed 0.12 to 0.25 for more brightness */
+  animation: particleFloatHero 20s infinite ease-in-out;
+}
+
+.particle-hero:nth-child(1) {
+  top: 5%;
+  left: 5%;
+  animation-delay: 0s;
+  animation-duration: 15s;
+  width: 350px;
+  height: 350px;
+}
+
+.particle-hero:nth-child(2) {
+  top: 60%;
+  left: 70%;
+  animation-delay: 2s;
+  animation-duration: 18s;
+}
+
+.particle-hero:nth-child(3) {
+  top: 30%;
+  left: 50%;
+  animation-delay: 4s;
+  animation-duration: 20s;
+  width: 250px;
+  height: 250px;
+}
+
+.particle-hero:nth-child(4) {
+  top: 75%;
+  left: 15%;
+  animation-delay: 1s;
+  animation-duration: 22s;
+}
+
+.particle-hero:nth-child(5) {
+  top: 15%;
+  left: 85%;
+  animation-delay: 3s;
+  animation-duration: 17s;
+  width: 280px;
+  height: 280px;
+}
+
+.particle-hero:nth-child(6) {
+  top: 85%;
+  left: 65%;
+  animation-delay: 5s;
+  animation-duration: 19s;
+}
+
+.particle-hero:nth-child(7) {
+  top: 40%;
+  left: 10%;
+  animation-delay: 1.5s;
+  animation-duration: 21s;
+  width: 320px;
+  height: 320px;
+}
+
+.particle-hero:nth-child(8) {
+  top: 50%;
+  left: 90%;
+  animation-delay: 3.5s;
+  animation-duration: 16s;
+}
+
+.particle-hero:nth-child(9) {
+  top: 10%;
+  left: 40%;
+  animation-delay: 2.5s;
+  animation-duration: 23s;
+  width: 270px;
+  height: 270px;
+}
+
+.particle-hero:nth-child(10) {
+  top: 65%;
+  left: 35%;
+  animation-delay: 4.5s;
+  animation-duration: 18s;
+}
+
+.particle-hero:nth-child(11) {
+  top: 25%;
+  left: 75%;
+  animation-delay: 0.5s;
+  animation-duration: 20s;
+  width: 290px;
+  height: 290px;
+}
+
+.particle-hero:nth-child(12) {
+  top: 90%;
+  left: 45%;
+  animation-delay: 5.5s;
+  animation-duration: 17s;
+  width: 310px;
+  height: 310px;
+}
+
+@keyframes particleFloatHero {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(50px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-30px, 30px) scale(0.9);
+  }
 }
 
 .badge-1 {
@@ -454,6 +592,7 @@ ul {
 
 
 /* ===== About Section ===== */
+/* ===== About Section ===== */
 .about-section {
   padding: 100px 0;
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
@@ -536,14 +675,12 @@ ul {
 .about-image .social-links a {
   width: 45px;
   height: 45px;
-  /* Use your primary color with low opacity for the circle */
   background: rgba(99, 102, 241, 0.1); 
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.2rem;
-  /* This ensures the icon is white in dark mode and dark in light mode */
   color: var(--text); 
   transition: all 0.3s ease;
   border: 1px solid rgba(99, 102, 241, 0.2);
@@ -551,7 +688,7 @@ ul {
 
 .about-image .social-links a:hover {
   background: var(--gradient);
-  color: white; /* Icon turns white on hover regardless of theme */
+  color: white;
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
 }
@@ -776,6 +913,40 @@ ul {
 
 .service-features {
   flex-grow: 1; /* This ensures the 'View Details' link always stays at the very bottom */
+}
+
+.read-more {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 30px;
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  border: 2px solid var(--primary); /* Border line */
+  border-radius: 6px; /* Rounded corners (optional) */
+  transition: all 0.3s ease;
+}
+
+.read-more:hover {
+  background: var(--gradient);
+  color: white;
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+/* Light theme support */
+[data-theme="light"] .read-more {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+[data-theme="light"] .read-more:hover {
+  background: var(--gradient);
+  color: #fbbf24;
+  border-color: transparent;
 }
 
 /* ===== Process Section ===== */
@@ -1488,7 +1659,7 @@ ul {
   width: 300px;
   height: 300px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, transparent 70%);
   animation: particleFloat 20s infinite ease-in-out;
 }
 
