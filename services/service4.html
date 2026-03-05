@@ -2,145 +2,460 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Service Page | Loading</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css">
-
+  <title>ML Model & AI Integration | Kostanca Kovaci</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
-    body {
-      font-family: 'Space Grotesk', sans-serif;
-      line-height: 1.7;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-      color: #e0e0e0;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+    :root {
+      --primary: #6366f1;
+      --secondary: #8b5cf6;
+      --dark: #0f172a;
+      --card-bg: #1e293b;
+      --text: #ffffff;
+      --text-muted: #94a3b8;
+      --bg: #0a0e1a;
+      --gradient: linear-gradient(135deg, #6366f1, #8b5cf6);
+      --accent: #10b981;
     }
+    [data-theme="light"] { --dark: #ffffff; --card-bg: #ffffff; --text: #0f172a; --text-muted: #64748b; --bg: #f8fafc; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; transition: background 0.3s ease, color 0.3s ease; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
 
-    /* ===== Top Navigation ===== */
-    .tutorial-nav {
-      position: sticky;
-      top: 0;
-      width: 100%;
-      background: rgba(15,23,42,0.97);
-      backdrop-filter: blur(8px);
-      z-index: 100;
-      border-bottom: 1px solid rgba(99,102,241,0.2);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    .nav { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); padding: 20px 0; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(99, 102, 241, 0.1); }
+    [data-theme="light"] .nav { background: rgba(255, 255, 255, 0.95); border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+    .nav-content { display: flex; justify-content: space-between; align-items: center; }
+    .back-link { color: var(--text-muted); text-decoration: none; display: flex; align-items: center; gap: 8px; font-weight: 500; transition: all 0.3s; }
+    .back-link:hover { color: var(--primary); gap: 12px; }
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+    .theme-toggle { background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; color: var(--text); }
+    .theme-toggle:hover { background: var(--gradient); color: white; transform: scale(1.1); }
+    .nav-cta { background: var(--gradient); color: white; padding: 10px 25px; border-radius: 6px; text-decoration: none; font-weight: 600; transition: all 0.3s; }
+    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); }
+
+    .hero { padding: 80px 0 60px; background: linear-gradient(135deg, #0a0e1a 0%, #1a1f3a 100%); position: relative; overflow: hidden; }
+    [data-theme="light"] .hero { background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); }
+    .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.1) 0%, transparent 50%); z-index: 0; }
+    .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; text-align: center; }
+    .service-badge { display: inline-block; background: rgba(99, 102, 241, 0.1); color: var(--primary); padding: 8px 20px; border-radius: 30px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; border: 1px solid rgba(99, 102, 241, 0.3); }
+    .hero h1 { font-size: 3rem; font-weight: 700; margin-bottom: 20px; line-height: 1.2; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-subtitle { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 30px; line-height: 1.6; }
+    .hero-description { font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; max-width: 700px; margin: 0 auto; }
+
+    .honest-banner { background: rgba(16, 185, 129, 0.07); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 10px; padding: 18px 24px; max-width: 700px; margin: 28px auto 0; display: flex; gap: 12px; align-items: flex-start; text-align: left; }
+    .honest-banner-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+    .honest-banner p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+    .honest-banner strong { color: #10b981; }
+
+    .glance-section { padding: 60px 0; }
+    .glance-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 800px; margin: 0 auto; }
+    .glance-item { text-align: center; padding: 30px 20px; background: var(--card-bg); border-radius: 12px; border: 1px solid rgba(99, 102, 241, 0.1); transition: all 0.3s ease; }
+    [data-theme="light"] .glance-item { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+    .glance-item:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15); }
+    .glance-icon { font-size: 2rem; color: var(--primary); margin-bottom: 10px; }
+    .glance-label { color: var(--text); font-size: 1rem; font-weight: 600; }
+
+    .projects-section { padding: 80px 0; background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(139, 92, 246, 0.03)); }
+    [data-theme="light"] .projects-section { background: linear-gradient(135deg, rgba(99, 102, 241, 0.02), rgba(139, 92, 246, 0.02)); }
+    .section-header { text-align: center; max-width: 700px; margin: 0 auto 50px; }
+    .section-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 15px; }
+    .section-description { font-size: 1.1rem; color: var(--text-muted); line-height: 1.6; }
+    .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
+    .project-type-card { background: var(--card-bg); padding: 30px; border-radius: 12px; border-left: 4px solid var(--primary); transition: all 0.3s ease; }
+    [data-theme="light"] .project-type-card { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+    .project-type-card:hover { transform: translateX(8px); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15); }
+    .project-type-card h3 { font-size: 1.2rem; color: var(--text); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+    .project-type-card h3 span { font-size: 1.3rem; }
+    .project-type-card p { color: var(--text-muted); line-height: 1.6; font-size: 0.95rem; }
+    .project-type-card .example { margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--primary); background: rgba(99, 102, 241, 0.08); padding: 6px 10px; border-radius: 4px; display: inline-block; }
+
+    .process-section { padding: 80px 0; }
+    .process-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 50px; }
+    .process-card { background: var(--card-bg); padding: 35px; border-radius: 12px; border: 1px solid rgba(99, 102, 241, 0.1); transition: all 0.3s ease; display: flex; gap: 20px; }
+    [data-theme="light"] .process-card { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+    .process-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15); }
+    .process-number { width: 45px; height: 45px; background: var(--gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2rem; color: white; flex-shrink: 0; }
+    .process-content h3 { font-size: 1.3rem; margin-bottom: 10px; color: var(--text); }
+    .process-content p { color: var(--text-muted); line-height: 1.6; font-size: 0.95rem; }
+
+    .deliverables-section { padding: 80px 0; background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(139, 92, 246, 0.03)); }
+    [data-theme="light"] .deliverables-section { background: linear-gradient(135deg, rgba(99, 102, 241, 0.02), rgba(139, 92, 246, 0.02)); }
+    .deliverables-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
+    .deliverable-card { background: var(--card-bg); padding: 30px; border-radius: 12px; border-left: 4px solid var(--primary); transition: all 0.3s ease; }
+    [data-theme="light"] .deliverable-card { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+    .deliverable-card:hover { transform: translateX(8px); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15); }
+    .deliverable-card h3 { font-size: 1.2rem; color: var(--text); margin-bottom: 10px; }
+    .deliverable-card p { color: var(--text-muted); line-height: 1.6; font-size: 0.95rem; }
+
+    .tools-section { padding: 80px 0; }
+    .tools-list { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; max-width: 800px; margin: 40px auto 0; }
+    .tool-badge { background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); padding: 12px 25px; border-radius: 25px; font-weight: 600; font-family: 'JetBrains Mono', monospace; color: var(--primary); transition: all 0.3s ease; font-size: 0.95rem; }
+    .tool-badge:hover { background: var(--gradient); color: white; transform: translateY(-3px); }
+
+    .for-section { padding: 80px 0; background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(139, 92, 246, 0.03)); }
+    [data-theme="light"] .for-section { background: linear-gradient(135deg, rgba(99, 102, 241, 0.02), rgba(139, 92, 246, 0.02)); }
+    .for-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+    .for-card { background: var(--card-bg); padding: 35px; border-radius: 12px; border: 1px solid rgba(99, 102, 241, 0.1); transition: all 0.3s ease; text-align: center; }
+    [data-theme="light"] .for-card { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+    .for-card:hover { border-color: var(--primary); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15); transform: translateY(-5px); }
+    .for-icon { width: 70px; height: 70px; background: var(--gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; margin: 0 auto 20px; }
+    .for-card h3 { font-size: 1.2rem; color: var(--text); margin-bottom: 12px; }
+    .for-card p { color: var(--text-muted); line-height: 1.6; font-size: 0.9rem; }
+
+    .pricing-section { padding: 80px 0; }
+    .pricing-card { max-width: 650px; margin: 50px auto 0; background: var(--card-bg); padding: 45px; border-radius: 16px; border: 2px solid var(--primary); position: relative; overflow: hidden; }
+    [data-theme="light"] .pricing-card { box-shadow: 0 10px 40px rgba(99, 102, 241, 0.1); }
+    .pricing-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--gradient); }
+    .pricing-amount { font-size: 3rem; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
+    .pricing-amount span { font-size: 1.3rem; color: var(--text-muted); font-weight: 500; }
+    .pricing-note { color: var(--text-muted); margin-bottom: 30px; font-size: 1rem; line-height: 1.6; }
+    .pricing-includes { margin-top: 30px; padding-top: 30px; border-top: 1px solid rgba(99, 102, 241, 0.1); }
+    .pricing-includes h4 { font-size: 1.1rem; margin-bottom: 20px; color: var(--text); }
+    .pricing-includes ul { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .pricing-includes li { color: var(--text-muted); display: flex; align-items: center; gap: 10px; font-size: 0.95rem; }
+    .pricing-includes li i { color: var(--accent); font-size: 0.9rem; }
+
+    .cta-section { padding: 100px 0; text-align: center; position: relative; overflow: hidden; background: var(--bg); }
+    .cta-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(circle, rgba(99, 102, 241, 0.5) 2px, transparent 2px); background-size: 40px 40px; z-index: 0; }
+    .cta-section::after { content: ''; position: absolute; top: 50%; left: 50%; width: 950px; height: 600px; background: radial-gradient(ellipse, rgba(139, 92, 246, 0.3) 0%, rgba(99, 102, 241, 0.2) 40%, transparent 70%); border-radius: 20px; transform: translate(-50%, -50%); filter: blur(80px); animation: glowPulse 8s ease-in-out infinite; z-index: 1; }
+    @keyframes glowPulse { 0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.05); } }
+    .cta-box { background: var(--gradient); padding: 70px 50px; border-radius: 20px; max-width: 800px; margin: 0 auto; position: relative; overflow: hidden; z-index: 2; }
+    .cta-box::before { content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%); animation: rotate 20s linear infinite; }
+    @keyframes rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .cta-content { position: relative; z-index: 1; }
+    .cta-box h2 { font-size: 2.5rem; color: white; margin-bottom: 20px; font-weight: 700; }
+    .cta-box p { font-size: 1.2rem; color: rgba(255, 255, 255, 0.9); margin-bottom: 35px; line-height: 1.6; }
+    .cta-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { background: white; color: var(--primary); padding: 16px 40px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 1.05rem; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 10px; }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); }
+    .btn-secondary { background: transparent; color: white; padding: 16px 40px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 1.05rem; border: 2px solid white; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 10px; }
+    .btn-secondary:hover { background: white; color: var(--primary); transform: translateY(-3px); }
+
+    .service-footer { padding: 40px 0; text-align: center; border-top: 1px solid rgba(99, 102, 241, 0.1); }
+    .service-footer p { color: var(--text-muted); font-size: 0.95rem; }
+    .footer-name { color: var(--primary); font-weight: 600; }
+
+    @media (max-width: 968px) {
+      .hero h1 { font-size: 2.3rem; }
+      .process-grid, .deliverables-grid, .projects-grid, .for-grid, .glance-grid { grid-template-columns: 1fr; }
+      .pricing-includes ul { grid-template-columns: 1fr; }
+      .cta-buttons { flex-direction: column; align-items: center; }
+      .cta-box { padding: 50px 30px; }
+      .cta-box h2 { font-size: 2rem; }
     }
-
-    .nav-container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px 35px;
-      display: flex;
-      justify-content: flex-end;
-      gap: 25px;
-    }
-
-    .tutorial-nav a, .logo {
-      color: #e0e0e0;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-    }
-
-    .tutorial-nav a:hover {
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
-      color: #ffffff;
-      padding: 8px 18px;
-      border-radius: 12px;
-    }
-
-    .logo {
-      margin-right: auto;
-      font-weight: 700;
-      font-size: 1.2rem;
-    }
-
-    /* ===== Main Section ===== */
-    .service-wrapper {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      max-width: 900px;
-      margin: 80px auto;
-      padding: 50px 35px;
-      background: rgba(30,41,59,0.95);
-      border-radius: 20px;
-      box-shadow: 0 12px 50px rgba(0,0,0,0.5);
-      text-align: center;
-    }
-
-    .service-wrapper h1 {
-      font-size: 2.8rem;
-      margin-bottom: 20px;
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .service-wrapper p {
-      font-size: 1.2rem;
-      color: #e0e0e0;
-      margin-bottom: 30px;
-    }
-
-    .back-link {
-      display: inline-block;
-      font-weight: 600;
-      color: #6366f1;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      font-size: 1rem;
-    }
-
-    .back-link:hover {
-      text-decoration: underline;
-      color: #8b5cf6;
-    }
-
-    /* ===== Responsive ===== */
-    @media (max-width: 768px) {
-      .service-wrapper {
-        margin: 50px 20px;
-        padding: 35px 20px;
-      }
-
-      h1 {
-        font-size: 2.2rem;
-      }
-
-      p {
-        font-size: 1rem;
-      }
+    @media (max-width: 640px) {
+      .container { padding: 0 20px; }
+      .hero h1 { font-size: 2rem; }
+      .section-title { font-size: 2rem; }
+      .pricing-amount { font-size: 2.5rem; }
+      .nav-right { gap: 10px; }
+      .nav-cta { padding: 8px 15px; font-size: 0.9rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Navigation -->
-  <nav class="tutorial-nav">
-    <div class="nav-container">
-      <div class="logo">PORTFOLIO</div>
-      <a href="../index.html">Home</a>
-      <a href="../index.html#services">Services</a>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container">
+      <div class="nav-content">
+        <a href="../index.html#service" class="back-link">
+          <i class="fa-solid fa-arrow-left"></i> Back to Portfolio
+        </a>
+        <div class="nav-right">
+          <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+            <span class="theme-icon">🌙</span>
+          </button>
+          <a href="mailto:kovacikostanca@gmail.com?subject=ML%20AI%20Service%20Inquiry" class="nav-cta">
+            Get Started
+          </a>
+        </div>
+      </div>
     </div>
   </nav>
 
-  <!-- Main Content -->
-  <div class="service-wrapper">
-    <h1>Service Page Loading...</h1>
-    <p>We're preparing this page. Check back soon for detailed information and pricing.</p>
-    <a href="../index.html#services" class="back-link">← Back to Services</a>
-  </div>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <span class="service-badge">ML & AI Service</span>
+        <h1>ML Model & AI Integration</h1>
+        <p class="hero-subtitle">Predictive models, text classifiers, and LLM systems built to actually work</p>
+        <p class="hero-description">I build machine learning models and AI-powered features for startups and small businesses — from churn prediction and risk scoring to NLP classifiers and RAG pipelines. Everything is delivered as clean, documented, deployment-ready code, not just a notebook that runs once on my machine.</p>
+
+      
+      </div>
+    </div>
+  </section>
+
+  <!-- At a Glance -->
+  <section class="glance-section">
+    <div class="container">
+      <div class="glance-grid">
+        <div class="glance-item">
+          <div class="glance-icon">🤖</div>
+          <p class="glance-label">ML & Predictive Models</p>
+        </div>
+        <div class="glance-item">
+          <div class="glance-icon">🧠</div>
+          <p class="glance-label">NLP & LLM Systems</p>
+        </div>
+        <div class="glance-item">
+          <div class="glance-icon">🚀</div>
+          <p class="glance-label">Deployment-Ready Code</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Project Types -->
+  <section class="projects-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">What I Can Build</h2>
+        <p class="section-description">Focused on practical, production-ready solutions for real business problems</p>
+      </div>
+
+      <div class="projects-grid">
+        <div class="project-type-card">
+          <h3><span>📉</span> Predictive ML Models</h3>
+          <p>Classification and regression models for business outcomes — built with scikit-learn or XGBoost, validated properly, and explained so you understand what drives the predictions.</p>
+          <span class="example">e.g. customer churn · lead scoring · price prediction</span>
+        </div>
+
+        <div class="project-type-card">
+          <h3><span>🏥</span> ML for Health & Science Data</h3>
+          <p>Predictive models and classifiers applied to clinical, biological, or scientific datasets. My Physics background helps here — I understand messy, real-world scientific data.</p>
+          <span class="example">e.g. patient risk scoring · clinical text classification</span>
+        </div>
+
+        <div class="project-type-card">
+          <h3><span>💬</span> NLP & Text Classifiers</h3>
+          <p>Text classification, sentiment analysis, and entity extraction using pre-trained models (BERT, BioBERT) fine-tuned for your specific domain and data.</p>
+          <span class="example">e.g. support ticket routing · review sentiment · document tagging</span>
+        </div>
+
+        <div class="project-type-card">
+          <h3><span>🔗</span> LLM & RAG Pipelines</h3>
+          <p>Retrieval-Augmented Generation systems that let you query your own documents using a language model — built with LangChain and deployed as a usable app or API.</p>
+          <span class="example">e.g. internal knowledge Q&A · document summariser · policy chatbot</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="process-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-description">A clear, structured process — from problem definition to working solution</p>
+      </div>
+
+      <div class="process-grid">
+        <div class="process-card">
+          <div class="process-number">1</div>
+          <div class="process-content">
+            <h3>Discovery Call (free, 30 min)</h3>
+            <p>We define the problem clearly: what you want to predict or automate, what data you have, and what success looks like. I'll tell you honestly if the project is feasible with your current data.</p>
+          </div>
+        </div>
+
+        <div class="process-card">
+          <div class="process-number">2</div>
+          <div class="process-content">
+            <h3>Data Audit & Scoping</h3>
+            <p>I review your data, identify gaps or quality issues, and propose a specific approach — with a fixed price and timeline agreed before any work begins.</p>
+          </div>
+        </div>
+
+        <div class="process-card">
+          <div class="process-number">3</div>
+          <div class="process-content">
+            <h3>Model Development & Validation</h3>
+            <p>I build, test, and validate the model with appropriate metrics — not just accuracy. I document every decision so you know what trade-offs were made and why.</p>
+          </div>
+        </div>
+
+        <div class="process-card">
+          <div class="process-number">4</div>
+          <div class="process-content">
+            <h3>Delivery, Demo & Handoff</h3>
+            <p>You receive deployment-ready code, documentation, and a working demo (Streamlit app or API). We walk through the results together and I explain what the model can and cannot do.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deliverables -->
+  <section class="deliverables-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">What You Receive</h2>
+        <p class="section-description">Everything you need to understand, use, and build on the solution</p>
+      </div>
+
+      <div class="deliverables-grid">
+        <div class="deliverable-card">
+          <h3>Trained & Validated Model</h3>
+          <p>A properly trained model with evaluation metrics, baseline comparison, and honest assessment of where it performs well and where it doesn't.</p>
+        </div>
+
+        <div class="deliverable-card">
+          <h3>Deployment-Ready Code</h3>
+          <p>Clean Python code structured for reuse — not a one-off notebook. Includes a requirements file and instructions so your team can run it without me.</p>
+        </div>
+
+        <div class="deliverable-card">
+          <h3>Live Demo App</h3>
+          <p>A Streamlit app or simple API so you can see the model working on real inputs immediately — without needing to set up anything technical yourself.</p>
+        </div>
+
+        <div class="deliverable-card">
+          <h3>Documentation & Walkthrough</h3>
+          <p>Full documentation of the approach, model choices, and results — plus a walkthrough call so you understand what was built, what it's good for, and what its limits are.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tools -->
+  <section class="tools-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Tools & Stack</h2>
+        <p class="section-description">Modern, well-supported libraries — nothing exotic or hard to maintain</p>
+      </div>
+      <div class="tools-list">
+        <div class="tool-badge">Python</div>
+        <div class="tool-badge">scikit-learn</div>
+        <div class="tool-badge">XGBoost</div>
+        <div class="tool-badge">HuggingFace</div>
+        <div class="tool-badge">LangChain</div>
+        <div class="tool-badge">FAISS</div>
+        <div class="tool-badge">Pandas</div>
+        <div class="tool-badge">Streamlit</div>
+        <div class="tool-badge">FastAPI</div>
+        <div class="tool-badge">Docker</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- For -->
+  <section class="for-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Who This Is For</h2>
+        <p class="section-description">Best suited for early-stage companies and focused, well-defined ML problems</p>
+      </div>
+
+      <div class="for-grid">
+        <div class="for-card">
+          <div class="for-icon">
+            <i class="fa-solid fa-heart-pulse"></i>
+          </div>
+          <h3>Healthtech & Biotech Startups</h3>
+          <p>You have clinical or scientific data and want to build a predictive feature or classifier — but don't have an ML engineer on the team yet.</p>
+        </div>
+
+        <div class="for-card">
+          <div class="for-icon">
+            <i class="fa-solid fa-building"></i>
+          </div>
+          <h3>B2B SaaS Companies</h3>
+          <p>You want to add an AI-powered feature — churn prediction, lead scoring, document Q&A — without the overhead of hiring a full-time data scientist.</p>
+        </div>
+
+        <div class="for-card">
+          <div class="for-icon">
+            <i class="fa-solid fa-lightbulb"></i>
+          </div>
+          <h3>Founders & Side Projects</h3>
+          <p>You have a specific ML idea you want to validate quickly and cheaply before committing to a full build. I can help you scope it, build a prototype, and assess feasibility.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="pricing-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Pricing</h2>
+        <p class="section-description">Project-based — scoped and agreed upfront, no hourly billing surprises</p>
+      </div>
+
+      <div class="pricing-card">
+        <div class="pricing-amount">
+          €500<span> starting from</span>
+        </div>
+        <p class="pricing-note">
+          Final price depends on data complexity, model type, and whether deployment is included. Most projects fall between <strong>€500–€1,200</strong>. We agree on a fixed scope and price before I start — so you know exactly what you're getting.
+        </p>
+
+        <div class="pricing-includes">
+          <h4>Every project includes:</h4>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Free 30-min discovery call</li>
+            <li><i class="fa-solid fa-check"></i> Data audit & feasibility check</li>
+            <li><i class="fa-solid fa-check"></i> Model development & validation</li>
+            <li><i class="fa-solid fa-check"></i> Evaluation report with honest metrics</li>
+            <li><i class="fa-solid fa-check"></i> Deployment-ready code + requirements</li>
+            <li><i class="fa-solid fa-check"></i> Live Streamlit demo or API</li>
+            <li><i class="fa-solid fa-check"></i> Results walkthrough call</li>
+            <li><i class="fa-solid fa-check"></i> 30 days of post-delivery support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-box">
+        <div class="cta-content">
+          <h2>Have an ML Problem to Solve?</h2>
+          <p>Describe your data, what you want to predict or automate, and roughly what your timeline looks like. I'll reply within 24 hours with an honest view of what's possible — no sales pitch.</p>
+          <div class="cta-buttons">
+            <a href="mailto:kovacikostanca@gmail.com?subject=ML%20AI%20Service%20Inquiry" class="btn-primary">
+              <i class="fa-solid fa-envelope"></i> Email Me
+            </a>
+            <a href="https://linkedin.com/in/kostanca-kovaci/" target="_blank" class="btn-secondary">
+              <i class="fa-brands fa-linkedin"></i> Connect on LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="service-footer">
+    <div class="container">
+      <p>© 2026 <span class="footer-name">Kostanca Kovaci</span>. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.querySelector('.theme-icon');
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    updateThemeIcon(currentTheme);
+    themeToggle.addEventListener('click', () => {
+      const theme = document.documentElement.getAttribute('data-theme');
+      const newTheme = theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeIcon(newTheme);
+    });
+    function updateThemeIcon(theme) {
+      themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
+    }
+  </script>
 
 </body>
 </html>

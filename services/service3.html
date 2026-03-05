@@ -18,692 +18,128 @@
       --gradient: linear-gradient(135deg, #6366f1, #8b5cf6);
       --accent: #10b981;
     }
+    [data-theme="light"] { --dark: #ffffff; --card-bg: #ffffff; --text: #0f172a; --text-muted: #64748b; --bg: #f8fafc; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; transition: background 0.3s ease, color 0.3s ease; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+
+    .nav { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); padding: 20px 0; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(99, 102, 241, 0.1); }
+    [data-theme="light"] .nav { background: rgba(255, 255, 255, 0.95); border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+    .nav-content { display: flex; justify-content: space-between; align-items: center; }
+    .back-link { color: var(--text-muted); text-decoration: none; display: flex; align-items: center; gap: 8px; font-weight: 500; transition: all 0.3s; }
+    .back-link:hover { color: var(--primary); gap: 12px; }
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+    .theme-toggle { background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; color: var(--text); }
+    .theme-toggle:hover { background: var(--gradient); color: white; transform: scale(1.1); }
+    .nav-cta { background: var(--gradient); color: white; padding: 10px 25px; border-radius: 6px; text-decoration: none; font-weight: 600; transition: all 0.3s; }
+    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); }
+
+    .hero { padding: 80px 0 60px; background: linear-gradient(135deg, #0a0e1a 0%, #1a1f3a 100%); position: relative; overflow: hidden; }
+    [data-theme="light"] .hero { background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); }
+    .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.1) 0%, transparent 50%); z-index: 0; }
+    .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; text-align: center; }
+    .service-badge { display: inline-block; background: rgba(99, 102, 241, 0.1); color: var(--primary); padding: 8px 20px; border-radius: 30px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; border: 1px solid rgba(99, 102, 241, 0.3); }
+    .hero h1 { font-size: 3rem; font-weight: 700; margin-bottom: 20px; line-height: 1.2; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-subtitle { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 30px; line-height: 1.6; }
+    .hero-description { font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; max-width: 700px; margin: 0 auto; }
+
+    .honest-banner { background: rgba(16, 185, 129, 0.07); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 10px; padding: 18px 24px; max-width: 700px; margin: 28px auto 0; display: flex; gap: 12px; align-items: flex-start; text-align: left; }
+    .honest-banner-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+    .honest-banner p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+    .honest-banner strong { color: #10b981; }
+
+    .glance-section { padding: 60px 0; }
+    .glance-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 800px; margin: 0 auto; }
+    .glance-item { text-align: center; padding: 30px 20px; background: var(--card-bg); border-radius: 12px; border: 1px solid rgba(99, 102, 241, 0.1); transition: all 0.3s ease; }
+    [data-theme="light"] .glance-item { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+    .glance-item:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15); }
+    .glance-icon { font-size: 2rem; color: var(--primary); margin-bottom: 10px; }
+    .glance-label { color: var(--text); font-size: 1rem; font-weight: 600; }
+
+    .support-section { padding: 80px 0; background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(139, 92, 246, 0.03)); }
+    [data-theme="light"] .support-section { background: linear-gradient(135deg, rgba(99, 102, 241, 0.02), rgba(139, 92, 246, 0.02)); }
+    .section-header { text-align: center; max-width: 700px; margin: 0 auto 50px; }
+    .section-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 15px; }
+    .section-description { font-size: 1.1rem; color: var(--text-muted); line-height: 1.6; }
+    .support-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
+    .support-card { background: var(--card-bg); padding: 30px; border-radius: 12px; border-left: 4px solid var(--primary); transition: all 0.3s ease; }
+    [data-theme="light"] .support-card { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+    .support-card:hover { transform: translateX(8px); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15); }
+    .support-card h3 { font-size: 1.2rem; color: var(--text); margin-bottom: 10px; }
+    .support-card p { color: var(--text-muted); line-height: 1.6; font-size: 0.95rem; }
+
+    .process-section { padding: 80px 0; }
+    .process-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 50px; }
+    .process-card { background: var(--card-bg); padding: 35px; border-radius: 12px; border: 1px solid rgba(99, 102, 241, 0.1); transition: all 0.3s ease; display: flex; gap: 20px; }
+    [data-theme="light"] .process-card { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+    .process-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15); }
+    .process-number { width: 45px; height: 45px; background: var(--gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2rem; color: white; flex-shrink: 0; }
+    .process-content h3 { font-size: 1.3rem; margin-bottom: 10px; color: var(--text); }
+    .process-content p { color: var(--text-muted); line-height: 1.6; font-size: 0.95rem; }
+
+    .for-section { padding: 80px 0; background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(139, 92, 246, 0.03)); }
+    [data-theme="light"] .for-section { background: linear-gradient(135deg, rgba(99, 102, 241, 0.02), rgba(139, 92, 246, 0.02)); }
+    .for-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+    .for-card { background: var(--card-bg); padding: 35px; border-radius: 12px; border: 1px solid rgba(99, 102, 241, 0.1); transition: all 0.3s ease; text-align: center; }
+    [data-theme="light"] .for-card { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+    .for-card:hover { border-color: var(--primary); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15); transform: translateY(-5px); }
+    .for-icon { width: 70px; height: 70px; background: var(--gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; margin: 0 auto 20px; }
+    .for-card h3 { font-size: 1.2rem; color: var(--text); margin-bottom: 12px; }
+    .for-card p { color: var(--text-muted); line-height: 1.6; font-size: 0.9rem; }
+
+    .pricing-section { padding: 80px 0; }
+    .pricing-card { max-width: 650px; margin: 50px auto 0; background: var(--card-bg); padding: 45px; border-radius: 16px; border: 2px solid var(--primary); position: relative; overflow: hidden; }
+    [data-theme="light"] .pricing-card { box-shadow: 0 10px 40px rgba(99, 102, 241, 0.1); }
+    .pricing-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--gradient); }
+    .pricing-title { font-size: 2.5rem; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
+    .pricing-note { color: var(--text-muted); margin-bottom: 25px; font-size: 1rem; line-height: 1.6; }
+
+    .pricing-includes { margin-top: 25px; padding-top: 25px; border-top: 1px solid rgba(99, 102, 241, 0.1); }
+    .pricing-includes h4 { font-size: 1.1rem; margin-bottom: 20px; color: var(--text); }
+    .pricing-includes ul { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .pricing-includes li { color: var(--text-muted); display: flex; align-items: center; gap: 10px; font-size: 0.95rem; }
+    .pricing-includes li i { color: var(--accent); font-size: 0.9rem; }
+
+    .ethics-note { background: rgba(99, 102, 241, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--primary); margin-top: 25px; }
+    .ethics-note strong { color: var(--primary); display: block; margin-bottom: 10px; font-size: 1.05rem; }
+    .ethics-note p { color: var(--text-muted); margin: 0; line-height: 1.6; font-size: 0.95rem; }
+
+    .cta-section { padding: 100px 0; text-align: center; position: relative; overflow: hidden; background: var(--bg); }
+    .cta-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(circle, rgba(99, 102, 241, 0.5) 2px, transparent 2px); background-size: 40px 40px; z-index: 0; }
+    .cta-section::after { content: ''; position: absolute; top: 50%; left: 50%; width: 950px; height: 600px; background: radial-gradient(ellipse, rgba(139, 92, 246, 0.3) 0%, rgba(99, 102, 241, 0.2) 40%, transparent 70%); border-radius: 20px; transform: translate(-50%, -50%); filter: blur(80px); animation: glowPulse 8s ease-in-out infinite; z-index: 1; }
+    @keyframes glowPulse { 0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.05); } }
+    .cta-box { background: var(--gradient); padding: 70px 50px; border-radius: 20px; max-width: 800px; margin: 0 auto; position: relative; overflow: hidden; z-index: 2; }
+    .cta-box::before { content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%); animation: rotate 20s linear infinite; }
+    @keyframes rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .cta-content { position: relative; z-index: 1; }
+    .cta-box h2 { font-size: 2.5rem; color: white; margin-bottom: 20px; font-weight: 700; }
+    .cta-box p { font-size: 1.2rem; color: rgba(255, 255, 255, 0.9); margin-bottom: 35px; line-height: 1.6; }
+    .cta-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { background: white; color: var(--primary); padding: 16px 40px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 1.05rem; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 10px; }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); }
+    .btn-secondary { background: transparent; color: white; padding: 16px 40px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 1.05rem; border: 2px solid white; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 10px; }
+    .btn-secondary:hover { background: white; color: var(--primary); transform: translateY(-3px); }
 
-    [data-theme="light"] {
-      --dark: #ffffff;
-      --card-bg: #ffffff;
-      --text: #0f172a;
-      --text-muted: #64748b;
-      --bg: #f8fafc;
-    }
+    .service-footer { padding: 40px 0; text-align: center; border-top: 1px solid rgba(99, 102, 241, 0.1); }
+    .service-footer p { color: var(--text-muted); font-size: 0.95rem; }
+    .footer-name { color: var(--primary); font-weight: 600; }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      transition: background 0.3s ease, color 0.3s ease;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 40px;
-    }
-
-    /* Navigation */
-    .nav {
-      background: rgba(15, 23, 42, 0.95);
-      backdrop-filter: blur(10px);
-      padding: 20px 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      border-bottom: 1px solid rgba(99, 102, 241, 0.1);
-    }
-
-    [data-theme="light"] .nav {
-      background: rgba(255, 255, 255, 0.95);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    }
-
-    .nav-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .back-link {
-      color: var(--text-muted);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 500;
-      transition: all 0.3s;
-    }
-
-    .back-link:hover {
-      color: var(--primary);
-      gap: 12px;
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .theme-toggle {
-      background: rgba(99, 102, 241, 0.1);
-      border: 1px solid rgba(99, 102, 241, 0.2);
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      color: var(--text);
-    }
-
-    .theme-toggle:hover {
-      background: var(--gradient);
-      color: white;
-      transform: scale(1.1);
-    }
-
-    .nav-cta {
-      background: var(--gradient);
-      color: white;
-      padding: 10px 25px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s;
-    }
-
-    .nav-cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-    }
-
-    /* Hero Section */
-    .hero {
-      padding: 80px 0 60px;
-      background: linear-gradient(135deg, #0a0e1a 0%, #1a1f3a 100%);
-      position: relative;
-      overflow: hidden;
-    }
-
-    [data-theme="light"] .hero {
-      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
-      z-index: 0;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .service-badge {
-      display: inline-block;
-      background: rgba(99, 102, 241, 0.1);
-      color: var(--primary);
-      padding: 8px 20px;
-      border-radius: 30px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 20px;
-      border: 1px solid rgba(99, 102, 241, 0.3);
-    }
-
-    .hero h1 {
-      font-size: 3rem;
-      font-weight: 700;
-      margin-bottom: 20px;
-      line-height: 1.2;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero-subtitle {
-      font-size: 1.25rem;
-      color: var(--text-muted);
-      margin-bottom: 30px;
-      line-height: 1.6;
-    }
-
-    .hero-description {
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      line-height: 1.7;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    /* At a Glance Section */
-    .glance-section {
-      padding: 60px 0;
-    }
-
-    .glance-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 30px;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .glance-item {
-      text-align: center;
-      padding: 30px 20px;
-      background: var(--card-bg);
-      border-radius: 12px;
-      border: 1px solid rgba(99, 102, 241, 0.1);
-      transition: all 0.3s ease;
-    }
-
-    [data-theme="light"] .glance-item {
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    }
-
-    .glance-item:hover {
-      transform: translateY(-5px);
-      border-color: var(--primary);
-      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
-    }
-
-    .glance-icon {
-      font-size: 2rem;
-      color: var(--primary);
-      margin-bottom: 10px;
-    }
-
-    .glance-label {
-      color: var(--text);
-      font-size: 1rem;
-      font-weight: 600;
-    }
-
-    /* Support Section */
-    .support-section {
-      padding: 80px 0;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(139, 92, 246, 0.03));
-    }
-
-    [data-theme="light"] .support-section {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.02), rgba(139, 92, 246, 0.02));
-    }
-
-    .section-header {
-      text-align: center;
-      max-width: 700px;
-      margin: 0 auto 50px;
-    }
-
-    .section-title {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 15px;
-    }
-
-    .support-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 25px;
-    }
-
-    .support-card {
-      background: var(--card-bg);
-      padding: 30px;
-      border-radius: 12px;
-      border-left: 4px solid var(--primary);
-      transition: all 0.3s ease;
-    }
-
-    [data-theme="light"] .support-card {
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    }
-
-    .support-card:hover {
-      transform: translateX(8px);
-      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
-    }
-
-    .support-card h3 {
-      font-size: 1.2rem;
-      color: var(--text);
-      margin-bottom: 10px;
-    }
-
-    .support-card p {
-      color: var(--text-muted);
-      line-height: 1.6;
-      font-size: 0.95rem;
-    }
-
-    /* Process Section */
-    .process-section {
-      padding: 80px 0;
-    }
-
-    .section-description {
-      font-size: 1.1rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    .process-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
-      margin-top: 50px;
-    }
-
-    .process-card {
-      background: var(--card-bg);
-      padding: 35px;
-      border-radius: 12px;
-      border: 1px solid rgba(99, 102, 241, 0.1);
-      transition: all 0.3s ease;
-      display: flex;
-      gap: 20px;
-    }
-
-    [data-theme="light"] .process-card {
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    }
-
-    .process-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--primary);
-      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
-    }
-
-    .process-number {
-      width: 45px;
-      height: 45px;
-      background: var(--gradient);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 1.2rem;
-      color: white;
-      flex-shrink: 0;
-    }
-
-    .process-content h3 {
-      font-size: 1.3rem;
-      margin-bottom: 10px;
-      color: var(--text);
-    }
-
-    .process-content p {
-      color: var(--text-muted);
-      line-height: 1.6;
-      font-size: 0.95rem;
-    }
-
-    /* For Section */
-    .for-section {
-      padding: 80px 0;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(139, 92, 246, 0.03));
-    }
-
-    [data-theme="light"] .for-section {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.02), rgba(139, 92, 246, 0.02));
-    }
-
-    .for-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 25px;
-    }
-
-    .for-card {
-      background: var(--card-bg);
-      padding: 35px;
-      border-radius: 12px;
-      border: 1px solid rgba(99, 102, 241, 0.1);
-      transition: all 0.3s ease;
-      text-align: center;
-    }
-
-    [data-theme="light"] .for-card {
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    }
-
-    .for-card:hover {
-      border-color: var(--primary);
-      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
-      transform: translateY(-5px);
-    }
-
-    .for-icon {
-      width: 70px;
-      height: 70px;
-      background: var(--gradient);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      color: white;
-      margin: 0 auto 20px;
-    }
-
-    .for-card h3 {
-      font-size: 1.2rem;
-      color: var(--text);
-      margin-bottom: 12px;
-    }
-
-    .for-card p {
-      color: var(--text-muted);
-      line-height: 1.6;
-      font-size: 0.9rem;
-    }
-
-    /* Pricing Section */
-    .pricing-section {
-      padding: 80px 0;
-    }
-
-    .pricing-card {
-      max-width: 650px;
-      margin: 50px auto 0;
-      background: var(--card-bg);
-      padding: 45px;
-      border-radius: 16px;
-      border: 2px solid var(--primary);
-      position: relative;
-      overflow: hidden;
-    }
-
-    [data-theme="light"] .pricing-card {
-      box-shadow: 0 10px 40px rgba(99, 102, 241, 0.1);
-    }
-
-    .pricing-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: var(--gradient);
-    }
-
-    .pricing-title {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 10px;
-    }
-
-    .pricing-note {
-      color: var(--text-muted);
-      margin-bottom: 25px;
-      font-size: 1rem;
-      line-height: 1.6;
-    }
-
-    .ethics-note {
-      background: rgba(99, 102, 241, 0.1);
-      padding: 20px;
-      border-radius: 10px;
-      border-left: 4px solid var(--primary);
-      margin-top: 25px;
-    }
-
-    .ethics-note strong {
-      color: var(--primary);
-      display: block;
-      margin-bottom: 10px;
-      font-size: 1.05rem;
-    }
-
-    .ethics-note p {
-      color: var(--text-muted);
-      margin: 0;
-      line-height: 1.6;
-      font-size: 0.95rem;
-    }
-
-    /* CTA Section */
-    .cta-section {
-      padding: 100px 0;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      background: var(--bg);
-    }
-
-    .cta-section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: 
-        radial-gradient(circle, rgba(99, 102, 241, 0.5) 2px, transparent 2px);
-      background-size: 40px 40px;
-      z-index: 0;
-    }
-
-    .cta-section::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 950px;
-      height: 600px;
-      background: radial-gradient(ellipse, rgba(139, 92, 246, 0.3) 0%, rgba(99, 102, 241, 0.2) 40%, transparent 70%);
-      border-radius: 20px;
-      transform: translate(-50%, -50%);
-      filter: blur(80px);
-      animation: glowPulse 8s ease-in-out infinite;
-      z-index: 1;
-    }
-
-    @keyframes dotPulse {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 1; }
-    }
-
-    @keyframes glowPulse {
-      0%, 100% {
-        opacity: 0.6;
-        transform: translate(-50%, -50%) scale(1);
-      }
-      50% {
-        opacity: 0.9;
-        transform: translate(-50%, -50%) scale(1.05);
-      }
-    }
-
-    .cta-box {
-      background: var(--gradient);
-      padding: 70px 50px;
-      border-radius: 20px;
-      max-width: 800px;
-      margin: 0 auto;
-      position: relative;
-      overflow: hidden;
-      z-index: 2;
-    }
-
-    .cta-box::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-      animation: rotate 20s linear infinite;
-    }
-
-    @keyframes rotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .cta-content {
-      position: relative;
-      z-index: 1;
-    }
-
-    .cta-box h2 {
-      font-size: 2.5rem;
-      color: white;
-      margin-bottom: 20px;
-      font-weight: 700;
-    }
-
-    .cta-box p {
-      font-size: 1.2rem;
-      color: rgba(255, 255, 255, 0.9);
-      margin-bottom: 35px;
-      line-height: 1.6;
-    }
-
-    .cta-buttons {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .btn-primary {
-      background: white;
-      color: var(--primary);
-      padding: 16px 40px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 1.05rem;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-
-    .btn-secondary {
-      background: transparent;
-      color: white;
-      padding: 16px 40px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 1.05rem;
-      border: 2px solid white;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .btn-secondary:hover {
-      background: white;
-      color: var(--primary);
-      transform: translateY(-3px);
-    }
-
-    /* Footer */
-    .service-footer {
-      padding: 40px 0;
-      text-align: center;
-      border-top: 1px solid rgba(99, 102, 241, 0.1);
-    }
-
-    .service-footer p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-
-    /* Responsive */
     @media (max-width: 968px) {
-      .hero h1 {
-        font-size: 2.3rem;
-      }
-
-      .process-grid,
-      .support-grid,
-      .for-grid,
-      .glance-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .cta-buttons {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .cta-box {
-        padding: 50px 30px;
-      }
-
-      .cta-box h2 {
-        font-size: 2rem;
-      }
+      .hero h1 { font-size: 2.3rem; }
+      .process-grid, .support-grid, .for-grid, .glance-grid { grid-template-columns: 1fr; }
+      .pricing-includes ul { grid-template-columns: 1fr; }
+      .cta-buttons { flex-direction: column; align-items: center; }
+      .cta-box { padding: 50px 30px; }
+      .cta-box h2 { font-size: 2rem; }
     }
-
     @media (max-width: 640px) {
-      .container {
-        padding: 0 20px;
-      }
-
-      .hero h1 {
-        font-size: 2rem;
-      }
-
-      .section-title {
-        font-size: 2rem;
-      }
-
-      .pricing-title {
-        font-size: 2rem;
-      }
-
-      .nav-right {
-        gap: 10px;
-      }
-
-      .nav-cta {
-        padding: 8px 15px;
-        font-size: 0.9rem;
-      }
+      .container { padding: 0 20px; }
+      .hero h1 { font-size: 2rem; }
+      .section-title { font-size: 2rem; }
+      .pricing-title { font-size: 2rem; }
+      .nav-right { gap: 10px; }
+      .nav-cta { padding: 8px 15px; font-size: 0.9rem; }
     }
-
-    .footer-name {
-    color: var(--primary); /* Uses your #6366f1 indigo */
-    font-weight: 600;
-}
   </style>
 </head>
 <body>
@@ -733,8 +169,13 @@
       <div class="hero-content">
         <span class="service-badge">Academic Service</span>
         <h1>Academic & Research Data Support</h1>
-        <p class="hero-subtitle">Data analysis and visualization support for academic and research projects</p>
-        <p class="hero-description">I support students and researchers with data cleaning, statistical analysis, and clear visualizations to help them complete academic work with confidence and transparency.</p>
+        <!-- CHANGED: more specific, outcome-focused subtitle -->
+        <p class="hero-subtitle">Get your data cleaned, analysed, and visualised — so you can focus on your research</p>
+        <!-- CHANGED: grounded, relatable description -->
+        <p class="hero-description">I help students and researchers with the data side of their work — cleaning messy datasets, running appropriate statistical tests, and producing clear visualisations that hold up to academic scrutiny. Everything delivered with full documentation so you understand exactly what was done and why.</p>
+
+        <!-- NEW: honest entry-level note — this service actually suits entry level very well -->
+        
       </div>
     </div>
   </section>
@@ -745,7 +186,8 @@
       <div class="glance-grid">
         <div class="glance-item">
           <div class="glance-icon">📊</div>
-          <p class="glance-label">Statistical Analysis Support</p>
+          <!-- CHANGED: more specific -->
+          <p class="glance-label">Stats & Quantitative Analysis</p>
         </div>
         <div class="glance-item">
           <div class="glance-icon">📓</div>
@@ -753,7 +195,8 @@
         </div>
         <div class="glance-item">
           <div class="glance-icon">✅</div>
-          <p class="glance-label">Clear, Well-Documented Results</p>
+          <!-- CHANGED: more specific -->
+          <p class="glance-label">Publication-Ready Visualisations</p>
         </div>
       </div>
     </div>
@@ -764,27 +207,33 @@
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">What I Help With</h2>
+        <!-- CHANGED: added honest scope note -->
+        <p class="section-description">Focused on the technical analysis side — not academic writing</p>
       </div>
 
       <div class="support-grid">
         <div class="support-card">
           <h3>Data Cleaning & Preparation</h3>
-          <p>Cleaning and structuring research datasets so they're ready for analysis.</p>
+          <!-- CHANGED: more specific and relatable -->
+          <p>Survey exports, experimental results, scraped data — I handle messy real-world datasets and return something structured, consistent, and ready to analyse.</p>
         </div>
 
         <div class="support-card">
           <h3>Statistical Analysis</h3>
-          <p>Applying appropriate statistical methods and explaining results clearly.</p>
+          <!-- CHANGED: more specific about what this means -->
+          <p>Descriptive stats, hypothesis tests (t-tests, ANOVA, chi-square), correlation, regression — applied correctly for your data type, with results explained in plain language.</p>
         </div>
 
         <div class="support-card">
-          <h3>Visualizations for Reports</h3>
-          <p>Creating clear charts and figures suitable for theses, reports, or papers.</p>
+          <h3>Visualisations for Reports & Theses</h3>
+          <!-- CHANGED: more specific about quality standard -->
+          <p>Clean, publication-quality charts and figures in Python (Matplotlib, Seaborn) or Tableau — formatted to match your institution's style requirements.</p>
         </div>
 
         <div class="support-card">
-          <h3>Reproducible Analysis</h3>
-          <p>Providing documented Jupyter notebooks so analyses are transparent and reusable.</p>
+          <h3>Reproducible Analysis Notebooks</h3>
+          <!-- CHANGED: explains the academic value -->
+          <p>All work delivered as documented Jupyter notebooks — so your supervisor can follow every step, and you can explain and defend your methodology confidently.</p>
         </div>
       </div>
     </div>
@@ -795,23 +244,25 @@
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">How It Works</h2>
-        <p class="section-description">A simple, collaborative process aligned with academic requirements</p>
+        <p class="section-description">A simple, collaborative process aligned with your academic deadlines</p>
       </div>
 
       <div class="process-grid">
         <div class="process-card">
           <div class="process-number">1</div>
           <div class="process-content">
-            <h3>Initial Discussion</h3>
-            <p>We discuss your research questions, data, and requirements.</p>
+            <!-- CHANGED: free + 30 min, consistent with other services -->
+            <h3>Initial Discussion (free, 30 min)</h3>
+            <p>We go through your research questions, your dataset, and what your supervisor or assignment requires. I'll tell you honestly what I can support and what's outside my scope.</p>
           </div>
         </div>
 
         <div class="process-card">
           <div class="process-number">2</div>
           <div class="process-content">
-            <h3>Scope & Timeline</h3>
-            <p>I outline what can be supported, the expected timeline, and deliverables.</p>
+            <h3>Scope, Timeline & Fixed Price</h3>
+            <!-- CHANGED: added deadline sensitivity -->
+            <p>I outline exactly what I'll deliver, by when, and at what cost — agreed upfront. Academic deadlines are real; I take them seriously.</p>
           </div>
         </div>
 
@@ -819,15 +270,17 @@
           <div class="process-number">3</div>
           <div class="process-content">
             <h3>Analysis & Documentation</h3>
-            <p>I perform the analysis with clear documentation of methods and results.</p>
+            <!-- CHANGED: more specific about what documentation looks like -->
+            <p>I run the analysis with step-by-step documentation of every method, assumption, and decision — so you can explain your choices to your supervisor or examiner.</p>
           </div>
         </div>
 
         <div class="process-card">
           <div class="process-number">4</div>
           <div class="process-content">
-            <h3>Review & Delivery</h3>
-            <p>You receive cleaned data, results, visualizations, and notebooks ready for use.</p>
+            <h3>Delivery & Walkthrough</h3>
+            <!-- CHANGED: added walkthrough so student understands the work -->
+            <p>You receive your cleaned data, results, visualisations, and Jupyter notebook. We go through the findings together so you fully understand — and can discuss — every result.</p>
           </div>
         </div>
       </div>
@@ -839,6 +292,7 @@
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">Who This Is For</h2>
+        <p class="section-description">Anyone facing a quantitative analysis challenge in an academic context</p>
       </div>
 
       <div class="for-grid">
@@ -847,15 +301,17 @@
             <i class="fa-solid fa-graduation-cap"></i>
           </div>
           <h3>University Students</h3>
-          <p>Undergraduate or postgraduate students working on coursework or thesis projects.</p>
+          <!-- CHANGED: more specific and empathetic -->
+          <p>BSc, MSc, or PhD students who need support with the data analysis chapter of their thesis — especially if statistics isn't your primary background.</p>
         </div>
 
         <div class="for-card">
           <div class="for-icon">
             <i class="fa-solid fa-microscope"></i>
           </div>
-          <h3>Academic Research Projects</h3>
-          <p>Surveys, experiments, or observational studies requiring data analysis support.</p>
+          <h3>Research Projects</h3>
+          <!-- CHANGED: more specific -->
+          <p>Surveys, experiments, observational studies, or secondary data analysis that needs proper statistical treatment and clear documentation.</p>
         </div>
 
         <div class="for-card">
@@ -863,7 +319,8 @@
             <i class="fa-solid fa-book"></i>
           </div>
           <h3>Thesis & Dissertation Work</h3>
-          <p>Support for the quantitative analysis component of MSc or PhD research.</p>
+          <!-- CHANGED: addresses the real fear -->
+          <p>If your quantitative methods section feels overwhelming, I can help you design the analysis, run it correctly, and understand it well enough to defend it.</p>
         </div>
       </div>
     </div>
@@ -874,15 +331,35 @@
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">Pricing</h2>
+        <p class="section-description">Project-based — agreed upfront so there are no surprises</p>
       </div>
 
       <div class="pricing-card">
         <h2 class="pricing-title">Project-Based</h2>
-        <p class="pricing-note">Pricing depends on dataset size, complexity, and timeline. Most academic projects range between €150–€500.</p>
-        
+        <!-- CHANGED: more specific and honest range -->
+        <p class="pricing-note">
+          Most academic projects fall between <strong>€100–€400</strong> depending on dataset size, the number of analyses required, and your deadline. I offer reduced rates for students — just mention it when you reach out.
+        </p>
+
+        <!-- NEW: includes list, consistent with service1 and service2 -->
+        <div class="pricing-includes">
+          <h4>Every project includes:</h4>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Free 30-min initial discussion</li>
+            <li><i class="fa-solid fa-check"></i> Data cleaning & preparation</li>
+            <li><i class="fa-solid fa-check"></i> Statistical analysis & results</li>
+            <li><i class="fa-solid fa-check"></i> Publication-ready visualisations</li>
+            <li><i class="fa-solid fa-check"></i> Documented Jupyter notebook</li>
+            <li><i class="fa-solid fa-check"></i> Results walkthrough call</li>
+            <li><i class="fa-solid fa-check"></i> One round of revisions</li>
+            <li><i class="fa-solid fa-check"></i> 7 days of follow-up questions</li>
+          </ul>
+        </div>
+
         <div class="ethics-note">
-          <strong>Important Note</strong>
-          <p>I provide technical data analysis support only. I do not write academic text, fabricate data, or engage in unethical academic practices.</p>
+          <strong>Important Note on Academic Integrity</strong>
+          <!-- CHANGED: more specific and professionally worded -->
+          <p>I provide technical data analysis support only. I do not write academic text, interpret findings in your voice, or engage in any form of academic misconduct. The analysis is a tool you use — the understanding and the writing are yours.</p>
         </div>
       </div>
     </div>
@@ -893,8 +370,9 @@
     <div class="container">
       <div class="cta-box">
         <div class="cta-content">
-          <h2>Interested in Working Together?</h2>
-          <p>If you'd like support with data analysis for your academic project, feel free to contact me via LinkedIn or email. I'm happy to review your requirements and see if I'm a good fit.</p>
+          <h2>Need Help With Your Data?</h2>
+          <!-- CHANGED: low-pressure, deadline-aware CTA -->
+          <p>Tell me about your project, your dataset, and your deadline. I'll reply within 24 hours with an honest assessment of what's possible — no commitment required.</p>
           <div class="cta-buttons">
             <a href="mailto:kovacikostanca@gmail.com?subject=Academic%20Research%20Support%20Inquiry" class="btn-primary">
               <i class="fa-solid fa-envelope"></i> Email Me
@@ -915,24 +393,19 @@
     </div>
   </footer>
 
-  <!-- Theme Toggle Script -->
   <script>
     const themeToggle = document.getElementById('themeToggle');
     const themeIcon = document.querySelector('.theme-icon');
-    
     const currentTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', currentTheme);
     updateThemeIcon(currentTheme);
-    
     themeToggle.addEventListener('click', () => {
       const theme = document.documentElement.getAttribute('data-theme');
       const newTheme = theme === 'dark' ? 'light' : 'dark';
-      
       document.documentElement.setAttribute('data-theme', newTheme);
       localStorage.setItem('theme', newTheme);
       updateThemeIcon(newTheme);
     });
-    
     function updateThemeIcon(theme) {
       themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
     }

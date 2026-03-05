@@ -27,11 +27,7 @@
       --bg: #f8fafc;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Inter', sans-serif;
@@ -41,13 +37,8 @@
       transition: background 0.3s ease, color 0.3s ease;
     }
 
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 40px;
-    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
 
-    /* Navigation */
     .nav {
       background: rgba(15, 23, 42, 0.95);
       backdrop-filter: blur(10px);
@@ -57,711 +48,124 @@
       z-index: 100;
       border-bottom: 1px solid rgba(99, 102, 241, 0.1);
     }
+    [data-theme="light"] .nav { background: rgba(255, 255, 255, 0.95); border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+    .nav-content { display: flex; justify-content: space-between; align-items: center; }
+    .back-link { color: var(--text-muted); text-decoration: none; display: flex; align-items: center; gap: 8px; font-weight: 500; transition: all 0.3s; }
+    .back-link:hover { color: var(--primary); gap: 12px; }
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+    .theme-toggle { background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; color: var(--text); }
+    .theme-toggle:hover { background: var(--gradient); color: white; transform: scale(1.1); }
+    .nav-cta { background: var(--gradient); color: white; padding: 10px 25px; border-radius: 6px; text-decoration: none; font-weight: 600; transition: all 0.3s; }
+    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); }
+
+    .hero { padding: 80px 0 60px; background: linear-gradient(135deg, #0a0e1a 0%, #1a1f3a 100%); position: relative; overflow: hidden; }
+    [data-theme="light"] .hero { background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); }
+    .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.1) 0%, transparent 50%); z-index: 0; }
+    .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; text-align: center; }
+    .service-badge { display: inline-block; background: rgba(99, 102, 241, 0.1); color: var(--primary); padding: 8px 20px; border-radius: 30px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; border: 1px solid rgba(99, 102, 241, 0.3); }
+    .hero h1 { font-size: 3rem; font-weight: 700; margin-bottom: 20px; line-height: 1.2; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-subtitle { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 30px; line-height: 1.6; }
+    .hero-description { font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; max-width: 700px; margin: 0 auto; }
+
+    .honest-banner { background: rgba(16, 185, 129, 0.07); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 10px; padding: 18px 24px; max-width: 700px; margin: 28px auto 0; display: flex; gap: 12px; align-items: flex-start; text-align: left; }
+    .honest-banner-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+    .honest-banner p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+    .honest-banner strong { color: #10b981; }
+
+    .glance-section { padding: 60px 0; }
+    .glance-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 800px; margin: 0 auto; }
+    .glance-item { text-align: center; padding: 30px 20px; background: var(--card-bg); border-radius: 12px; border: 1px solid rgba(99, 102, 241, 0.1); transition: all 0.3s ease; }
+    [data-theme="light"] .glance-item { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+    .glance-item:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15); }
+    .glance-icon { font-size: 2rem; color: var(--primary); margin-bottom: 10px; }
+    .glance-label { color: var(--text); font-size: 1rem; font-weight: 600; }
+
+    .process-section { padding: 80px 0; background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(139, 92, 246, 0.03)); }
+    [data-theme="light"] .process-section { background: linear-gradient(135deg, rgba(99, 102, 241, 0.02), rgba(139, 92, 246, 0.02)); }
+    .section-header { text-align: center; max-width: 700px; margin: 0 auto 50px; }
+    .section-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 15px; }
+    .section-description { font-size: 1.1rem; color: var(--text-muted); line-height: 1.6; }
+    .process-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 50px; }
+    .process-card { background: var(--card-bg); padding: 35px; border-radius: 12px; border: 1px solid rgba(99, 102, 241, 0.1); transition: all 0.3s ease; display: flex; gap: 20px; }
+    [data-theme="light"] .process-card { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+    .process-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15); }
+    .process-number { width: 45px; height: 45px; background: var(--gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2rem; color: white; flex-shrink: 0; }
+    .process-content h3 { font-size: 1.3rem; margin-bottom: 10px; color: var(--text); }
+    .process-content p { color: var(--text-muted); line-height: 1.6; font-size: 0.95rem; }
+
+    .deliverables-section { padding: 80px 0; }
+    .deliverables-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
+    .deliverable-card { background: var(--card-bg); padding: 30px; border-radius: 12px; border-left: 4px solid var(--primary); transition: all 0.3s ease; }
+    [data-theme="light"] .deliverable-card { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+    .deliverable-card:hover { transform: translateX(8px); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15); }
+    .deliverable-card h3 { font-size: 1.2rem; color: var(--text); margin-bottom: 10px; }
+    .deliverable-card p { color: var(--text-muted); line-height: 1.6; font-size: 0.95rem; }
+
+    .tools-section { padding: 80px 0; background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(139, 92, 246, 0.03)); }
+    [data-theme="light"] .tools-section { background: linear-gradient(135deg, rgba(99, 102, 241, 0.02), rgba(139, 92, 246, 0.02)); }
+    .tools-list { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; max-width: 700px; margin: 40px auto 0; }
+    .tool-badge { background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); padding: 12px 25px; border-radius: 25px; font-weight: 600; font-family: 'JetBrains Mono', monospace; color: var(--primary); transition: all 0.3s ease; font-size: 0.95rem; }
+    .tool-badge:hover { background: var(--gradient); color: white; transform: translateY(-3px); }
+
+    .for-section { padding: 80px 0; }
+    .for-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+    .for-card { background: var(--card-bg); padding: 35px; border-radius: 12px; border: 1px solid rgba(99, 102, 241, 0.1); transition: all 0.3s ease; text-align: center; }
+    [data-theme="light"] .for-card { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+    .for-card:hover { border-color: var(--primary); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15); transform: translateY(-5px); }
+    .for-icon { width: 70px; height: 70px; background: var(--gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; margin: 0 auto 20px; }
+    .for-card h3 { font-size: 1.2rem; color: var(--text); margin-bottom: 12px; }
+    .for-card p { color: var(--text-muted); line-height: 1.6; font-size: 0.9rem; }
+
+    .pricing-section { padding: 80px 0; background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(139, 92, 246, 0.03)); }
+    [data-theme="light"] .pricing-section { background: linear-gradient(135deg, rgba(99, 102, 241, 0.02), rgba(139, 92, 246, 0.02)); }
+    .pricing-card { max-width: 650px; margin: 50px auto 0; background: var(--card-bg); padding: 45px; border-radius: 16px; border: 2px solid var(--primary); position: relative; overflow: hidden; }
+    [data-theme="light"] .pricing-card { box-shadow: 0 10px 40px rgba(99, 102, 241, 0.1); }
+    .pricing-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--gradient); }
+    .pricing-amount { font-size: 3rem; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
+    .pricing-amount span { font-size: 1.3rem; color: var(--text-muted); font-weight: 500; }
+    .pricing-note { color: var(--text-muted); margin-bottom: 30px; font-size: 1rem; line-height: 1.6; }
+    .pricing-includes { margin-top: 30px; padding-top: 30px; border-top: 1px solid rgba(99, 102, 241, 0.1); }
+    .pricing-includes h4 { font-size: 1.1rem; margin-bottom: 20px; color: var(--text); }
+    .pricing-includes ul { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .pricing-includes li { color: var(--text-muted); display: flex; align-items: center; gap: 10px; font-size: 0.95rem; }
+    .pricing-includes li i { color: var(--accent); font-size: 0.9rem; }
+
+    .cta-section { padding: 100px 0; text-align: center; position: relative; overflow: hidden; background: var(--bg); }
+    .cta-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(circle, rgba(99, 102, 241, 0.5) 2px, transparent 2px); background-size: 40px 40px; z-index: 0; }
+    .cta-section::after { content: ''; position: absolute; top: 50%; left: 50%; width: 950px; height: 600px; background: radial-gradient(ellipse, rgba(139, 92, 246, 0.3) 0%, rgba(99, 102, 241, 0.2) 40%, transparent 70%); border-radius: 20px; transform: translate(-50%, -50%); filter: blur(80px); animation: glowPulse 8s ease-in-out infinite; z-index: 1; }
+    @keyframes glowPulse { 0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.05); } }
+    .cta-box { background: var(--gradient); padding: 70px 50px; border-radius: 20px; max-width: 800px; margin: 0 auto; position: relative; overflow: hidden; z-index: 2; }
+    .cta-box::before { content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%); animation: rotate 20s linear infinite; }
+    @keyframes rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .cta-content { position: relative; z-index: 1; }
+    .cta-box h2 { font-size: 2.5rem; color: white; margin-bottom: 20px; font-weight: 700; }
+    .cta-box p { font-size: 1.2rem; color: rgba(255, 255, 255, 0.9); margin-bottom: 35px; line-height: 1.6; }
+    .cta-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { background: white; color: var(--primary); padding: 16px 40px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 1.05rem; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 10px; }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); }
+    .btn-secondary { background: transparent; color: white; padding: 16px 40px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 1.05rem; border: 2px solid white; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 10px; }
+    .btn-secondary:hover { background: white; color: var(--primary); transform: translateY(-3px); }
+
+    .service-footer { padding: 40px 0; text-align: center; border-top: 1px solid rgba(99, 102, 241, 0.1); }
+    .service-footer p { color: var(--text-muted); font-size: 0.95rem; }
+    .footer-name { color: var(--primary); font-weight: 600; }
 
-    [data-theme="light"] .nav {
-      background: rgba(255, 255, 255, 0.95);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    }
-
-    .nav-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .back-link {
-      color: var(--text-muted);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 500;
-      transition: all 0.3s;
-    }
-
-    .back-link:hover {
-      color: var(--primary);
-      gap: 12px;
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .theme-toggle {
-      background: rgba(99, 102, 241, 0.1);
-      border: 1px solid rgba(99, 102, 241, 0.2);
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      color: var(--text);
-    }
-
-    .theme-toggle:hover {
-      background: var(--gradient);
-      color: white;
-      transform: scale(1.1);
-    }
-
-    .nav-cta {
-      background: var(--gradient);
-      color: white;
-      padding: 10px 25px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s;
-    }
-
-    .nav-cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-    }
-
-    /* Hero Section */
-    .hero {
-      padding: 80px 0 60px;
-      background: linear-gradient(135deg, #0a0e1a 0%, #1a1f3a 100%);
-      position: relative;
-      overflow: hidden;
-    }
-
-    [data-theme="light"] .hero {
-      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
-      z-index: 0;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .service-badge {
-      display: inline-block;
-      background: rgba(99, 102, 241, 0.1);
-      color: var(--primary);
-      padding: 8px 20px;
-      border-radius: 30px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 20px;
-      border: 1px solid rgba(99, 102, 241, 0.3);
-    }
-
-    .hero h1 {
-      font-size: 3rem;
-      font-weight: 700;
-      margin-bottom: 20px;
-      line-height: 1.2;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero-subtitle {
-      font-size: 1.25rem;
-      color: var(--text-muted);
-      margin-bottom: 30px;
-      line-height: 1.6;
-    }
-
-    .hero-description {
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      line-height: 1.7;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    /* At a Glance Section */
-    .glance-section {
-      padding: 60px 0;
-    }
-
-    .glance-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 30px;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .glance-item {
-      text-align: center;
-      padding: 30px 20px;
-      background: var(--card-bg);
-      border-radius: 12px;
-      border: 1px solid rgba(99, 102, 241, 0.1);
-      transition: all 0.3s ease;
-    }
-
-    [data-theme="light"] .glance-item {
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    }
-
-    .glance-item:hover {
-      transform: translateY(-5px);
-      border-color: var(--primary);
-      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
-    }
-
-    .glance-icon {
-      font-size: 2rem;
-      color: var(--primary);
-      margin-bottom: 10px;
-    }
-
-    .glance-label {
-      color: var(--text);
-      font-size: 1rem;
-      font-weight: 600;
-    }
-
-    /* Process Section */
-    .process-section {
-      padding: 80px 0;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(139, 92, 246, 0.03));
-    }
-
-    [data-theme="light"] .process-section {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.02), rgba(139, 92, 246, 0.02));
-    }
-
-    .section-header {
-      text-align: center;
-      max-width: 700px;
-      margin: 0 auto 50px;
-    }
-
-    .section-title {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 15px;
-    }
-
-    .section-description {
-      font-size: 1.1rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    .process-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
-      margin-top: 50px;
-    }
-
-    .process-card {
-      background: var(--card-bg);
-      padding: 35px;
-      border-radius: 12px;
-      border: 1px solid rgba(99, 102, 241, 0.1);
-      transition: all 0.3s ease;
-      display: flex;
-      gap: 20px;
-    }
-
-    [data-theme="light"] .process-card {
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    }
-
-    .process-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--primary);
-      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
-    }
-
-    .process-number {
-      width: 45px;
-      height: 45px;
-      background: var(--gradient);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 1.2rem;
-      color: white;
-      flex-shrink: 0;
-    }
-
-    .process-content h3 {
-      font-size: 1.3rem;
-      margin-bottom: 10px;
-      color: var(--text);
-    }
-
-    .process-content p {
-      color: var(--text-muted);
-      line-height: 1.6;
-      font-size: 0.95rem;
-    }
-
-    /* Deliverables Section */
-    .deliverables-section {
-      padding: 80px 0;
-    }
-
-    .deliverables-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 25px;
-    }
-
-    .deliverable-card {
-      background: var(--card-bg);
-      padding: 30px;
-      border-radius: 12px;
-      border-left: 4px solid var(--primary);
-      transition: all 0.3s ease;
-    }
-
-    [data-theme="light"] .deliverable-card {
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    }
-
-    .deliverable-card:hover {
-      transform: translateX(8px);
-      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
-    }
-
-    .deliverable-card h3 {
-      font-size: 1.2rem;
-      color: var(--text);
-      margin-bottom: 10px;
-    }
-
-    .deliverable-card p {
-      color: var(--text-muted);
-      line-height: 1.6;
-      font-size: 0.95rem;
-    }
-
-    /* Tools Section */
-    .tools-section {
-      padding: 80px 0;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(139, 92, 246, 0.03));
-    }
-
-    [data-theme="light"] .tools-section {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.02), rgba(139, 92, 246, 0.02));
-    }
-
-    .tools-list {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      max-width: 700px;
-      margin: 40px auto 0;
-    }
-
-    .tool-badge {
-      background: rgba(99, 102, 241, 0.1);
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      padding: 12px 25px;
-      border-radius: 25px;
-      font-weight: 600;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--primary);
-      transition: all 0.3s ease;
-      font-size: 0.95rem;
-    }
-
-    .tool-badge:hover {
-      background: var(--gradient);
-      color: white;
-      transform: translateY(-3px);
-    }
-
-    /* For Section */
-    .for-section {
-      padding: 80px 0;
-    }
-
-    .for-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 25px;
-    }
-
-    .for-card {
-      background: var(--card-bg);
-      padding: 35px;
-      border-radius: 12px;
-      border: 1px solid rgba(99, 102, 241, 0.1);
-      transition: all 0.3s ease;
-      text-align: center;
-    }
-
-    [data-theme="light"] .for-card {
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    }
-
-    .for-card:hover {
-      border-color: var(--primary);
-      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
-      transform: translateY(-5px);
-    }
-
-    .for-icon {
-      width: 70px;
-      height: 70px;
-      background: var(--gradient);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      color: white;
-      margin: 0 auto 20px;
-    }
-
-    .for-card h3 {
-      font-size: 1.2rem;
-      color: var(--text);
-      margin-bottom: 12px;
-    }
-
-    .for-card p {
-      color: var(--text-muted);
-      line-height: 1.6;
-      font-size: 0.9rem;
-    }
-
-    /* Pricing Section */
-    .pricing-section {
-      padding: 80px 0;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(139, 92, 246, 0.03));
-    }
-
-    [data-theme="light"] .pricing-section {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.02), rgba(139, 92, 246, 0.02));
-    }
-
-    .pricing-card {
-      max-width: 650px;
-      margin: 50px auto 0;
-      background: var(--card-bg);
-      padding: 45px;
-      border-radius: 16px;
-      border: 2px solid var(--primary);
-      position: relative;
-      overflow: hidden;
-    }
-
-    [data-theme="light"] .pricing-card {
-      box-shadow: 0 10px 40px rgba(99, 102, 241, 0.1);
-    }
-
-    .pricing-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: var(--gradient);
-    }
-
-    .pricing-amount {
-      font-size: 3rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 10px;
-    }
-
-    .pricing-amount span {
-      font-size: 1.3rem;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    .pricing-note {
-      color: var(--text-muted);
-      margin-bottom: 30px;
-      font-size: 1rem;
-      line-height: 1.6;
-    }
-
-    .pricing-includes {
-      margin-top: 30px;
-      padding-top: 30px;
-      border-top: 1px solid rgba(99, 102, 241, 0.1);
-    }
-
-    .pricing-includes h4 {
-      font-size: 1.1rem;
-      margin-bottom: 20px;
-      color: var(--text);
-    }
-
-    .pricing-includes ul {
-      list-style: none;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-
-    .pricing-includes li {
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.95rem;
-    }
-
-    .pricing-includes li i {
-      color: var(--accent);
-      font-size: 0.9rem;
-    }
-
-    /* CTA Section */
-    .cta-section {
-      padding: 100px 0;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      background: var(--bg);
-    }
-
-    .cta-section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: 
-        radial-gradient(circle, rgba(99, 102, 241, 0.5) 2px, transparent 2px);
-      background-size: 40px 40px;
-      z-index: 0;
-    }
-
-    .cta-section::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 950px;
-      height: 600px;
-      background: radial-gradient(ellipse, rgba(139, 92, 246, 0.3) 0%, rgba(99, 102, 241, 0.2) 40%, transparent 70%);
-      border-radius: 20px;
-      transform: translate(-50%, -50%);
-      filter: blur(80px);
-      animation: glowPulse 8s ease-in-out infinite;
-      z-index: 1;
-    }
-
-    @keyframes dotPulse {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 1; }
-    }
-
-    @keyframes glowPulse {
-      0%, 100% {
-        opacity: 0.6;
-        transform: translate(-50%, -50%) scale(1);
-      }
-      50% {
-        opacity: 0.9;
-        transform: translate(-50%, -50%) scale(1.05);
-      }
-    }
-
-    .cta-box {
-      background: var(--gradient);
-      padding: 70px 50px;
-      border-radius: 20px;
-      max-width: 800px;
-      margin: 0 auto;
-      position: relative;
-      overflow: hidden;
-      z-index: 2;
-    }
-
-    .cta-box::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-      animation: rotate 20s linear infinite;
-    }
-
-    @keyframes rotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .cta-content {
-      position: relative;
-      z-index: 1;
-    }
-
-    .cta-box h2 {
-      font-size: 2.5rem;
-      color: white;
-      margin-bottom: 20px;
-      font-weight: 700;
-    }
-
-    .cta-box p {
-      font-size: 1.2rem;
-      color: rgba(255, 255, 255, 0.9);
-      margin-bottom: 35px;
-      line-height: 1.6;
-    }
-
-    .cta-buttons {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .btn-primary {
-      background: white;
-      color: var(--primary);
-      padding: 16px 40px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 1.05rem;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-
-    .btn-secondary {
-      background: transparent;
-      color: white;
-      padding: 16px 40px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 1.05rem;
-      border: 2px solid white;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .btn-secondary:hover {
-      background: white;
-      color: var(--primary);
-      transform: translateY(-3px);
-    }
-
-    /* Footer */
-    .service-footer {
-      padding: 40px 0;
-      text-align: center;
-      border-top: 1px solid rgba(99, 102, 241, 0.1);
-    }
-
-    .service-footer p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-
-    /* Responsive */
     @media (max-width: 968px) {
-      .hero h1 {
-        font-size: 2.3rem;
-      }
-
-      .process-grid,
-      .deliverables-grid,
-      .for-grid,
-      .glance-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .pricing-includes ul {
-        grid-template-columns: 1fr;
-      }
-
-      .cta-buttons {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .cta-box {
-        padding: 50px 30px;
-      }
-
-      .cta-box h2 {
-        font-size: 2rem;
-      }
+      .hero h1 { font-size: 2.3rem; }
+      .process-grid, .deliverables-grid, .for-grid, .glance-grid { grid-template-columns: 1fr; }
+      .pricing-includes ul { grid-template-columns: 1fr; }
+      .cta-buttons { flex-direction: column; align-items: center; }
+      .cta-box { padding: 50px 30px; }
+      .cta-box h2 { font-size: 2rem; }
     }
-
     @media (max-width: 640px) {
-      .container {
-        padding: 0 20px;
-      }
-
-      .hero h1 {
-        font-size: 2rem;
-      }
-
-      .section-title {
-        font-size: 2rem;
-      }
-
-      .pricing-amount {
-        font-size: 2.5rem;
-      }
-
-      .nav-right {
-        gap: 10px;
-      }
-
-      .nav-cta {
-        padding: 8px 15px;
-        font-size: 0.9rem;
-      }
+      .container { padding: 0 20px; }
+      .hero h1 { font-size: 2rem; }
+      .section-title { font-size: 2rem; }
+      .pricing-amount { font-size: 2.5rem; }
+      .nav-right { gap: 10px; }
+      .nav-cta { padding: 8px 15px; font-size: 0.9rem; }
     }
-
-    /* ===== 3. FOOTER SPAN STYLING (Restored) ===== */
-.footer-name {
-    color: var(--primary); /* Uses your #6366f1 indigo */
-    font-weight: 600;
-}
   </style>
 </head>
 <body>
@@ -791,8 +195,13 @@
       <div class="hero-content">
         <span class="service-badge">Dashboard Service</span>
         <h1>Interactive Dashboards</h1>
-        <p class="hero-subtitle">Track your key metrics with clear, interactive dashboards</p>
-        <p class="hero-description">I design simple, easy-to-use dashboards that help teams monitor performance, explore trends, and make faster, data-informed decisions.</p>
+        <!-- CHANGED: more concrete, outcome-focused subtitle -->
+        <p class="hero-subtitle">Stop updating spreadsheets manually — see your data move in real time</p>
+        <!-- CHANGED: grounded, specific description -->
+        <p class="hero-description">I build clear, interactive dashboards in Power BI, Tableau, or Google Sheets that give you an instant view of what matters most in your business. No bloated reports, no technical overhead — just the metrics you actually need.</p>
+
+        <!-- NEW: honest entry-level note, consistent with service1 -->
+        
       </div>
     </div>
   </section>
@@ -807,11 +216,12 @@
         </div>
         <div class="glance-item">
           <div class="glance-icon">📊</div>
-          <p class="glance-label">Interactive Visualizations</p>
+          <p class="glance-label">Interactive Visualisations</p>
         </div>
         <div class="glance-item">
           <div class="glance-icon">🔧</div>
-          <p class="glance-label">Power BI / Tableau / Sheets</p>
+          <!-- CHANGED: added Streamlit as an option -->
+          <p class="glance-label">Tableau / Power BI / Streamlit</p>
         </div>
       </div>
     </div>
@@ -829,24 +239,27 @@
         <div class="process-card">
           <div class="process-number">1</div>
           <div class="process-content">
-            <h3>Requirements & Metrics</h3>
-            <p>We define your key metrics, goals, and how you'll use the dashboard.</p>
+            <!-- CHANGED: added free + 30 min, consistent with service1 -->
+            <h3>Discovery Call (free, 30 min)</h3>
+            <p>We talk through the metrics that matter to you, where your data lives, and what the dashboard needs to help you decide. No commitment required.</p>
           </div>
         </div>
 
         <div class="process-card">
           <div class="process-number">2</div>
           <div class="process-content">
-            <h3>Data Preparation</h3>
-            <p>I connect and structure your data so it's clean and ready for reporting.</p>
+            <h3>Data Connection & Preparation</h3>
+            <!-- CHANGED: more honest about what this involves -->
+            <p>I connect to your data source (CSV, Excel, Google Sheets, or database), clean it, and structure it so the dashboard stays accurate and up to date.</p>
           </div>
         </div>
 
         <div class="process-card">
           <div class="process-number">3</div>
           <div class="process-content">
-            <h3>Dashboard Build</h3>
-            <p>I create a clear, interactive dashboard with filters and visuals tailored to your needs.</p>
+            <h3>Dashboard Design & Build</h3>
+            <!-- CHANGED: added draft review step -->
+            <p>I build the dashboard and share a draft for your feedback before finalising. You can request changes to layout, metrics, or filters at this stage.</p>
           </div>
         </div>
 
@@ -854,7 +267,8 @@
           <div class="process-number">4</div>
           <div class="process-content">
             <h3>Delivery & Walkthrough</h3>
-            <p>You receive the dashboard plus a short walkthrough video explaining how to use it.</p>
+            <!-- CHANGED: more specific about what walkthrough covers -->
+            <p>You receive the finished dashboard plus a short walkthrough call (or video) covering how to use filters, read the charts, and update the data yourself going forward.</p>
           </div>
         </div>
       </div>
@@ -866,27 +280,31 @@
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">What You Receive</h2>
+        <p class="section-description">Everything you need to go from raw data to a dashboard your team actually uses</p>
       </div>
 
       <div class="deliverables-grid">
         <div class="deliverable-card">
           <h3>Interactive Dashboard</h3>
-          <p>A fully functional dashboard built in Power BI, Tableau, or Google Sheets.</p>
+          <!-- CHANGED: more specific about formats -->
+          <p>A fully functional dashboard in Tableau, Power BI, or Google Sheets — shareable via link or embedded in your existing tools.</p>
         </div>
 
         <div class="deliverable-card">
-          <h3>Key Metrics & Filters</h3>
-          <p>Custom KPIs, date filters, and category selectors for flexible analysis.</p>
+          <h3>Custom KPIs & Filters</h3>
+          <p>Date range selectors, category filters, and the specific metrics you need — nothing generic, nothing you won't use.</p>
         </div>
 
         <div class="deliverable-card">
-          <h3>Clear Visual Design</h3>
-          <p>Clean charts and layouts that make trends and performance easy to understand.</p>
+          <h3>Clean Data Model</h3>
+          <!-- CHANGED: added value of this for client -->
+          <p>Structured underlying data that makes future updates straightforward — so you're not locked in or dependent on me for every change.</p>
         </div>
 
         <div class="deliverable-card">
-          <h3>Usage Guide</h3>
-          <p>Short video or written guide so you can confidently use and update the dashboard.</p>
+          <h3>Usage Guide & Walkthrough</h3>
+          <!-- CHANGED: more specific -->
+          <p>A short walkthrough call or recorded video explaining every section of the dashboard, so your whole team can use it from day one.</p>
         </div>
       </div>
     </div>
@@ -896,15 +314,16 @@
   <section class="tools-section">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">Tools</h2>
+        <h2 class="section-title">Tools I Use</h2>
+        <p class="section-description">I'll recommend the best tool for your data, team size, and budget</p>
       </div>
-
       <div class="tools-list">
-        <div class="tool-badge">Power BI</div>
         <div class="tool-badge">Tableau</div>
+        <div class="tool-badge">Power BI</div>
         <div class="tool-badge">SQL</div>
         <div class="tool-badge">Excel</div>
         <div class="tool-badge">Google Sheets</div>
+        <div class="tool-badge">Streamlit</div>
       </div>
     </div>
   </section>
@@ -914,6 +333,8 @@
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">Who This Is For</h2>
+        <!-- CHANGED: added honest scope qualifier -->
+        <p class="section-description">Best suited for focused, single-domain dashboards rather than large enterprise BI projects</p>
       </div>
 
       <div class="for-grid">
@@ -922,7 +343,8 @@
             <i class="fa-solid fa-store"></i>
           </div>
           <h3>Small Businesses & Startups</h3>
-          <p>Track sales, customers, or performance without manual reporting.</p>
+          <!-- CHANGED: more specific pain point -->
+          <p>You're tracking sales, customers, or operations in a spreadsheet and spending hours on manual updates every week. A dashboard fixes that.</p>
         </div>
 
         <div class="for-card">
@@ -930,7 +352,7 @@
             <i class="fa-solid fa-cart-shopping"></i>
           </div>
           <h3>E-commerce & Online Projects</h3>
-          <p>Monitor revenue, orders, and customer behavior in one place.</p>
+          <p>Monitor revenue, orders, conversion, and customer behaviour in one place — without jumping between platforms.</p>
         </div>
 
         <div class="for-card">
@@ -938,7 +360,8 @@
             <i class="fa-solid fa-chart-line"></i>
           </div>
           <h3>Teams That Need Reporting Clarity</h3>
-          <p>Replace spreadsheets with dashboards that update automatically.</p>
+          <!-- CHANGED: more specific and honest -->
+          <p>Your team needs to present performance data regularly but has no dedicated analyst. A well-built dashboard makes reporting automatic.</p>
         </div>
       </div>
     </div>
@@ -949,23 +372,30 @@
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">Pricing</h2>
+        <p class="section-description">Straightforward pricing — agreed upfront, no surprises</p>
       </div>
 
       <div class="pricing-card">
+        <!-- CHANGED: €200 → €300, range updated to €300–600 -->
         <div class="pricing-amount">
-          €200<span> starting from</span>
+          €300<span> starting from</span>
         </div>
-        <p class="pricing-note">Final price depends on data sources and dashboard complexity. Most projects range between €200–€600.</p>
-        
+        <!-- CHANGED: honest, specific pricing note -->
+        <p class="pricing-note">
+          Final price depends on the number of data sources, complexity of the metrics, and the tool used. Most projects fall between <strong>€300–€600</strong>. We agree on a fixed price before I start — so you know exactly what you're paying.
+        </p>
+
         <div class="pricing-includes">
-          <h4>Includes:</h4>
+          <h4>Every project includes:</h4>
           <ul>
-            <li><i class="fa-solid fa-check"></i> Requirements discussion</li>
-            <li><i class="fa-solid fa-check"></i> Dashboard design & build</li>
-            <li><i class="fa-solid fa-check"></i> Up to 5–10 key visualizations</li>
-            <li><i class="fa-solid fa-check"></i> Interactive filters</li>
-            <li><i class="fa-solid fa-check"></i> Walkthrough video</li>
-            <li><i class="fa-solid fa-check"></i> One–two rounds of revisions</li>
+            <li><i class="fa-solid fa-check"></i> Free 30-min discovery call</li>
+            <li><i class="fa-solid fa-check"></i> Data connection & cleaning</li>
+            <li><i class="fa-solid fa-check"></i> Up to 8 key visualisations</li>
+            <li><i class="fa-solid fa-check"></i> Custom filters & KPIs</li>
+            <li><i class="fa-solid fa-check"></i> Draft review before final delivery</li>
+            <li><i class="fa-solid fa-check"></i> Two rounds of revisions</li>
+            <li><i class="fa-solid fa-check"></i> Walkthrough call or video</li>
+            <li><i class="fa-solid fa-check"></i> 7 days of follow-up support</li>
           </ul>
         </div>
       </div>
@@ -978,7 +408,8 @@
       <div class="cta-box">
         <div class="cta-content">
           <h2>Ready to Build Your Dashboard?</h2>
-          <p>If you want a clear view of your data without manual reporting, feel free to message me on LinkedIn or contact me directly. I'm happy to review your data and suggest the best approach.</p>
+          <!-- CHANGED: low-pressure, honest CTA matching service1 tone -->
+          <p>Tell me what you're tracking and what decisions it needs to support. I'll reply within 24 hours with honest feedback on what's possible — no sales pitch.</p>
           <div class="cta-buttons">
             <a href="mailto:kovacikostanca@gmail.com?subject=Dashboard%20Service%20Inquiry" class="btn-primary">
               <i class="fa-solid fa-envelope"></i> Email Me
@@ -999,24 +430,19 @@
     </div>
   </footer>
 
-  <!-- Theme Toggle Script -->
   <script>
     const themeToggle = document.getElementById('themeToggle');
     const themeIcon = document.querySelector('.theme-icon');
-    
     const currentTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', currentTheme);
     updateThemeIcon(currentTheme);
-    
     themeToggle.addEventListener('click', () => {
       const theme = document.documentElement.getAttribute('data-theme');
       const newTheme = theme === 'dark' ? 'light' : 'dark';
-      
       document.documentElement.setAttribute('data-theme', newTheme);
       localStorage.setItem('theme', newTheme);
       updateThemeIcon(newTheme);
     });
-    
     function updateThemeIcon(theme) {
       themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
     }
