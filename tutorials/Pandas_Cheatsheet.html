@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pandas Cheat Sheet | Kostanca Kovaci</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: #0f172a;
+    color: #fff;
+    line-height: 1.6;
+  }
+
+  a { text-decoration: none; color: inherit; }
+
+  /* ── NAVBAR ── */
+  #navbar {
+    background: rgba(21,36,69,0.95);
+    position: sticky; top: 0; z-index: 100;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid rgba(99,102,241,0.2);
+  }
+  #navbar .nav-container {
+    max-width: 1200px; margin: 0 auto;
+    padding: 15px 30px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  #navbar .logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.8rem; font-weight: 700;
+    background: linear-gradient(135deg,#6366f1,#8b5cf6);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  #navbar .nav-links { display: flex; gap: 30px; }
+  #navbar .nav-links a {
+    color: #c9ced4; font-weight: 500;
+    position: relative; transition: color 0.3s;
+  }
+  #navbar .nav-links a::after {
+    content: ''; position: absolute; bottom: -5px; left: 0;
+    width: 0; height: 2px;
+    background: linear-gradient(90deg,#ebe6e4,#4e35f5);
+    transition: width 0.3s;
+  }
+  #navbar .nav-links a:hover { color: #fff; }
+  #navbar .nav-links a:hover::after { width: 100%; }
+
+  /* ── PAGE ── */
+  .page-wrapper {
+    max-width: 1100px;
+    margin: 48px auto 80px;
+    padding: 0 24px;
+  }
+
+  /* ── HERO ── */
+  .hero { margin-bottom: 28px; }
+  .hero-meta {
+    font-size: 11px; color: #6366f1;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    font-weight: 600; margin-bottom: 10px;
+  }
+  .hero-title { font-size: 2.6rem; font-weight: 700; line-height: 1.1; margin-bottom: 10px; }
+  .hero-title span {
+    background: linear-gradient(135deg,#6366f1,#8b5cf6);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero-sub { font-size: 1rem; color: #94a3b8; margin-bottom: 24px; }
+
+  /* ── BUTTONS ── */
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 32px; }
+  .bottom-btn-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 32px; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 22px; border-radius: 8px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem; font-weight: 600;
+    cursor: pointer; border: none;
+    transition: opacity 0.2s, transform 0.2s;
+    text-decoration: none;
+  }
+  .btn:hover { opacity: 0.85; transform: translateY(-2px); }
+  .btn-primary { background: linear-gradient(135deg,#6366f1,#8b5cf6); color: #fff; }
+  .btn-secondary {
+    background: rgba(99,102,241,0.12); color: #a5b4fc;
+    border: 1px solid rgba(99,102,241,0.35);
+  }
+  .btn svg { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
+
+  /* ── SHEET ── */
+  .sheet {
+    background: #0a111f;
+    border-radius: 12px;
+    padding: 28px 28px 24px;
+    border: 1px solid rgba(29,94,195,0.25);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+  }
+
+  .sheet-header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    padding-bottom: 14px; margin-bottom: 18px;
+    border-bottom: 1px solid #1d5ec3;
+  }
+  .sheet-meta { font-size: 9px; color: #799ac3; letter-spacing: 0.04em; margin-bottom: 4px; }
+  .sheet-title { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: #fff; }
+  .sheet-sub { font-size: 11px; color: #a0c3ef; margin-top: 4px; }
+  .sheet-right { font-size: 9px; color: #799ac3; text-align: right; line-height: 1.9; padding-top: 2px; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+
+  .card { background: #0f1f3d; border-radius: 8px; overflow: hidden; border: 1px solid rgba(29,94,195,0.3); }
+  .card-header {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 12px;
+    background: rgba(29,94,195,0.18);
+    border-bottom: 1px solid rgba(29,94,195,0.3);
+  }
+  .card-num {
+    width: 20px; height: 20px; background: #1d5ec3; color: #fff;
+    border-radius: 4px; font-size: 9px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace; flex-shrink: 0;
+  }
+  .card-title { font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #a0c3ef; }
+  .card-body { padding: 11px 12px; display: flex; flex-direction: column; gap: 10px; }
+
+  .sub-label { font-size: 9px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #799ac3; margin-bottom: 5px; }
+
+  .code {
+    background: rgba(10,17,31,0.75);
+    border: 1px solid rgba(29,94,195,0.2);
+    border-radius: 5px; padding: 8px 11px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; line-height: 1.9;
+  }
+  .cl {
+    display: flex; align-items: baseline;
+    justify-content: space-between; gap: 10px;
+    white-space: nowrap; overflow: hidden;
+  }
+  .cl .cd { flex-shrink: 1; overflow: hidden; text-overflow: ellipsis; color: #fff; }
+  .cl .cm { flex-shrink: 0; color: #799ac3; font-style: italic; white-space: nowrap; }
+  .cl.cm-only { color: #799ac3; font-style: italic; }
+
+  .kw { color: #4990d8; }
+  .fn { color: #a0c3ef; }
+  .st { color: #e8edf7; }
+  .nm { color: #4990d8; }
+
+  .tips-card { background: #0f1f3d; border-radius: 8px; overflow: hidden; margin-bottom: 12px; border: 1px solid rgba(29,94,195,0.3); }
+  .tips-header { padding: 8px 12px; background: #1d5ec3; }
+  .tips-title { font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #fff; }
+  .tips-body { display: grid; grid-template-columns: repeat(3,1fr); }
+  .tip { padding: 10px 12px; border-right: 1px solid rgba(29,94,195,0.25); border-bottom: 1px solid rgba(29,94,195,0.25); }
+  .tip:nth-child(3n)  { border-right: none; }
+  .tip:nth-child(n+4) { border-bottom: none; }
+  .tip-code { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: #4990d8; font-weight: 500; margin-bottom: 4px; word-break: break-all; }
+  .tip-desc { font-size: 10px; color: #a0c3ef; line-height: 1.45; }
+
+  .sheet-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 12px; border-top: 1px solid rgba(29,94,195,0.3);
+    font-size: 9px; color: #799ac3;
+  }
+
+  @media print {
+    body { background: #0a111f; }
+    #navbar, .hero, .btn-row, .bottom-btn-row { display: none !important; }
+    .page-wrapper { margin: 0; padding: 0; max-width: 100%; }
+    .sheet { border-radius: 0; box-shadow: none; border: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-container">
+    <div class="logo">PORTFOLIO</div>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#tutorial">Tutorial</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-meta">Free Resource · Data Science</div>
+    <h1 class="hero-title">Pandas <span>Cheat Sheet</span></h1>
+    <p class="hero-sub">The essential commands for every data science project — save it, share it, use it.</p>
+  </div>
+
+  <!-- TOP BUTTONS -->
+  <div class="btn-row">
+    <a class="btn btn-primary" href="pandas_cheatsheet.html" download="pandas_cheatsheet.html">
+      <svg viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5v-2z"/></svg>
+      Download HTML
+    </a>
+    <button class="btn btn-secondary" onclick="window.print()">
+      <svg viewBox="0 0 24 24"><path d="Pandas Cheat Sheet.pdf"/></svg>
+      Print / Save as PDF
+    </button>
+    <a class="btn btn-secondary" href="../index.html#tutorial">
+      <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+      Back to Home
+    </a>
+  </div>
+
+  <!-- CHEATSHEET -->
+  <div class="sheet">
+
+    <div class="sheet-header">
+      <div>
+        <div class="sheet-meta">GROWINDATA · Pandas Cheat Sheet · Kostanca Kovaci</div>
+        <div class="sheet-title">Pandas Cheat Sheet</div>
+        <div class="sheet-sub">The essential commands for every data science project</div>
+      </div>
+      <div class="sheet-right">
+        Free resource by GrowInData · kovacikostanca.github.io<br>
+        Save · Share · Use in every project
+      </div>
+    </div>
+
+    <!-- ROW 1 -->
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header"><div class="card-num">01</div><span class="card-title">Loading &amp; Exploring Data</span></div>
+        <div class="card-body">
+          <div>
+            <div class="sub-label">Import &amp; Load</div>
+            <div class="code" style="font-size:8.8px;">
+              <div class="cl"><span class="cd"><span class="kw">import</span> pandas <span class="kw">as</span> pd</span></div>
+              <div class="cl"><span class="cd">df = pd.<span class="fn">read_csv</span>(<span class="st">"file.csv"</span>)</span><span class="cm"># load CSV</span></div>
+              <div class="cl"><span class="cd">df = pd.<span class="fn">read_excel</span>(<span class="st">"file.xlsx"</span>)</span><span class="cm"># load Excel</span></div>
+              <div class="cl"><span class="cd">df = pd.<span class="fn">read_json</span>(<span class="st">"file.json"</span>)</span><span class="cm"># load JSON</span></div>
+              <div class="cl"><span class="cd">df = pd.<span class="fn">read_csv</span>(<span class="st">"file.csv"</span>, usecols=[<span class="st">"col1"</span>,<span class="st">"col2"</span>])</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="sub-label">First look — run these before anything else</div>
+            <div class="code">
+              <div class="cl"><span class="cd">df.<span class="fn">head</span>()</span><span class="cm"># first 5 rows</span></div>
+              <div class="cl"><span class="cd">df.<span class="fn">tail</span>()</span><span class="cm"># last 5 rows</span></div>
+              <div class="cl"><span class="cd">df.shape</span><span class="cm"># (rows, cols)</span></div>
+              <div class="cl"><span class="cd">df.columns</span><span class="cm"># column names</span></div>
+              <div class="cl"><span class="cd"><span class="fn">len</span>(df)</span><span class="cm"># row count</span></div>
+              <div class="cl"><span class="cd">df.<span class="fn">info</span>()</span><span class="cm"># types + nulls</span></div>
+              <div class="cl"><span class="cd">df.<span class="fn">describe</span>()</span><span class="cm"># stats summary</span></div>
+              <div class="cl"><span class="cd">df.dtypes</span><span class="cm"># column types</span></div>
+              <div class="cl"><span class="cd">df.<span class="fn">nunique</span>()</span><span class="cm"># unique per col</span></div>
+              <div class="cl"><span class="cd">df.<span class="fn">sample</span>(<span class="nm">5</span>)</span><span class="cm"># random 5 rows</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-num">02</div><span class="card-title">Cleaning — Nulls, Duplicates &amp; Types</span></div>
+        <div class="card-body">
+          <div>
+            <div class="sub-label">Null values</div>
+            <div class="code">
+              <div class="cl"><span class="cd">df.<span class="fn">isnull</span>().<span class="fn">sum</span>()</span><span class="cm"># count</span></div>
+              <div class="cl"><span class="cd">df.<span class="fn">dropna</span>()</span><span class="cm"># remove</span></div>
+              <div class="cl"><span class="cd">df.<span class="fn">dropna</span>(subset=[<span class="st">"col"</span>])</span><span class="cm"># one col</span></div>
+              <div class="cl"><span class="cd">df.<span class="fn">fillna</span>(<span class="nm">0</span>)</span><span class="cm"># fill 0</span></div>
+              <div class="cl"><span class="cd">df[<span class="st">"col"</span>].<span class="fn">fillna</span>(df[<span class="st">"col"</span>].<span class="fn">mean</span>())</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="sub-label">Types &amp; duplicates</div>
+            <div class="code">
+              <div class="cl"><span class="cd">df.<span class="fn">duplicated</span>().<span class="fn">sum</span>()</span><span class="cm"># count</span></div>
+              <div class="cl"><span class="cd">df.<span class="fn">drop_duplicates</span>()</span><span class="cm"># remove</span></div>
+              <div class="cl"><span class="cd">df[<span class="st">"col"</span>].<span class="fn">astype</span>(int)</span><span class="cm"># to int</span></div>
+              <div class="cl"><span class="cd">df[<span class="st">"col"</span>].<span class="fn">astype</span>(str)</span><span class="cm"># to str</span></div>
+              <div class="cl"><span class="cd">pd.<span class="fn">to_datetime</span>(df[<span class="st">"date"</span>])</span><span class="cm"># to date</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 2 -->
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header"><div class="card-num">03</div><span class="card-title">Filtering &amp; Selecting</span></div>
+        <div class="card-body">
+          <div>
+            <div class="sub-label">Select columns</div>
+            <div class="code">
+              <div class="cl"><span class="cd">df[<span class="st">"col"</span>]</span><span class="cm"># 1 col</span></div>
+              <div class="cl"><span class="cd">df[[<span class="st">"col1"</span>,<span class="st">"col2"</span>]]</span><span class="cm"># multi</span></div>
+              <div class="cl"><span class="cd">df.<span class="fn">iloc</span>[<span class="nm">0</span>:<span class="nm">5</span>]</span><span class="cm"># by index</span></div>
+              <div class="cl"><span class="cd">df.<span class="fn">loc</span>[<span class="nm">0</span>, <span class="st">"col"</span>]</span><span class="cm"># row+col</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="sub-label">Filter rows</div>
+            <div class="code">
+              <div class="cl"><span class="cd">df[df[<span class="st">"age"</span>] &gt; <span class="nm">30</span>]</span></div>
+              <div class="cl"><span class="cd">df[df[<span class="st">"city"</span>]==<span class="st">"Paris"</span>]</span></div>
+              <div class="cl"><span class="cd">df[df[<span class="st">"col"</span>].<span class="fn">isin</span>(list)]</span></div>
+              <div class="cl"><span class="cd">df.<span class="fn">query</span>(<span class="st">"age > 30"</span>)</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="sub-label">Multiple conditions</div>
+            <div class="code">
+              <div class="cl"><span class="cd">df[(df[<span class="st">"age"</span>] &gt; <span class="nm">30</span>) &amp; (df[<span class="st">"city"</span>] == <span class="st">"Paris"</span>)]</span><span class="cm"># AND</span></div>
+              <div class="cl"><span class="cd">df[(df[<span class="st">"age"</span>] &lt; <span class="nm">20</span>) | (df[<span class="st">"age"</span>] &gt; <span class="nm">60</span>)]</span><span class="cm"># OR</span></div>
+              <div class="cl"><span class="cd">df[~df[<span class="st">"col"</span>].<span class="fn">isnull</span>()]</span><span class="cm"># NOT null</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-num">04</div><span class="card-title">Grouping &amp; Aggregating</span></div>
+        <div class="card-body">
+          <div>
+            <div class="sub-label">Basic aggregations</div>
+            <div class="code" style="font-size:8.8px;">
+              <div class="cl"><span class="cd">df.<span class="fn">groupby</span>(<span class="st">"category"</span>)[<span class="st">"sales"</span>].<span class="fn">mean</span>()</span><span class="cm"># mean per group</span></div>
+              <div class="cl"><span class="cd">df.<span class="fn">groupby</span>(<span class="st">"category"</span>)[<span class="st">"sales"</span>].<span class="fn">sum</span>()</span><span class="cm"># sum per group</span></div>
+              <div class="cl"><span class="cd">df.<span class="fn">groupby</span>(<span class="st">"category"</span>)[<span class="st">"sales"</span>].<span class="fn">count</span>()</span><span class="cm"># count per group</span></div>
+              <div class="cl"><span class="cd">df.<span class="fn">groupby</span>(<span class="st">"category"</span>)[<span class="st">"sales"</span>].<span class="fn">agg</span>([<span class="st">"mean"</span>,<span class="st">"sum"</span>,<span class="st">"count"</span>])</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="sub-label">Multiple aggregations</div>
+            <div class="code">
+              <div class="cl"><span class="cd">df.<span class="fn">groupby</span>(<span class="st">"cat"</span>).<span class="fn">agg</span>(</span></div>
+              <div class="cl"><span class="cd">&nbsp;&nbsp;&nbsp;&nbsp;mean_s=(<span class="st">"sales"</span>,<span class="st">"mean"</span>),</span></div>
+              <div class="cl"><span class="cd">&nbsp;&nbsp;&nbsp;&nbsp;total=(<span class="st">"sales"</span>,<span class="st">"sum"</span>),</span></div>
+              <div class="cl"><span class="cd">&nbsp;&nbsp;&nbsp;&nbsp;n=(<span class="st">"sales"</span>,<span class="st">"count"</span>)</span></div>
+              <div class="cl"><span class="cd">)</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="sub-label">Group by multiple cols</div>
+            <div class="code">
+              <div class="cl"><span class="cd">df.<span class="fn">groupby</span>(</span></div>
+              <div class="cl"><span class="cd">&nbsp;&nbsp;&nbsp;&nbsp;[<span class="st">"region"</span>,<span class="st">"category"</span>]</span></div>
+              <div class="cl"><span class="cd">)[<span class="st">"sales"</span>].<span class="fn">sum</span>()</span></div>
+              <div class="cl cm-only"># Reset index after groupby</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 3 -->
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header"><div class="card-num">05</div><span class="card-title">Sorting &amp; Ranking</span></div>
+        <div class="card-body">
+          <div>
+            <div class="sub-label">Sort</div>
+            <div class="code">
+              <div class="cl"><span class="cd">df.<span class="fn">sort_values</span>(<span class="st">"col"</span>)</span><span class="cm"># asc</span></div>
+              <div class="cl"><span class="cd">df.<span class="fn">sort_values</span>(<span class="st">"col"</span>, ascending=<span class="kw">False</span>)</span><span class="cm"># desc</span></div>
+              <div class="cl"><span class="cd">df.<span class="fn">sort_values</span>([<span class="st">"c1"</span>,<span class="st">"c2"</span>])</span><span class="cm"># multi</span></div>
+              <div class="cl"><span class="cd">df.<span class="fn">sort_index</span>()</span><span class="cm"># by idx</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="sub-label">Top / bottom</div>
+            <div class="code">
+              <div class="cl"><span class="cd">df.<span class="fn">nlargest</span>(<span class="nm">5</span>,<span class="st">"sales"</span>)</span><span class="cm"># top 5</span></div>
+              <div class="cl"><span class="cd">df.<span class="fn">nsmallest</span>(<span class="nm">5</span>,<span class="st">"sales"</span>)</span><span class="cm"># bottom 5</span></div>
+              <div class="cl"><span class="cd">df[<span class="st">"col"</span>].<span class="fn">rank</span>()</span><span class="cm"># rank col</span></div>
+              <div class="cl"><span class="cd">df[<span class="st">"col"</span>].<span class="fn">value_counts</span>()</span><span class="cm"># freq tbl</span></div>
+              <div class="cl"><span class="cd">df[<span class="st">"col"</span>].<span class="fn">unique</span>()</span><span class="cm"># unique vals</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-num">06</div><span class="card-title">Merging &amp; Joining</span></div>
+        <div class="card-body">
+          <div class="code" style="font-size:8.2px;">
+            <div class="cl"><span class="cd">pd.<span class="fn">merge</span>(df1, df2, on=<span class="st">"id"</span>)</span><span class="cm"># inner join (default)</span></div>
+            <div class="cl"><span class="cd">pd.<span class="fn">merge</span>(df1, df2, on=<span class="st">"id"</span>, how=<span class="st">"left"</span>)</span><span class="cm"># left join</span></div>
+            <div class="cl"><span class="cd">pd.<span class="fn">merge</span>(df1, df2, on=<span class="st">"id"</span>, how=<span class="st">"right"</span>)</span><span class="cm"># right join</span></div>
+            <div class="cl"><span class="cd">pd.<span class="fn">merge</span>(df1, df2, on=<span class="st">"id"</span>, how=<span class="st">"outer"</span>)</span><span class="cm"># outer join</span></div>
+            <div class="cl"><span class="cd">pd.<span class="fn">merge</span>(df1, df2, left_on=<span class="st">"id"</span>, right_on=<span class="st">"uid"</span>)</span><span class="cm"># diff col names</span></div>
+            <div class="cl"><span class="cd">pd.<span class="fn">concat</span>([df1, df2], ignore_index=<span class="kw">True</span>)</span><span class="cm"># stack rows</span></div>
+            <div class="cl"><span class="cd">pd.<span class="fn">concat</span>([df1, df2], axis=<span class="nm">1</span>)</span><span class="cm"># stack columns</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICK TIPS -->
+    <div class="tips-card">
+      <div class="tips-header"><div class="tips-title">Quick Tips</div></div>
+      <div class="tips-body">
+        <div class="tip">
+          <div class="tip-code">df.info()</div>
+          <div class="tip-desc">Run df.info() first — always catch type and null issues before analysis</div>
+        </div>
+        <div class="tip">
+          <div class="tip-code">df.copy()</div>
+          <div class="tip-desc">Use df.copy() before cleaning — never overwrite raw data</div>
+        </div>
+        <div class="tip">
+          <div class="tip-code">df.reset_index(drop=True)</div>
+          <div class="tip-desc">After filtering to fix the index</div>
+        </div>
+        <div class="tip">
+          <div class="tip-code">df.rename(columns={"old":"new"})</div>
+          <div class="tip-desc">To rename columns cleanly</div>
+        </div>
+        <div class="tip">
+          <div class="tip-code">df["col"].str.lower().str.strip()</div>
+          <div class="tip-desc">To clean messy text columns</div>
+        </div>
+        <div class="tip">
+          <div class="tip-code">df.memory_usage(deep=True)</div>
+          <div class="tip-desc">To check dataframe size on large datasets</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sheet-footer">
+      <span>GROWINDATA · Pandas Cheat Sheet · Kostanca Kovaci</span>
+      <span>Free resource by GrowInData · kovacikostanca.github.io &nbsp;·&nbsp; Save · Share · Use in every project</span>
+    </div>
+
+  </div><!-- /sheet -->
+
+  <!-- BOTTOM BUTTONS -->
+  <div class="bottom-btn-row">
+    <a class="btn btn-primary" href="Pandas_Cheatsheet.html" download="pandas_cheatsheet.html">
+      <svg viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5v-2z"/></svg>
+      Download HTML
+    </a>
+    <button class="btn btn-secondary" onclick="window.print()">
+      <svg viewBox="0 0 24 24"><path d="Pandas Cheat Sheet.pdf"/></svg>
+      Print / Save as PDF
+    </button>
+    <a class="btn btn-secondary" href="../index.html#tutorial">
+      <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+      Back to Home
+    </a>
+  </div>
+
+</div>
+</body>
+</html>
