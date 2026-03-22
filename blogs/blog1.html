@@ -1,439 +1,994 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <title>From Code to Insight | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
-
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <title>From Code to Insight | GrowInData</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Caveat:wght@600&family=Poppins:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style_new.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
-    /* ===== Reset & Basics ===== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+ 
+    /* ===== Page ===== */
+    .blog-page {
+      padding: 160px 0 80px;
+      min-height: 100vh;
+      background: #050715;
+      font-family: 'Poppins', sans-serif;
     }
-    body {
-      font-family: 'Space Grotesk', sans-serif;
-      line-height: 1.6;
-      background: #f0f2f5;
-      color: #1f2937;
+ 
+    [data-theme="light"] .blog-page {
+      background: #f0f4ff;
     }
-
-    /* ===== Navbar (from style.css) ===== */
-    nav {
-      position: sticky;
-      top: 0;
-      background: rgba(21, 36, 69, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 2px solid rgba(99, 102, 241, 0.2);
-      z-index: 100;
+ 
+    /* ===== Top Category Tabs ===== */
+    .blog-tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 50px;
+    }
+ 
+    .blog-tabs-inner {
+      display: flex;
+      gap: 6px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(99,102,241,0.15);
+      border-radius: 50px;
+      padding: 6px;
+    }
+ 
+    [data-theme="light"] .blog-tabs-inner {
+      background: rgba(0,0,0,0.04);
+      border-color: rgba(99,102,241,0.2);
+    }
+ 
+    .blog-tab {
+      padding: 10px 28px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      color: var(--text-muted);
+      border: none;
+      background: transparent;
       transition: all 0.3s ease;
+      font-family: 'Space Grotesk', sans-serif;
+      text-decoration: none;
+      display: inline-block;
     }
-    nav.scrolled {
-      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.1);
+ 
+    .blog-tab:hover {
+      color: var(--text);
     }
-    .nav-container {
-      max-width: 1200px;
-      margin: 0 auto;
+ 
+    .blog-tab.active {
+      background: var(--gradient);
+      color: white;
+    }
+ 
+    /* ===== Main layout: sidebar + content ===== */
+    .blog-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 30px;
+      align-items: start;
+    }
+ 
+    /* ===== Left Sidebar ===== */
+    .blog-sidebar {
+      position: sticky;
+      top: 100px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(99,102,241,0.12);
+      border-radius: 16px;
+      padding: 28px 24px;
+      font-family: 'Poppins', sans-serif;
+    }
+ 
+    [data-theme="light"] .blog-sidebar {
+      background: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+ 
+    .sidebar-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--primary);
+      margin-bottom: 20px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+ 
+    .sidebar-section {
+      margin-bottom: 24px;
+    }
+ 
+    .sidebar-section-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(99,102,241,0.1);
+    }
+ 
+    .sidebar-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+ 
+    .sidebar-links li {
+      margin-bottom: 6px;
+    }
+ 
+    .sidebar-links li a {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 8px;
+      border-radius: 8px;
+    }
+ 
+    .sidebar-links li a:hover {
+      color: var(--primary);
+      background: rgba(99,102,241,0.08);
+    }
+ 
+    .sidebar-links li a.active {
+      color: var(--primary);
+      background: rgba(99,102,241,0.1);
+      font-weight: 600;
+    }
+ 
+    .sidebar-links li a::before {
+      content: '›';
+      color: var(--primary);
+      font-size: 1rem;
+    }
+ 
+    /* ===== Right Content Area ===== */
+    .blog-content {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(99,102,241,0.12);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+ 
+    [data-theme="light"] .blog-content {
+      background: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+ 
+    /* Welcome header area */
+    .content-header {
+      padding: 55px 55px 40px;
+      border-bottom: 1px solid rgba(99,102,241,0.1);
+      background: linear-gradient(135deg, rgba(99,102,241,0.06) 0%, transparent 60%);
+    }
+ 
+    .content-header-top {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+ 
+    .content-emoji {
+      font-size: 2.8rem;
+      line-height: 1;
+    }
+ 
+    .content-header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+ 
+    .content-header .content-desc {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 12px;
+      max-width: 650px;
+    }
+ 
+    .content-header .content-goal {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+ 
+    .content-header .content-tagline {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+ 
+    .content-divider {
+      width: 60px;
+      height: 3px;
+      background: var(--gradient);
+      border-radius: 2px;
+      margin-top: 24px;
+    }
+ 
+    /* Meta bar */
+    .content-meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 14px 55px;
+      border-bottom: 1px solid rgba(99,102,241,0.08);
+      background: rgba(99,102,241,0.03);
+      flex-wrap: wrap;
+    }
+ 
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+ 
+    .meta-item i {
+      color: var(--primary);
+    }
+ 
+    /* Body */
+    .content-body {
+      padding: 45px 55px;
+    }
+ 
+    .content-body h2 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      margin-top: 48px;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+ 
+    .content-body h2:first-child {
+      margin-top: 0;
+    }
+ 
+    .section-separator {
+      border: none;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), transparent);
+      margin: 6px 0 22px;
+      border-radius: 2px;
+    }
+ 
+    .content-body h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 32px;
+      margin-bottom: 12px;
+      color: #a5b4fc;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+ 
+    .content-body h3::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 18px;
+      background: var(--primary);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+ 
+    [data-theme="light"] .content-body h3 { color: var(--primary); }
+ 
+    .content-body p {
+      font-size: 1rem;
+      line-height: 1.9;
+      margin-bottom: 18px;
+      color: var(--text-muted);
+    }
+ 
+    .content-body p strong { color: var(--text); }
+ 
+    .content-body ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px 0;
+    }
+ 
+    .content-body ul li {
+      font-size: 1rem;
+      line-height: 1.85;
+      margin-bottom: 8px;
+      color: var(--text-muted);
+      padding-left: 22px;
+      position: relative;
+    }
+ 
+    .content-body ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-size: 0.85rem;
+    }
+ 
+    .content-body ul li strong { color: var(--text); }
+ 
+    .content-body ul ul {
+      margin: 8px 0 8px 16px;
+    }
+ 
+    .content-body ul ul li::before {
+      content: '·';
+      font-size: 1.2rem;
+      top: -2px;
+    }
+ 
+    /* Quote */
+    .blog-quote {
+      margin: 28px 0;
+      padding: 22px 28px;
+      border-left: 4px solid var(--primary);
+      background: rgba(99,102,241,0.07);
+      border-radius: 0 12px 12px 0;
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--text-muted);
+    }
+ 
+    [data-theme="light"] .blog-quote { background: rgba(99,102,241,0.05); }
+    .blog-quote strong { color: var(--text); }
+ 
+    /* Key box */
+    .blog-key {
+      margin: 28px 0;
+      padding: 22px 28px;
+      background: rgba(99,102,241,0.07);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 12px;
+    }
+ 
+    .key-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--primary);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+ 
+    .blog-key p { margin: 0; }
+ 
+    /* Connect block */
+    .blog-connect {
+      margin-top: 40px;
+      padding: 22px 26px;
+      background: rgba(99,102,241,0.07);
+      border-radius: 14px;
+      border: 1px solid rgba(99,102,241,0.15);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+ 
+    .blog-connect-icon {
+      width: 42px;
+      height: 42px;
+      background: rgba(99,102,241,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+ 
+    .blog-connect p { margin: 0; font-size: 0.95rem; }
+    .blog-connect a { color: var(--primary); font-weight: 600; }
+    .blog-connect a:hover { text-decoration: underline; }
+ 
+    /* Footer bar */
+    .content-footer-bar {
+      padding: 24px 55px;
+      border-top: 1px solid rgba(99,102,241,0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px 30px;
+      flex-wrap: wrap;
+      gap: 14px;
+      background: rgba(99,102,241,0.03);
     }
-    .logo {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.8rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #5356e4, #5356e4);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+ 
+    .content-footer-bar a {
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.3s;
     }
-    .nav-links {
+ 
+    .content-footer-bar a:hover { opacity: 0.8; }
+ 
+    /* ===== Bottom CTA Banner ===== */
+    .blog-cta-banner {
+      margin-top: 40px;
+      background: var(--gradient);
+      border-radius: 20px;
+      padding: 40px 50px;
       display: flex;
+      align-items: center;
+      justify-content: space-between;
       gap: 30px;
-    }
-    .nav-links a {
-      color: #c9ced4;
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s ease;
+      flex-wrap: wrap;
       position: relative;
+      overflow: hidden;
     }
-    .nav-links a::after {
+ 
+    .blog-cta-banner::before {
       content: '';
       position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: linear-gradient(90deg, #ebe6e4, #4e35f5);
-      transition: width 0.3s ease;
+      top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
     }
-    .nav-links a:hover {
-      color: #ffffff;
-    }
-    .nav-links a:hover::after {
-      width: 100%;
-    }
-
-    /* ===== Pre-background ===== */
-    .pre-background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0; /* behind everything */
-      background-color: #101d3d; /* dark blue matching main page */
-      opacity: 1; /* full color */
-    }
-
-    /* ===== Blog Container ===== */
-    .blog-container {
-      position: relative; /* above pre-background */
-      z-index: 1;
-      max-width: 900px;
-      margin: 120px auto 100px;
-      padding: 50px 30px;
-      background: #f8fafc; /* main blog background */
-      border-radius: 16px;
-      box-shadow: 0 12px 50px rgba(0,0,0,0.15);
-      color: #1f2937;
-    }
-
-    /* ===== Blog Content ===== */
-    .blog-meta {
-      font-size: 0.85rem;
-      color: #6b7280;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 12px;
-    }
-    .blog-title {
-      font-size: 2.45rem;
-      margin-bottom: 20px;
-      font-family: Arial, sans-serif;
-    }
-    .blog-subtitle {
-      font-size: 1.2rem;
-      color: #4b5563;
-      margin-bottom: 30px;
-    }
-    .blog-tag {
-      display: inline-block;
-      background: rgba(99,102,241,0.15);
-      color: #6366f1;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      margin-bottom: 40px;
-    }
-    .blog-content h2 {
-      font-size: 1.8rem;
-      margin-top: 50px;
-      margin-bottom: 20px;
-    }
-    .blog-content h3 {
-      font-size: 1.4rem;
-      margin-top: 35px;
-      margin-bottom: 12px;
-      color: #6366f1;
-    }
-    .blog-content p, 
-    .blog-content li {
-      font-size: 1.05rem;
-      line-height: 1.8;
-      margin-bottom: 18px;
-    }
-    .blog-content ul {
-      margin-left: 22px;
-      margin-bottom: 20px;
-    }
-    .blog-quote {
-      margin: 40px 0;
-      padding: 25px 30px;
-      border-left: 4px solid #6366f1;
-      background: rgba(99,102,241,0.08);
-      font-style: italic;
-      font-size: 1.05rem;
-    }
-
-    /* ===== Footer ===== */
-    .blog-footer {
-      margin-top: 80px;
+ 
+    .cta-banner-left {
       display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
+      align-items: center;
       gap: 20px;
+      flex: 1;
     }
-    .blog-footer a {
-      color: #6366f1;
-      font-weight: 600;
+ 
+    .cta-banner-icon {
+      font-size: 2.5rem;
+      flex-shrink: 0;
+    }
+ 
+    .cta-banner-text h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 6px;
+    }
+ 
+    .cta-banner-text p {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.6;
+      margin: 0;
+    }
+ 
+    .cta-banner-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 30px;
+      background: white;
+      color: var(--primary) !important;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.95rem;
       text-decoration: none;
+      transition: all 0.3s;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
-    .blog-footer a:hover {
-      text-decoration: underline;
+ 
+    .cta-banner-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
     }
-
-    .section-separator {
-      border: none;             /* remove default border */
-      height: 2px;              /* thickness of line */
-      background-color: #6366f1; /* purple/blue line to match theme */
-      margin: 5px 0;           /* spacing above and below */
-      border-radius: 2px;       /* soft edges */
+ 
+    /* ===== Bottom cards: author + community ===== */
+    .blog-bottom-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 24px;
     }
-
+ 
+    .bottom-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(99,102,241,0.12);
+      border-radius: 16px;
+      padding: 30px;
+    }
+ 
+    [data-theme="light"] .bottom-card {
+      background: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+ 
+    .author-card-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 12px;
+      object-fit: cover;
+      object-position: top;
+      border: 2px solid rgba(99,102,241,0.3);
+      margin-bottom: 16px;
+    }
+ 
+    .bottom-card h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+ 
+    .bottom-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+ 
+    .bottom-card-social {
+      display: flex;
+      gap: 10px;
+    }
+ 
+    .bottom-card-social a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      border: 1px solid rgba(99,102,241,0.3);
+      color: var(--text-muted);
+      transition: all 0.3s;
+    }
+ 
+    .bottom-card-social a:hover {
+      background: var(--primary);
+      color: white;
+      border-color: transparent;
+    }
+ 
+    .community-icon {
+      font-size: 2rem;
+      margin-bottom: 14px;
+    }
+ 
+    /* Footer */
+    .footer {
+      background: rgba(15, 23, 42, 0.8);
+      padding: 30px 0;
+      border-top: 1px solid rgba(99, 102, 241, 0.2);
+      text-align: center;
+      color: var(--text-muted);
+      margin-top: 0;
+    }
+ 
+    [data-theme="light"] .footer {
+      background: rgba(248, 250, 252, 0.8);
+    }
+ 
+    /* Responsive */
+    @media (max-width: 968px) {
+      .blog-layout { grid-template-columns: 1fr; }
+      .blog-sidebar { position: static; }
+      .content-header { padding: 36px 30px 30px; }
+      .content-meta { padding: 12px 30px; }
+      .content-body { padding: 36px 30px; }
+      .content-footer-bar { padding: 20px 30px; }
+      .content-header h1 { font-size: 1.8rem; }
+      .blog-cta-banner { padding: 30px; }
+      .blog-bottom-cards { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-
-  <!-- Navbar -->
-  <nav id="navbar">
-    <div class="nav-container">
-      <div class="logo">PORTFOLIO</div>
-      <div class="nav-links">
-        <a href="../index.html">Home</a>
-        <a href="../index.html#blog">Blogs</a>
+ 
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <div class="nav-content">
+        <a href="../index.html" class="logo">
+          Grow<span class="logo-highlight">In</span>Data
+          <span class="logo-sub">Kostanca Kovaci</span>
+        </a>
+        <div class="nav-toggle" id="navToggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="../index.html#home" class="nav-link">HOME</a></li>
+          <li>
+            <div class="theme-toggle">
+              <button id="themeToggle" aria-label="Toggle theme">
+                <span class="theme-icon">🌙</span>
+              </button>
+            </div>
+          </li>
+          <li><a href="../index.html#contact" class="nav-link nav-cta">GET STARTED</a></li>
+        </ul>
       </div>
     </div>
   </nav>
-
-  <!-- Layer behind the main content -->
-  <div class="pre-background"></div>
-
-  <div class="blog-container">
-
-    <div class="blog-meta">JANUARY 12, 2026</div>
-
-    <h1 class="blog-title">
-      From Code to Insight:<br /> A Systematic Framework for Developing Data Interpretation Skills
-    </h1>
-
-    <p class="blog-subtitle">
-      A practical guide for data scientists who can build models but struggle to communicate findings.
-    </p>
-
-    <span class="blog-tag">Data Science Framework</span>
-
-    <div class="blog-content">
-
-    
-      <h2>The Uncomfortable Reality</h2>
-      <hr class="section-separator">
-      <br />
-
-      <p>
-        If you find yourself staring at a perfectly rendered visualization, knowing exactly how you generated it but uncertain what to say about it, you're not alone. This gap between technical execution and analytical communication is one of the most common challenges facing early-career data scientists.
-      </p>
-
-      <p>Here's the encouraging news: interpretation is not an <strong>innate talent—it's a trainable skill.</strong></p>
-
-      <p>
-        The analysts who consistently deliver compelling insights aren't necessarily more intelligent or experienced. They've simply internalized a small set of thinking patterns through deliberate practice. This blog presents a systematic framework to develop these patterns in your own work.
-      </p>
-
-      
-
-      <h2>Diagnosing the Gap</h2>
-      <hr class="section-separator">
-      <br />
-
-      <p>
-        The typical data science curriculum excels at teaching computational methods but often neglects communicative skills. You emerge able to:
-      </p>
-
-      <ul>
-        <li>Execute complex analyses</li>
-        <li>Generate publication-quality visualizations</li>
-        <li>Implement sophisticated algorithms</li>
-      </ul>
-
-      <p>But struggle to:</p>
-
-      <ul>
-        <li>Articulate what your results mean</li>
-        <li>Connect findings to business implications</li>
-        <li>Communicate insights to non-technical stakeholders</li>
-      </ul>
-
-      <p>
-        This disconnect stems from a fundamental mismatch: academic training emphasizes how to compute, while industry demands how to think and communicate.
-      </p>
-
-
-      <h2>A Five-Part Framework for Systematic Improvement</h2>
-      <hr class="section-separator">
-      <h3>1. Master the Analytical Sentence Template</h3>
-      <p>
-        Every effective interpretation follows a consistent structure:
-      </p>
-
-      <div class="blog-quote">
-        <strong>"We observe [pattern], which suggests [meaning], and this matters because [impact]."</strong>
-      </div>
-
-      <p>
-        This isn't about limiting creativity—it's about establishing a foundation. Consider this example from a restaurant tips dataset:
-      </p>
-
-      <div class="blog-quote">
-        "We observe a right-skewed distribution of total bills, which suggests most customers have smaller bills, and this matters because simple averages may be disproportionately influenced by a small number of large transactions."
-      </div>
-
-      <p>
-        <strong>Practice exercise:</strong> For every visualization you create this week, write one sentence following this exact structure. The constraint builds fluency.
-      </p>
-
-      <h3>2. Build Your Pattern Recognition Vocabulary</h3>
-      <p>
-        Most data exhibits recurring patterns. Rather than invent descriptions from scratch, develop a standardized vocabulary:
-      </p>
-
-      <p><strong>For Distributions:</strong></p>
-      <ul>
-        <li>Right-skewed / left-skewed</li>
-        <li>Symmetric / asymmetric</li>
-        <li>Long-tailed</li>
-        <li>Presence of outliers</li>
-        <li>Multimodal</li>
-      </ul>
-
-      <p><strong>For Relationships:</strong></p>
-      <ul>
-        <li>Positive / negative correlation</li>
-        <li>Strong / weak association</li>
-        <li>Clustered values</li>
-        <li>High variability</li>
-        <li>Non-linear patterns</li>
-      </ul>
-
-      <p><strong>For Group Comparisons:</strong></p>
-      <ul>
-        <li>Differing central tendencies</li>
-        <li>Variance differences</li>
-        <li>Distributional similarity</li>
-        <li>Degree of overlap</li>
-      </ul>
-
-      <p>
-        When examining a new plot, systematically ask: <strong>"Which of these standard patterns apply?"</strong> This approach transforms pattern recognition from an open-ended challenge into a classification task.
-      </p>
-
-      <h3>3. Implement Daily Micro-Interpretations</h3>
-      <p>
-        Skill development requires consistent, focused practice—not massive projects. Adopt this daily routine:
-      </p>
-
-      <ul>
-        <li>Select any dataset (even familiar ones work well)</li>
-        <li>Generate a single visualization</li>
-        <li>Write two sentences: 
-            <ul>
-                <li>One describing the observed pattern</li>
-                <li>One explaining its potential significance</li>
+ 
+  <!-- Blog Page -->
+  <section class="blog-page">
+    <div class="container">
+ 
+      <!-- Layout -->
+      <div class="blog-layout">
+ 
+        <!-- Left Sidebar -->
+        <div class="blog-sidebar">
+          <div class="sidebar-title">Blog Contents</div>
+ 
+          <div class="sidebar-section">
+            <div class="sidebar-section-title">From Code to Insight</div>
+            <ul class="sidebar-links">
+              <li><a href="#reality" class="active">The Uncomfortable Reality</a></li>
+              <li><a href="#gap">Diagnosing the Gap</a></li>
+              <li><a href="#framework">Five-Part Framework</a></li>
+              <li><a href="#template">Sentence Template</a></li>
+              <li><a href="#vocabulary">Pattern Vocabulary</a></li>
+              <li><a href="#daily">Daily Practice</a></li>
+              <li><a href="#reframe">Reframe Perspective</a></li>
+              <li><a href="#feedback">Feedback Loop</a></li>
+              <li><a href="#strategy">Implementation</a></li>
+              <li><a href="#conclusion">Conclusion</a></li>
             </ul>
-        </li>
-      </ul>
-
-      <p><strong>Time investment:</strong> 5-10 minutes per day</p>
-      <p><strong>Expected timeline:</strong> Measurable improvement within 2-3 weeks</p>
-
-      <p>The key is consistency and focus. Brief, daily practice outperforms sporadic marathon sessions.</p>
-
-      <h3>4. Reframe Your Analytical Perspective</h3>
-      <p>
-        The critical mental shift:
-      </p>
-
-      <div class="blog-quote">
-        <strong>Stop asking:</strong> "What does this plot show?"<br>
-        <strong>Start asking:</strong> "If a decision-maker saw this, what would they care about?"
+          </div>
+ 
+          <div class="sidebar-section">
+            <div class="sidebar-section-title">More Blogs</div>
+            <ul class="sidebar-links">
+              <li><a href="blog2.html">The Beginner's Trap</a></li>
+            </ul>
+          </div>
+        </div>
+ 
+        <!-- Right Content -->
+        <div class="blog-content">
+ 
+          <!-- Header -->
+          <div class="content-header">
+            <div class="content-header-top">
+              <h1>From Code to Insight</h1>
+            </div>
+            <p class="content-desc" style="font-family:'Poppins', sans-serif;">
+              A Systematic Framework for Developing Data Interpretation Skills — a practical guide for data scientists who can build models but struggle to communicate findings.
+            </p>
+            <p class="content-goal">Written with one goal:</p>
+            <p class="content-tagline">Help you turn your analysis into decisions.</p>
+            <div class="content-divider"></div>
+          </div>
+ 
+          <!-- Meta -->
+          <div class="content-meta">
+            <div class="meta-item">
+              <i class="fa-regular fa-calendar"></i> January 12, 2026
+            </div>
+            <div class="meta-item">
+              <i class="fa-regular fa-clock"></i> 6 min read
+            </div>
+            <div class="meta-item">
+              <i class="fa-solid fa-tag"></i> Data Science Framework
+            </div>
+          </div>
+ 
+          <!-- Body -->
+          <div class="content-body">
+ 
+            <h2 id="reality">The Uncomfortable Reality</h2>
+            <hr class="section-separator">
+ 
+            <p style="font-family: 'Poppins', sans-serif;">
+              If you find yourself staring at a perfectly rendered visualization, knowing exactly how you generated it but uncertain what to say about it, you're not alone. This gap between technical execution and analytical communication is one of the most common challenges facing early-career data scientists.
+            </p>
+ 
+            <p style="font-family: 'Poppins', sans-serif;">
+              Here's the encouraging news: interpretation is not an <strong>innate talent — it's a trainable skill.</strong>
+            </p>
+ 
+            <p style="font-family: 'Poppins', sans-serif;">
+              The analysts who consistently deliver compelling insights aren't necessarily more intelligent or experienced. They've simply internalized a small set of thinking patterns through deliberate practice. This blog presents a systematic framework to develop these patterns in your own work.
+            </p>
+ 
+            <h2 id="gap">Diagnosing the Gap</h2>
+            <hr class="section-separator">
+ 
+            <p style="font-family: 'Poppins', sans-serif;">
+              The typical data science curriculum excels at teaching computational methods but often neglects communicative skills. You emerge able to:
+            </p>
+ 
+            <ul>
+              <li>Execute complex analyses</li>
+              <li>Generate publication-quality visualizations</li>
+              <li>Implement sophisticated algorithms</li>
+            </ul>
+ 
+            <p style="font-family: 'Poppins', sans-serif;">
+              But struggle to:
+            </p>
+ 
+            <ul>
+              <li>Articulate what your results mean</li>
+              <li>Connect findings to business implications</li>
+              <li>Communicate insights to non-technical stakeholders</li>
+            </ul>
+ 
+            <p style="font-family: 'Poppins', sans-serif;">
+              This disconnect stems from a fundamental mismatch: academic training emphasizes <strong>how to compute</strong>, while industry demands <strong>how to think and communicate.</strong>
+            </p>
+ 
+            <h2 id="framework">A Five-Part Framework for Systematic Improvement</h2>
+            <hr class="section-separator">
+ 
+            <h3 id="template">1. Master the Analytical Sentence Template</h3>
+ 
+            <p style="font-family: 'Poppins', sans-serif;">
+              Every effective interpretation follows a consistent structure:
+            </p>
+ 
+            <div class="blog-quote">
+              <strong>"We observe [pattern], which suggests [meaning], and this matters because [impact]."</strong>
+            </div>
+ 
+            <p style="font-family: 'Poppins', sans-serif;">
+              This isn't about limiting creativity — it's about establishing a foundation. Consider this example from a restaurant tips dataset:
+            </p>
+ 
+            <div class="blog-quote">
+              "We observe a right-skewed distribution of total bills, which suggests most customers have smaller bills, and this matters because simple averages may be disproportionately influenced by a small number of large transactions."
+            </div>
+ 
+            <div class="blog-key">
+              <div class="key-label"><i class="fa-solid fa-lightbulb"></i> Practice Exercise</div>
+              <p style="font-family: 'Poppins', sans-serif;">
+                For every visualization you create this week, write one sentence following this exact structure. The constraint builds fluency.
+              </p>
+            </div>
+ 
+            <h3 id="vocabulary">2. Build Your Pattern Recognition Vocabulary</h3>
+ 
+            <p style="font-family: 'Poppins', sans-serif;">
+              Most data exhibits recurring patterns. Rather than invent descriptions from scratch, develop a standardized vocabulary:
+            </p>
+ 
+            <p style="font-family: 'Poppins', sans-serif;"><strong>For Distributions:</strong></p>
+            <ul>
+              <li>Right-skewed / left-skewed</li>
+              <li>Symmetric / asymmetric</li>
+              <li>Long-tailed</li>
+              <li>Presence of outliers</li>
+              <li>Multimodal</li>
+            </ul>
+ 
+            <p style="font-family: 'Poppins', sans-serif;"><strong>For Relationships:</strong></p>
+            <ul>
+              <li>Positive / negative correlation</li>
+              <li>Strong / weak association</li>
+              <li>Clustered values</li>
+              <li>High variability</li>
+              <li>Non-linear patterns</li>
+            </ul>
+ 
+            <p style="font-family: 'Poppins', sans-serif;"><strong>For Group Comparisons:</strong></p>
+            <ul>
+              <li>Differing central tendencies</li>
+              <li>Variance differences</li>
+              <li>Distributional similarity</li>
+              <li>Degree of overlap</li>
+            </ul>
+ 
+            <p style="font-family: 'Poppins', sans-serif;">
+              When examining a new plot, systematically ask: <strong>"Which of these standard patterns apply?"</strong> This approach transforms pattern recognition from an open-ended challenge into a classification task.
+            </p>
+ 
+            <h3 id="daily">3. Implement Daily Micro-Interpretations</h3>
+ 
+            <p style="font-family: 'Poppins', sans-serif;">
+              Skill development requires consistent, focused practice — not massive projects. Adopt this daily routine:
+            </p>
+ 
+            <ul>
+              <li>Select any dataset (even familiar ones work well)</li>
+              <li>Generate a single visualization</li>
+              <li>Write two sentences:
+                <ul>
+                  <li>One describing the observed pattern</li>
+                  <li>One explaining its potential significance</li>
+                </ul>
+              </li>
+            </ul>
+ 
+            <div class="blog-key">
+              <div class="key-label"><i class="fa-solid fa-clock"></i> Time & Results</div>
+              <p><strong>Time investment:</strong> 5–10 minutes per day<br>
+              <strong>Expected timeline:</strong> Measurable improvement within 2–3 weeks<br><br>
+              The key is consistency and focus. Brief, daily practice outperforms sporadic marathon sessions.</p>
+            </div>
+ 
+            <h3 id="reframe">4. Reframe Your Analytical Perspective</h3>
+ 
+            <p>The critical mental shift:</p>
+ 
+            <div class="blog-quote">
+              <strong>Stop asking:</strong> "What does this plot show?"<br><br>
+              <strong>Start asking:</strong> "If a decision-maker saw this, what would they care about?"
+            </div>
+ 
+            <p>Stakeholders prioritize:</p>
+            <ul>
+              <li>Meaningful differences between groups or time periods</li>
+              <li>Risk factors requiring mitigation</li>
+              <li>Opportunities for optimization</li>
+              <li>Anomalous behavior warranting investigation</li>
+              <li>Directional trends</li>
+            </ul>
+ 
+            <p style="font-family: 'Poppins', sans-serif;">
+              This reframing transforms your analysis from descriptive to decision-oriented — even for straightforward exploratory visualizations.
+            </p>
+ 
+            <h3 id="feedback">5. Establish a Deliberate Feedback Loop</h3>
+ 
+            <p style="font-family: 'Poppins', sans-serif;">
+              Rapid skill development requires:
+            </p>
+            <ul>
+              <li>Articulating your interpretation</li>
+              <li>Receiving specific feedback</li>
+              <li>Revising your explanation</li>
+              <li>Internalizing the improvements</li>
+            </ul>
+ 
+            <p style="font-family: 'Poppins', sans-serif;">
+              This cycle is most effective when feedback is immediate and constructive. Seek opportunities to:
+            </p>
+            <ul>
+              <li>Present interpretations to senior colleagues</li>
+              <li>Participate in working group discussions</li>
+              <li>Document before/after versions of your explanations</li>
+            </ul>
+ 
+            <p style="font-family: 'Poppins', sans-serif;">
+              Track your <strong>"weak explanation" → "improved explanation"</strong> pairs. Over time, you'll internalize the patterns that strengthen analytical communication.
+            </p>
+ 
+            <h2 id="strategy">Implementation Strategy</h2>
+            <hr class="section-separator">
+ 
+            <p style="font-family: 'Poppins', sans-serif;">
+              Moving forward, structure your work to include explicit interpretation practice. For each analysis:
+            </p>
+ 
+            <ul>
+              <li>Generate your visualization</li>
+              <li>Write your initial interpretation (unedited)</li>
+              <li>Refine using the sentence template</li>
+              <li>Identify which patterns from your vocabulary apply</li>
+              <li>Reframe from the stakeholder perspective</li>
+              <li>Document both versions</li>
+            </ul>
+ 
+            <p style="font-family: 'Poppins', sans-serif;">
+              Initially this feels mechanical. That's intentional. The structure provides scaffolding until these patterns become automatic.
+            </p>
+ 
+            <h2 id="conclusion">Conclusion</h2>
+            <hr class="section-separator">
+ 
+            <p style="font-family: 'Poppins', sans-serif;">
+              The ability to extract and communicate insights from data is not mysterious — it's methodical. By practicing specific patterns consistently, you develop the same fluency that distinguishes experienced analysts.
+            </p>
+ 
+            <p style="font-family: 'Poppins', sans-serif;">
+              The gap you're experiencing between technical capability and interpretive confidence is both common and closeable. Treat interpretation as you would any other technical skill: break it into components, practice deliberately, and seek feedback relentlessly.
+            </p>
+ 
+            <div class="blog-quote">
+              <strong>Your code is already solid. Now it's time to make your insights equally compelling.</strong>
+            </div>
+ 
+            <div class="blog-connect">
+              <div class="blog-connect-icon">
+                <i class="fa-brands fa-linkedin-in"></i>
+              </div>
+              <p style="font-family: 'Poppins', sans-serif;">
+                Found this useful? <a href="https://www.linkedin.com/in/kostanca-kovaci" target="_blank">Connect with me on LinkedIn</a> — I share more data science content, tutorials, and insights regularly.
+              </p>
+            </div>
+ 
+          </div>
+ 
+          <!-- Footer bar -->
+          <div class="content-footer-bar">
+            <a href="../index.html#blog">
+              <i class="fa-solid fa-arrow-left"></i> Back to Blog
+            </a>
+            <a href="https://www.linkedin.com/in/kostanca-kovaci" target="_blank">
+              <i class="fa-brands fa-linkedin-in"></i> Connect on LinkedIn
+            </a>
+          </div>
+ 
+        </div>
       </div>
-
-      <p>
-        Stakeholders prioritize:
-      </p>
-      <ul>
-        <li>Meaningful differences between groups or time periods</li>
-        <li>Risk factors requiring mitigation</li>
-        <li>Opportunities for optimization</li>
-        <li>Anomalous behavior warranting investigation</li>
-        <li>Directional trends</li>
-      </ul>
-
-      <p>This reframing transforms your analysis from descriptive to decision-oriented—even for straightforward exploratory visualizations.</p>
-
-      <h3>5. Establish a Deliberate Feedback Loop</h3>
-      <p>
-        Rapid skill development requires:
-      </p>
-      <ul>
-        <li>Articulating your interpretation</li>
-        <li>Receiving specific feedback</li>
-        <li>Revising your explanation</li>
-        <li>Internalizing the improvements</li>
-      </ul>
-
-      <p>
-        This cycle is most effective when feedback is immediate and constructive. Seek opportunities to:
-      </p>
-      <ul>
-        <li>Present interpretations to senior colleagues</li>
-        <li>Participate in working group discussions</li>
-        <li>Document before/after versions of your explanations</li>
-      </ul>
-
-      <p>Track your "weak explanation" → "improved explanation" pairs. Over time, you'll internalize the patterns that strengthen analytical communication.</p>
-
-      <h2>Implementation Strategy</h2>
-      <hr class="section-separator">
-      <br />
-
-      <p>
-        Moving forward, structure your work to include explicit interpretation practice:
-      </p>
-
-      <p><strong>For each analysis:</strong></p>
-      <ul>
-        <li>Generate your visualization</li>
-        <li>Write your initial interpretation (unedited)</li>
-        <li>Refine using the sentence template</li>
-        <li>Identify which patterns from your vocabulary apply</li>
-        <li>Reframe from the stakeholder perspective</li>
-        <li>Document both versions</li>
-      </ul>
-
-      <p>
-        Initially this feels mechanical. That's intentional. The structure provides scaffolding until these patterns become automatic.
-      </p>
-
-      <h2>Conclusion</h2>
-      <hr class="section-separator">
-      <br />
-
-      <p>
-        The ability to extract and communicate insights from data is not mysterious—it's methodical. By practicing specific patterns consistently, you develop the same fluency that distinguishes experienced analysts.
-      </p>
-
-      <p>
-        The gap you're experiencing between technical capability and interpretive confidence is both common and closeable. Treat interpretation as you would any other technical skill: break it into components, practice deliberately, and seek feedback relentlessly.
-      </p>
-
-      <p>Your code is already solid. Now it's time to make your insights equally compelling.</p>
-
-      <p>  Connect with me on <a href="https://www.linkedin.com/in/kostanca-kovaci" target="_blank">LinkedIn</a></p>
-
+ 
+    
+ 
+      <!-- Bottom Cards -->
+      <div class="blog-bottom-cards">
+ 
+        <!-- Author card -->
+        <div class="bottom-card">
+          <img src="../me3_1.jpeg" alt="Kostanca Kovaci" class="author-card-img">
+          <h3>Kostanca Kovaci</h3>
+          <p>Data Scientist with a goal to help businesses move from raw data to real decisions — and learners to build real skills through clear, practical content.</p>
+          <div class="bottom-card-social">
+            <a href="https://linkedin.com/in/kostanca-kovaci/" target="_blank">
+              <i class="fa-brands fa-linkedin-in"></i> LinkedIn
+            </a>
+            <a href="https://github.com/kovacikostanca" target="_blank">
+              <i class="fa-brands fa-github"></i> GitHub
+            </a>
+          </div>
+        </div>
+ 
+        <!-- Community card -->
+        <div class="bottom-card">
+          <div class="community-icon">📬</div>
+          <h3>Stay in the loop</h3>
+          <p>New tutorials, blogs and data science content — shared regularly. Follow along and grow your data skills one step at a time.</p>
+          <div class="bottom-card-social">
+            <a href="mailto:kovacikostanca@gmail.com">
+              <i class="fa-solid fa-envelope"></i> Get in Touch
+            </a>
+          </div>
+        </div>
+ 
+      </div>
+ 
     </div>
-
-    <div class="blog-footer">
-      <a href="../index.html#blog">← Back to Blog</a>
-      <a href="https://www.linkedin.com/in/kostanca-kovaci" target="_blank">Connect on LinkedIn</a>
+  </section>
+ 
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 <span class="footer-name">Kostanca Kovaci</span>. All Rights Reserved</p>
     </div>
-
-  </div>
+  </footer>
+ 
+  <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">↑</button>
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="../script_new.js"></script>
+ 
 </body>
 </html>
