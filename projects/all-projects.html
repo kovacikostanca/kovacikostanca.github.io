@@ -1,178 +1,339 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projects | Kostanca Kovaci</title>
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <title>Projects | GrowInData</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Caveat:wght@600&family=Source+Sans+3:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style_new.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    /* Page specific styles */
+    .projects-page {
+      padding: 160px 0 100px;
+      min-height: 100vh;
+      background: #050715;
+    }
 
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="../style.css">
+    [data-theme="light"] .projects-page {
+      background: var(--bg);
+    }
+ 
+    .projects-page .section-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+ 
+    .projects-page .section-header h2 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+ 
+    .projects-page .section-header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+ 
+    /* Filter buttons */
+    .project-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 50px;
+    }
+ 
+    .filter-btn {
+      padding: 10px 22px;
+      border-radius: 50px;
+      border: 1.5px solid rgba(99, 102, 241, 0.3);
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+ 
+    .filter-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+ 
+    .filter-btn.active {
+      background: var(--gradient);
+      border-color: transparent;
+      color: white;
+    }
+ 
+    /* Projects grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+ 
+    .project-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(99, 102, 241, 0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+ 
+    .project-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+      border-color: var(--primary);
+    }
+ 
+    .project-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+ 
+    .project-card:hover .project-image {
+      transform: scale(1.05);
+    }
+ 
+    .project-content {
+      padding: 24px;
+      flex-grow: 1;
+    }
+ 
+    .project-content h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text);
+      line-height: 1.4;
+    }
+ 
+    .project-content p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+ 
+    /* Back button */
+    .back-btn-wrap {
+      text-align: center;
+      margin-top: 20px;
+    }
+ 
+    /* Footer */
+    .footer {
+      background: rgba(15, 23, 42, 0.8);
+      padding: 30px 0;
+      border-top: 1px solid rgba(99, 102, 241, 0.2);
+      text-align: center;
+      color: var(--text-muted);
+    }
+ 
+    [data-theme="light"] .footer {
+      background: rgba(248, 250, 252, 0.8);
+    }
+ 
+    .footer-name {
+      color: var(--primary);
+      font-weight: 600;
+    }
+ 
+    /* Responsive */
+    @media (max-width: 968px) {
+      .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+ 
+    @media (max-width: 640px) {
+      .projects-grid { grid-template-columns: 1fr; }
+      .projects-page .section-header h2 { font-size: 2rem; }
+    }
+  </style>
 </head>
 <body>
-
-  <div class="bg-gradient"></div>
-
-  <!-- Navigation -->
-  <nav id="navbar">
-    <div class="nav-container">
-      <div class="logo">PORTFOLIO</div>
-      <div class="nav-links">
-        <a href="../index.html">Home</a>
-        <a href="../index.html#contact">Contact</a>
+ 
+  <!-- Navigation — matches index.html exactly -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <div class="nav-content">
+        <a href="../index.html" class="logo">
+          Grow<span class="logo-highlight">In</span>Data
+          <span class="logo-sub">Kostanca Kovaci</span>
+        </a>
+        <div class="nav-toggle" id="navToggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="../index.html#home" class="nav-link">HOME</a></li>
+            <div class="theme-toggle">
+              <button id="themeToggle" aria-label="Toggle theme">
+                <span class="theme-icon">🌙</span>
+              </button>
+            </div>
+          </li>
+          <li><a href="../index.html#contact" class="nav-link nav-cta">GET STARTED</a></li>
+        </ul>
       </div>
     </div>
   </nav>
-
-  <!-- Page Header -->
-  <section id="portfolio" style="padding-top: 120px;">
-    <div class="section-header">
-      <h2>All Projects</h2>
-      <p>A complete collection of my data science & analytics work</p>
+ 
+  <!-- Projects Page -->
+  <section class="projects-page">
+    <div class="container">
+ 
+      <div class="section-header">
+        <span class="section-tag">PORTFOLIO</span>
+        <h2>All Projects</h2>
+        <p>A complete collection of my data science & analytics work</p>
+      </div>
+ 
+      <!-- Filter Buttons -->
+      <div class="project-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="data_cleaning">Data Cleaning</button>
+        <button class="filter-btn" data-filter="ml">Machine Learning</button>
+        <button class="filter-btn" data-filter="nlp">NLP</button>
+        <button class="filter-btn" data-filter="sql">SQL</button>
+        <button class="filter-btn" data-filter="dashboard">Dashboards</button>
+        <button class="filter-btn" data-filter="eda">EDA</button>
+      </div>
+ 
+      <!-- Projects Grid -->
+      <div class="projects-grid">
+ 
+        <div class="project-card" data-category="nlp" onclick="location.href='project1.html'">
+          <img src="../images/p1_llm_image.png" class="project-image" alt="Project 1">
+          <div class="project-content">
+            <h3>Gender Perceptions of Places in LLMs</h3>
+            <p>Analysis of gendered language bias in large language models.</p>
+          </div>
+        </div>
+ 
+        <div class="project-card" data-category="ml" onclick="location.href='project2.html'">
+          <img src="../images/customer_churn.jpg" class="project-image" alt="Project 2">
+          <div class="project-content">
+            <h3>Customer Churn Analysis</h3>
+            <p>Customer segmentation and churn risk identification.</p>
+          </div>
+        </div>
+ 
+        <div class="project-card" data-category="dashboard" onclick="location.href='project3.html'">
+          <img src="../images/p3_tableau_dash.png" class="project-image" alt="Project 3">
+          <div class="project-content">
+            <h3>Retail Sales Performance</h3>
+            <p>Dashboards, KPIs & Business Insights through data-driven decisions.</p>
+          </div>
+        </div>
+ 
+        <div class="project-card" data-category="sql" onclick="location.href='project4.html'">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400" class="project-image" alt="Project 4">
+          <div class="project-content">
+            <h3>SQL E-Commerce Analysis</h3>
+            <p>E-Commerce Sales Database that tracks customers, products, orders, and order items.</p>
+          </div>
+        </div>
+ 
+        <div class="project-card" data-category="ml" onclick="location.href='https://github.com/kovacikostanca/Data-Science-Portfolio/tree/main/house-price-prediction'">
+          <img src="../images/housingcosts.jpg" class="project-image" alt="Project 5">
+          <div class="project-content">
+            <h3>House Price Prediction</h3>
+            <p>Predict housing prices based on various socioeconomic and structural property features.</p>
+          </div>
+        </div>
+ 
+        <div class="project-card" data-category="eda" onclick="location.href='https://github.com/kovacikostanca/Data-Science-Portfolio/tree/main/Netflix-Show-EDA'">
+          <img src="../images/Netflix-EDA.png" class="project-image" alt="Project 6">
+          <div class="project-content">
+            <h3>Netflix Content EDA</h3>
+            <p>Exploratory Analysis of Netflix Content and Viewing Patterns.</p>
+          </div>
+        </div>
+ 
+        <div class="project-card" data-category="data_cleaning" onclick="location.href='https://github.com/kovacikostanca/Data-Science-Portfolio/tree/main/Airbnb%20Data%20Cleaning'">
+          <img src="../images/Airbnb_image.jpg" class="project-image" alt="Project 7">
+          <div class="project-content">
+            <h3>Airbnb Data Cleaning</h3>
+            <p>Data Cleaning and Preprocessing of Airbnb Reviews.</p>
+          </div>
+        </div>
+ 
+        <div class="project-card" data-category="nlp" onclick="location.href='https://github.com/kovacikostanca/Data-Science-Portfolio/tree/main/Fake_Job_Post_Detector'">
+          <img src="../images/fakejob.png" class="project-image" alt="Project 8">
+          <div class="project-content">
+            <h3>Fake Job Post Detector</h3>
+            <p>NLP-based fraud detection system to automatically identify fraudulent job postings.</p>
+          </div>
+        </div>
+ 
+        <div class="project-card" data-category="dashboard" onclick="location.href='https://github.com/kovacikostanca/Data-Science-Portfolio/tree/main/Excel%20-%20Patient%20Records%20Dashboard'">
+          <img src="../images/Healthcare_Data_Analysis_Dashboard.png" class="project-image" alt="Project 9">
+          <div class="project-content">
+            <h3>Excel Healthcare Analysis Dashboard</h3>
+            <p>Interactive dashboard for healthcare data analysis using Excel.</p>
+          </div>
+        </div>
+ 
+        <div class="project-card" data-category="ml" onclick="location.href='https://github.com/kovacikostanca/Data-Science-Portfolio/tree/main/Student_Performance_using_RandomForest'">
+          <img src="../images/student_exam_performance.jpg" class="project-image" alt="Project 10">
+          <div class="project-content">
+            <h3>Students Exam Performance Prediction</h3>
+            <p>Predicts if a student will pass or fail based on demographic, behavioral, and academic features.</p>
+          </div>
+        </div>
+ 
+        <div class="project-card" data-category="data_cleaning" onclick="location.href='https://github.com/kovacikostanca/Data-Science-Portfolio/tree/main/Salary%20Survey%20Data%20Cleaning'">
+          <img src="../images/salary_survey.jpg" class="project-image" alt="Project 11">
+          <div class="project-content">
+            <h3>Salary Survey Data Cleaning</h3>
+            <p>Cleaning and preparing a Salary Survey Dataset for further exploratory and statistical analysis.</p>
+          </div>
+        </div>
+ 
+      </div>
+ 
+      <div class="back-btn-wrap">
+        <a href="../index.html" class="btn btn-primary">← Back to Home</a>
+      </div>
+ 
     </div>
-
-    <!-- Category Buttons -->
-    <div class="project-filters">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="data_cleaning">Data Cleaning</button>
-      <button class="filter-btn" data-filter="ml">Machine Learning</button>
-      <button class="filter-btn" data-filter="nlp">NLP</button>
-      <button class="filter-btn" data-filter="sql">SQL</button>
-      <button class="filter-btn" data-filter="dashboard">Dashboards</button>
-      <button class="filter-btn" data-filter="eda">EDA</button>
-    </div>
-
-    <!-- Projects Grid -->
-    <div class="projects-grid">
-
-      <!-- Project 1 -->
-      <div class="project-card" data-category="nlp" onclick="location.href='project1.html'">
-        <img src="../images/p1_llm_image.png" class="project-image">
-        <div class="project-content">
-          <h3>Gender Perceptions of Places in LLMs</h3>
-          <p>Analysis of gendered language bias in large language models.</p>
-        </div>
-      </div>
-
-      <!-- Project 2 -->
-      <div class="project-card" data-category="ml" onclick="location.href='project2.html'">
-        <img src="../images/customer_churn.jpg" class="project-image">
-        <div class="project-content">
-          <h3>Customer Churn Analysis</h3>
-          <p>Customer segmentation and churn risk identification.</p>
-        </div>
-      </div>
-
-      <!-- Project 3 -->
-      <div class="project-card" data-category="dashboard" onclick="location.href='project3.html'">
-        <img src="../images/p3_tableau_dash.png" class="project-image">
-        <div class="project-content">
-          <h3>Retail Sales Performance</h3>
-          <p>Dashboards, KPIs & Business Insights through data-driven decisions.</p>
-        </div>
-      </div>
-
-      <!-- Project 4 -->
-      <div class="project-card" data-category="sql" onclick="location.href='project4.html'">
-        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400" class="project-image">
-        <div class="project-content">
-          <h3>SQL E-Commerce Analysis</h3>
-          <p>E-Commerce Sales Database that tracks customers, products, orders, and order items.</p>
-        </div>
-      </div>
-
-      <!-- Project 5 -->
-      <div class="project-card" data-category="ml" onclick="location.href='https://github.com/kovacikostanca/Data-Science-Portfolio/tree/main/house-price-prediction'">
-        <img src="../images/housingcosts.jpg" class="project-image">
-        <div class="project-content">
-          <h3>House Price Prediction</h3>
-          <p>Predict housing prices based on various socioeconomic and structural property features.</p>
-        </div>
-      </div>
-
-      <!-- Project 6 -->
-      <div class="project-card" data-category="eda" onclick="location.href='https://github.com/kovacikostanca/Data-Science-Portfolio/tree/main/Netflix-Show-EDA'">
-        <img src="../images/Netflix-EDA.png" class="project-image">
-        <div class="project-content">
-          <h3>Netflix Content EDA</h3>
-          <p>Exploratory Analysis of Netflix Content and Viewing Patterns.</p>
-        </div>
-      </div>
-
-      <!-- Project 7 -->
-      <div class="project-card" data-category="data_cleaning" onclick="location.href='https://github.com/kovacikostanca/Data-Science-Portfolio/tree/main/Airbnb%20Data%20Cleaning'">
-        <img src="../images/Airbnb_image.jpg" class="project-image">
-        <div class="project-content">
-          <h3>Airbnb Data Cleaning</h3>
-          <p>Data Cleaning and Preprocessing of Airbnb Reviews.</p>
-        </div>
-      </div>
-
-      <!-- Project 8 -->
-      <div class="project-card" data-category="nlp" onclick="location.href='https://github.com/kovacikostanca/Data-Science-Portfolio/tree/main/Fake_Job_Post_Detector'">
-        <img src="../images/fakejob.png" class="project-image">
-        <div class="project-content">
-          <h3>Fake Job Post Detector</h3>
-          <p>NLP-based fraud detection system designed to automatically identify fraudulent job postings.</p>
-        </div>
-      </div>
-
-      <!-- Project 9 -->
-      <div class="project-card" data-category="dashboard" onclick="location.href='https://github.com/kovacikostanca/Data-Science-Portfolio/tree/main/Excel%20-%20Patient%20Records%20Dashboard'">
-        <img src="../images/Healthcare_Data_Analysis_Dashboard.png" class="project-image">
-        <div class="project-content">
-          <h3>Excel Healthcare Analysis Dashboard</h3>
-          <p>Interactive dashboard for healthcare data analysis using Excel.</p>
-        </div>
-      </div>
-
-      <!-- Project 10 -->
-      <div class="project-card" data-category="ml" onclick="location.href='https://github.com/kovacikostanca/Data-Science-Portfolio/tree/main/Student_Performance_using_RandomForest'">
-        <img src="../images/student_exam_performance.jpg" class="project-image">
-        <div class="project-content">
-          <h3>Students Exam Performance Prediction</h3>
-          <p>Predicts if a student will pass or fail based on demographic, behavioral, and academic features.</p>
-        </div>
-      </div>
-
-      <!-- Project 11 -->
-      <div class="project-card" data-category="data_cleaning" onclick="location.href='https://github.com/kovacikostanca/Data-Science-Portfolio/tree/main/Salary%20Survey%20Data%20Cleaning'">
-        <img src="../images/salary_survey.jpg" class="project-image">
-        <div class="project-content">
-          <h3>Salary Survey Data Cleaning</h3>
-          <p>Cleaning and preparing a Salary Survey Dataset for further exploratory and statistical analysis.</p>
-        </div>
-      </div>
-
-      <!-- Project 12 -->
-      
-    </div>
-
-    <div class="load-more-container">
-      <a href="../index.html" class="btn-primary">← Back to Home</a>
-    </div>
-
   </section>
-
-  <footer>
-    <p>© 2026 <span class="footer-name">Kostanca Kovaci</span>. All rights reserved.</p>
+ 
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 <span class="footer-name">Kostanca Kovaci</span>. All Rights Reserved</p>
+    </div>
   </footer>
-
-  <!-- Filtering Script -->
+ 
+  <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">↑</button>
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="../script_new.js"></script>
   <script>
+    // Filter functionality
     const filterButtons = document.querySelectorAll('.filter-btn');
     const projects = document.querySelectorAll('.project-card');
-
+ 
     filterButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         filterButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-
         const filter = btn.getAttribute('data-filter');
-
         projects.forEach(project => {
           if (filter === 'all' || project.getAttribute('data-category') === filter) {
-            project.style.display = 'block';
+            project.style.display = 'flex';
           } else {
             project.style.display = 'none';
           }
@@ -180,6 +341,6 @@
       });
     });
   </script>
-
+ 
 </body>
 </html>
