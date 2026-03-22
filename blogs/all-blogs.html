@@ -1,89 +1,348 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blogs | Kostanca Kovaci</title>
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <title>Blogs | GrowInData</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Caveat:wght@600&family=Poppins:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style_new.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
 
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="../style.css">
+    .nav-menu {
+      display: flex;
+      gap: 35px;
+      align-items: center;
+      margin-left: auto;
+    }
+
+    .nav-content {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 28px 0;
+    }
+
+    .blogs-page {
+      padding: 160px 0 100px;
+      min-height: 100vh;
+      background: #050715;
+    }
+ 
+    [data-theme="light"] .blogs-page { background: var(--bg); }
+ 
+    .blogs-page .section-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+ 
+    .blogs-page .section-header h2 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+ 
+    .blogs-page .section-header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+ 
+    /* Filter buttons */
+    .project-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 50px;
+    }
+ 
+    .filter-btn {
+      padding: 10px 22px;
+      border-radius: 50px;
+      border: 1.5px solid rgba(99, 102, 241, 0.3);
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+ 
+    .filter-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+ 
+    .filter-btn.active {
+      background: var(--gradient);
+      border-color: transparent;
+      color: white;
+    }
+ 
+    /* Blogs grid */
+    .blogs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+ 
+    .blog-card-page {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(99, 102, 241, 0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+ 
+    .blog-card-page:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+      border-color: var(--primary);
+    }
+ 
+    .blog-card-page .blog-image-wrap {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+    }
+ 
+    .blog-card-page .blog-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+ 
+    .blog-card-page:hover .blog-image-wrap img {
+      transform: scale(1.05);
+    }
+ 
+    .blog-card-page .blog-content-wrap {
+      padding: 24px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+ 
+    .blog-card-page .blog-tag-pill {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.1);
+      color: #a5b4fc;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      width: fit-content;
+      border: 1px solid rgba(99,102,241,0.2);
+    }
+ 
+    .blog-card-page h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.5;
+      margin-bottom: 12px;
+      flex-grow: 1;
+    }
+ 
+    .blog-card-page .blog-read-more {
+      color: var(--primary);
+      font-size: 0.88rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: gap 0.3s;
+      margin-top: auto;
+    }
+ 
+    .blog-card-page:hover .blog-read-more { gap: 10px; }
+ 
+    /* Back button */
+    .back-btn-wrap {
+      text-align: center;
+      margin-top: 20px;
+    }
+ 
+    /* Footer */
+    .footer {
+      background: rgb(3, 8, 21);
+      padding: 30px 0;
+      border-top: 1px solid rgba(99, 102, 241, 0.2);
+      text-align: center;
+      color: var(--text-muted);
+    }
+ 
+    [data-theme="light"] .footer { background: rgba(248, 250, 252, 0.8); }
+ 
+    /* Responsive */
+    @media (max-width: 968px) {
+      .blogs-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+ 
+    @media (max-width: 640px) {
+      .blogs-grid { grid-template-columns: 1fr; }
+      .blogs-page .section-header h2 { font-size: 2rem; }
+    }
+  </style>
 </head>
 <body>
-
-  <div class="bg-gradient"></div>
-
+ 
   <!-- Navigation -->
-  <nav id="navbar">
-    <div class="nav-container">
-      <div class="logo">PORTFOLIO</div>
-      <div class="nav-links">
-        <a href="../index.html">Home</a>
-        <a href="../index.html#contact">Contact</a>
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <div class="nav-content">
+        <a href="../index.html" class="logo">
+          Grow<span class="logo-highlight">In</span>Data
+          <span class="logo-sub">Kostanca Kovaci</span>
+        </a>
+        <div class="nav-toggle" id="navToggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="../index.html#home" class="nav-link">HOME</a></li>
+          <li>
+            <div class="theme-toggle">
+              <button id="themeToggle" aria-label="Toggle theme">
+                <span class="theme-icon">🌙</span>
+              </button>
+            </div>
+          </li>
+          <li><a href="../index.html#contact" class="nav-link nav-cta">GET STARTED</a></li>
+        </ul>
+        <button class="drawer-open-btn" id="drawerOpen">
+          <i class="fa-solid fa-bars"></i>
+        </button>
       </div>
     </div>
   </nav>
-
-  <!-- Page Header -->
-  <section id="portfolio" style="padding-top: 120px;">
-    <div class="section-header">
-      <h2>Blogs</h2>
-      <p>A collection of my data science & analytics blogs</p>
-    </div>
-
-    <!-- Category Buttons -->
-    <div class="project-filters">
-      <button class="filter-btn active" data-filter="all">All</button>
-    </div>
-
-    <!-- Projects Grid -->
-    <div class="projects-grid"> 
-
-      <!-- Project 1 -->
-      <div class="project-card"  onclick="location.href='blog1.html'">
-        <img src="../images/Interpretation Framework.png" class="project-image">
-        <div class="project-content">
-          <h3>From Code to Insights: A Systematic Framework for Developing Data Interpretation Skills</h3>
-          <p>Interpretation Skill</p>
-        </div>
+ 
+  <!-- Blogs Page -->
+  <section class="blogs-page">
+    <div class="container">
+ 
+      <div class="section-header">
+        <span class="section-tag">BLOG</span>
+        <h2 style="font-family: 'Poppins', sans-serif;">Blogs & Insights</h2>
+        <p>A collection of my data science & analytics blogs</p>
       </div>
-
-      <!-- Project 2 -->
-      <div class="project-card"  onclick="location.href='blog2.html'">  
-        <img src="../images/beginners_trap.png" class="project-image">
-        <div class="project-content">
-          <h3>The Beginner's Trap: Learning Tools Without Solving Problems</h3>
-          <p>Learning Strategy</p>
+ 
+      <!-- Filter Buttons -->
+      <div class="project-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="framework">Framework</button>
+        <button class="filter-btn" data-filter="career">Career</button>
+      </div>
+ 
+      <!-- Blogs Grid -->
+      <div class="blogs-grid">
+ 
+        <div class="blog-card-page" data-category="framework" onclick="location.href='blog1.html'">
+          <div class="blog-image-wrap">
+            <img src="../images/Interpretation Framework.png" alt="Blog 1">
+          </div>
+          <div class="blog-content-wrap">
+            <span class="blog-tag-pill">Framework</span>
+            <h3>From Code to Insights: A Systematic Framework for Developing Data Interpretation Skills</h3>
+            <a class="blog-read-more">Read More <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
         </div>
-
+ 
+        <div class="blog-card-page" data-category="career" onclick="location.href='blog2.html'">
+          <div class="blog-image-wrap">
+            <img src="../images/beginners_trap.png" alt="Blog 2">
+          </div>
+          <div class="blog-content-wrap">
+            <span class="blog-tag-pill">Career</span>
+            <h3>The Beginner's Trap: Learning Tools Without Solving Problems</h3>
+            <a class="blog-read-more">Read More <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+ 
+      </div>
+ 
+      <div class="back-btn-wrap">
+        <a href="../index.html" class="btn btn-primary">← Back to Home</a>
+      </div>
+ 
+    </div>
   </section>
-
-  <footer>
-    <p>© 2026 <span class="footer-name">Kostanca Kovaci</span>. All rights reserved.</p>
+ 
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 <span class="footer-name">Kostanca Kovaci</span>. All Rights Reserved</p>
+    </div>
   </footer>
-
-  <!-- Filtering Script -->
+ 
+  <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">↑</button>
+ 
+  <!-- Side Drawer -->
+  <div class="side-drawer" id="sideDrawer">
+    <button class="drawer-close" id="drawerClose">✕</button>
+    <div class="drawer-logo">Grow<span>In</span>Data</div>
+    <div class="drawer-section">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="../index.html#home"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li><a href="../index.html#about"><i class="fa-solid fa-user"></i> About</a></li>
+        <li><a href="../index.html#project"><i class="fa-solid fa-folder"></i> Portfolio</a></li>
+        <li><a href="../index.html#service"><i class="fa-solid fa-briefcase"></i> Services</a></li>
+      </ul>
+    </div>
+    <div class="drawer-section">
+      <h4>Learn</h4>
+      <ul>
+        <li><a href="../index.html#blog"><i class="fa-solid fa-pen-nib"></i> Blog</a></li>
+        <li><a href="../index.html#tutorial"><i class="fa-solid fa-book-open"></i> Tutorials</a></li>
+        <li><a href="../tutorials/all-tutorials.html"><i class="fa-solid fa-graduation-cap"></i> All Courses</a></li>
+        <li><a href="../projects/all-projects.html"><i class="fa-solid fa-diagram-project"></i> All Projects</a></li>
+      </ul>
+    </div>
+    <div class="drawer-section">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:kovacikostanca@gmail.com"><i class="fa-solid fa-envelope"></i> Email Me</a></li>
+        <li><a href="https://linkedin.com/in/kostanca-kovaci/" target="_blank"><i class="fa-brands fa-linkedin-in"></i> LinkedIn</a></li>
+        <li><a href="https://github.com/kovacikostanca" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a></li>
+      </ul>
+    </div>
+    <a href="../index.html#contact" class="drawer-cta">Get Started</a>
+  </div>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="../script_new.js"></script>
   <script>
     const filterButtons = document.querySelectorAll('.filter-btn');
-    const projects = document.querySelectorAll('.project-card');
-
+    const blogs = document.querySelectorAll('.blog-card-page');
+ 
     filterButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         filterButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-
         const filter = btn.getAttribute('data-filter');
-
-        projects.forEach(project => {
-          if (filter === 'all' || project.getAttribute('data-category') === filter) {
-            project.style.display = 'block';
+        blogs.forEach(card => {
+          if (filter === 'all' || card.getAttribute('data-category') === filter) {
+            card.style.display = 'flex';
           } else {
-            project.style.display = 'none';
+            card.style.display = 'none';
           }
         });
       });
     });
   </script>
-
+ 
 </body>
 </html>
+ 
