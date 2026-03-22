@@ -1,91 +1,314 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tutorials | Kostanca Kovaci</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="../style.css">
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <title>Tutorials | GrowInData</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Caveat:wght@600&family=Poppins:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style_new.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    .tutorials-page {
+      padding: 160px 0 100px;
+      min-height: 100vh;
+      background: #050715;
+    }
+ 
+    [data-theme="light"] .tutorials-page {
+      background: var(--bg);
+    }
+ 
+    .tutorials-page .section-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+ 
+    .tutorials-page .section-header h2 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+ 
+    .tutorials-page .section-header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+ 
+    /* Filter buttons */
+    .project-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 50px;
+    }
+ 
+    .filter-btn {
+      padding: 10px 22px;
+      border-radius: 50px;
+      border: 1.5px solid rgba(99, 102, 241, 0.3);
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+ 
+    .filter-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+ 
+    .filter-btn.active {
+      background: var(--gradient);
+      border-color: transparent;
+      color: white;
+    }
+ 
+    /* Tutorials grid */
+    .tutorials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+ 
+    .tutorial-card-page {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(99, 102, 241, 0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+ 
+    .tutorial-card-page:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+      border-color: var(--primary);
+    }
+ 
+    .tutorial-card-page .tutorial-image-wrap {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+    }
+ 
+    .tutorial-card-page .tutorial-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+ 
+    .tutorial-card-page:hover .tutorial-image-wrap img {
+      transform: scale(1.05);
+    }
+ 
+    .tutorial-card-page .tutorial-image-wrap .tutorial-overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(74, 134, 247, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+ 
+    .tutorial-card-page:hover .tutorial-overlay {
+      opacity: 1;
+    }
+ 
+    .tutorial-card-page .tutorial-overlay span {
+      color: white;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+ 
+    .tutorial-card-page .tutorial-content {
+      padding: 24px;
+      flex-grow: 1;
+    }
+ 
+    .tutorial-card-page .tutorial-content .tutorial-category {
+      display: inline-block;
+      background: #4a86f7;
+      color: #fff;
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+ 
+    .tutorial-card-page .tutorial-content h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+      line-height: 1.4;
+    }
+ 
+    .tutorial-card-page .tutorial-content p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+ 
+    /* Back button */
+    .back-btn-wrap {
+      text-align: center;
+      margin-top: 20px;
+    }
+ 
+    /* Footer */
+    .footer {
+      background: rgba(15, 23, 42, 0.8);
+      padding: 30px 0;
+      border-top: 1px solid rgba(99, 102, 241, 0.2);
+      text-align: center;
+      color: var(--text-muted);
+    }
+ 
+    [data-theme="light"] .footer {
+      background: rgba(248, 250, 252, 0.8);
+    }
+ 
+    /* Responsive */
+    @media (max-width: 968px) {
+      .tutorials-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+ 
+    @media (max-width: 640px) {
+      .tutorials-grid { grid-template-columns: 1fr; }
+      .tutorials-page .section-header h2 { font-size: 2rem; }
+    }
+  </style>
 </head>
 <body>
-
-  <div class="bg-gradient"></div>
-
+ 
   <!-- Navigation -->
-  <nav id="navbar">
-    <div class="nav-container">
-      <div class="logo">PORTFOLIO</div>
-      <div class="nav-links">
-        <a href="../index.html">Home</a>
-        <a href="../index.html#contact">Contact</a>
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <div class="nav-content">
+        <a href="../index.html" class="logo">
+          Grow<span class="logo-highlight">In</span>Data
+          <span class="logo-sub">Kostanca Kovaci</span>
+        </a>
+        <div class="nav-toggle" id="navToggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="../index.html#home" class="nav-link">HOME</a></li>
+          <li>
+            <div class="theme-toggle">
+              <button id="themeToggle" aria-label="Toggle theme">
+                <span class="theme-icon">🌙</span>
+              </button>
+            </div>
+          </li>
+          <li><a href="../index.html#contact" class="nav-link nav-cta">GET STARTED</a></li>
+        </ul>
       </div>
     </div>
   </nav>
-
-  <!-- Page Header -->
-  <section id="portfolio" style="padding-top: 120px;">
-    <div class="section-header">
-      <h2>All Tutorials</h2>
-      <p>A complete collection of my data science & analytics work</p>
-    </div>
-
-    <!-- Category Buttons -->
-    <div class="project-filters">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="data_cleaning">Data Cleaning</button>
-    </div>
-
-    <!-- Projects Grid -->
-    <div class="projects-grid"> 
-
-      <!-- Project 1 -->
-      <div class="project-card" data-category="data_cleaning" onclick="location.href='tutorial1.html'">
-        <img src="../images/data_clean_tut.png" class="project-image">
-        <div class="project-content">
-          <h3>Data Cleaning in Python</h3>
-          <p>Python | Pandas</p>
-        </div>
+ 
+  <!-- Tutorials Page -->
+  <section class="tutorials-page">
+    <div class="container">
+ 
+      <div class="section-header">
+        <span class="section-tag">TUTORIALS</span>
+        <h2>All Tutorials & Courses</h2>
+        <p>Step-by-step guides to sharpen your data science skills</p>
       </div>
-
-        <!-- Project 2 -->
-      <div class="project-card" data-category="data_cleaning" onclick="location.href='Pandas_Cheatsheet.html'">
-        <img src="../images/free pandas cheatsheet.png" class="project-image">
-        <div class="project-content">
-          <h3>Free Pandas Cheatsheet</h3>
-          <p>Python | Pandas</p>
-        </div>
+ 
+      <!-- Filter Buttons -->
+      <div class="project-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="data_cleaning">Data Cleaning</button>
+        <button class="filter-btn" data-filter="pandas">Pandas</button>
+        <button class="filter-btn" data-filter="python">Python</button>
       </div>
-
+ 
+      <!-- Tutorials Grid -->
+      <div class="tutorials-grid">
+ 
+        <div class="tutorial-card-page" data-category="data_cleaning" onclick="location.href='tutorial1.html'">
+          <div class="tutorial-image-wrap">
+            <img src="../images/data_clean_tut.png" alt="Data Cleaning Tutorial">
+            <div class="tutorial-overlay"><span>Open Guide</span></div>
+          </div>
+          <div class="tutorial-content">
+            <span class="tutorial-category">Data Cleaning</span>
+            <h3>Data Cleaning with Pandas</h3>
+            <p>Python | Pandas</p>
+          </div>
+        </div>
+ 
+        <div class="tutorial-card-page" data-category="pandas" onclick="location.href='Pandas_Cheatsheet.html'">
+          <div class="tutorial-image-wrap">
+            <img src="../images/free pandas cheatsheet.png" alt="Pandas Cheatsheet">
+            <div class="tutorial-overlay"><span>Open Guide</span></div>
+          </div>
+          <div class="tutorial-content">
+            <span class="tutorial-category">Pandas Essentials</span>
+            <h3>Free Pandas Cheatsheet</h3>
+            <p>Python | Pandas</p>
+          </div>
+        </div>
+ 
+      </div>
+ 
+      <div class="back-btn-wrap">
+        <a href="../index.html" class="btn btn-primary">← Back to Home</a>
+      </div>
+ 
+    </div>
   </section>
-
-  <footer>
-    <p>© 2026 <span class="footer-name">Kostanca Kovaci</span>. All rights reserved.</p>
+ 
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 <span class="footer-name">Kostanca Kovaci</span>. All Rights Reserved</p>
+    </div>
   </footer>
-
-  <!-- Filtering Script -->
+ 
+  <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">↑</button>
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="../script_new.js"></script>
   <script>
     const filterButtons = document.querySelectorAll('.filter-btn');
-    const projects = document.querySelectorAll('.project-card');
-
+    const tutorials = document.querySelectorAll('.tutorial-card-page');
+ 
     filterButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         filterButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-
         const filter = btn.getAttribute('data-filter');
-
-        projects.forEach(project => {
-          if (filter === 'all' || project.getAttribute('data-category') === filter) {
-            project.style.display = 'block';
+        tutorials.forEach(card => {
+          if (filter === 'all' || card.getAttribute('data-category') === filter) {
+            card.style.display = 'flex';
           } else {
-            project.style.display = 'none';
+            card.style.display = 'none';
           }
         });
       });
     });
   </script>
-
+ 
 </body>
 </html>

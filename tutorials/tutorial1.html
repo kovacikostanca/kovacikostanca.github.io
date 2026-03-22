@@ -1,697 +1,1125 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <title>Data Cleaning & Manipulation | Tutorial</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css">
-
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <title>Data Cleaning & Manipulation | GrowInData</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Caveat:wght@600&family=Poppins:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style_new.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
-    /* ===== Body & Background ===== */
-    body {
-      font-family: 'Calibri', sans-serif;
-      line-height: 1.7;
-      background: 
-        linear-gradient(135deg, #0f172a 0%, #1e293b 100%),
-        radial-gradient(circle at top left, rgba(99,102,241,0.08), transparent 70%),
-        radial-gradient(circle at bottom right, rgba(139,92,246,0.06), transparent 70%);
-      background-blend-mode: overlay, overlay;
-      color: #e0e0e0;
-      margin: 0;
-      padding: 0;
-    }
-
-    /* ===== Top Navigation (Corrected Position) ===== */
-    .tutorial-nav {
-      position: sticky;
-      top: 0;
-      width: 100%;
-      background: rgba(15, 23, 42, 0.97);
-      backdrop-filter: blur(8px);
-      z-index: 100;
-      border-bottom: 1px solid rgba(99,102,241,0.2);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    }
-
-    .nav-container {
-      /* Matches the tutorial-wrapper width to keep links aligned with content */
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px 35px;
+    .nav-menu {
       display: flex;
-      justify-content: flex-end; /* Pushes links to the right */
-      gap: 25px;
+      gap: 35px;
+      align-items: center;
+      margin-left: auto;
     }
 
-    .tutorial-nav a {
-      color: #e0e0e0;
-      text-decoration: none;
-      font-weight: 600;
-      padding: 8px 20px;
-      border-radius: 15px;
+    .nav-content {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 28px 0;
+    }
+
+    .tutorial-page {
+      padding: 160px 0 80px;
+      min-height: 100vh;
+      background: #050715;
+    }
+
+    [data-theme="light"] .tutorial-page { background: #f0f4ff; }
+
+    /* ===== Top Tabs ===== */
+    .blog-tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 50px;
+    }
+
+    .blog-tabs-inner {
+      display: flex;
+      gap: 6px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(99,102,241,0.15);
+      border-radius: 50px;
+      padding: 6px;
+    }
+
+    [data-theme="light"] .blog-tabs-inner {
+      background: rgba(0,0,0,0.04);
+      border-color: rgba(99,102,241,0.2);
+    }
+
+    .blog-tab {
+      padding: 10px 28px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      color: var(--text-muted);
+      border: none;
+      background: transparent;
       transition: all 0.3s ease;
-      font-size: 0.95rem;
-    }
-
-    .tutorial-nav a:hover {
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
-      color: #ffffff;
-      box-shadow: 0 4px 15px rgba(99,102,241,0.4);
-    }
-
-    /* ===== Tutorial Wrapper ===== */
-    .tutorial-wrapper {
-      max-width: 900px;
-      margin: 60px auto 80px;
-      padding: 50px 35px;
-      background: rgba(30, 41, 59, 0.95);
-      border-radius: 20px;
-      box-shadow: 0 12px 50px rgba(0, 0, 0, 0.5);
-    }
-
-    .tutorial-wrapper h1 {
-      font-size: 2.8rem;
-      margin-bottom: 15px;
-      color: #ffffff;
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .tutorial-meta {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 40px;
-      font-size: 0.9rem;
-    }
-
-    .tutorial-meta span {
-      background: #223867;
-      padding: 6px 14px;
-      border-radius: 25px;
-      font-weight: 500;
-      color: #ffffff;
-    }
-
-    h2 {
-      font-size: 2rem;
-      margin-top: 50px;
-      margin-bottom: 15px;
-      color: #6366f1;
-      border-bottom: 1px solid rgba(99,102,241,0.3);
-      padding-bottom: 6px;
-    }
-
-    h3 {
-      font-size: 1.5rem;
-      margin-top: 35px;
-      color: #8b5cf6;
-    }
-
-    p, li {
-      line-height: 1.8;
-      margin-top: 15px;
-      font-size: 1rem;
-      color: #e0e0e0;
-    }
-
-    ul {
-      margin-left: 25px;
-    }
-
-    /* ===== Pre & Code Blocks ===== */
-    pre {
-      background: #5d6a7f;
-      color: #d1d5db;
-      padding: 20px;
-      border-radius: 12px;
-      overflow-x: auto;
-      margin-top: 20px;
-      font-family: "JetBrains Mono", monospace;
-      font-size: 0.9rem;
-      box-shadow: inset 0 0 15px rgba(0,0,0,0.3);
-      border-left: 4px solid #6366f1;
-    }
-
-    /* ===== Back Link ===== */
-    .back-link {
-      margin-top: 60px;
+      font-family: 'Space Grotesk', sans-serif;
+      text-decoration: none;
       display: inline-block;
+    }
+
+    .blog-tab:hover { color: var(--text); }
+    .blog-tab.active { background: var(--gradient); color: white; }
+
+    /* ===== Layout ===== */
+    .tutorial-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    /* ===== Sidebar ===== */
+    .blog-sidebar {
+      position: sticky;
+      top: 100px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(99,102,241,0.12);
+      border-radius: 16px;
+      padding: 28px 24px;
+    }
+
+    [data-theme="light"] .blog-sidebar {
+      background: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+
+    .sidebar-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--primary);
+      margin-bottom: 20px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .sidebar-section { margin-bottom: 24px; }
+
+    .sidebar-section-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(99,102,241,0.1);
+    }
+
+    .sidebar-links { list-style: none; padding: 0; margin: 0; }
+    .sidebar-links li { margin-bottom: 4px; }
+
+    .sidebar-links li a {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 8px;
+      border-radius: 8px;
+    }
+
+    .sidebar-links li a:hover {
+      color: var(--primary);
+      background: rgba(99,102,241,0.08);
+    }
+
+    .sidebar-links li a.active {
+      color: var(--primary);
+      background: rgba(99,102,241,0.1);
       font-weight: 600;
-      color: #6366f1;
-      text-decoration: none;
-      transition: all 0.3s ease;
+    }
+
+    .sidebar-links li a::before {
+      content: '›';
+      color: var(--primary);
       font-size: 1rem;
     }
 
-    .back-link:hover {
-      text-decoration: underline;
-      color: #8b5cf6;
+    /* ===== Content ===== */
+    .tutorial-content {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(99,102,241,0.12);
+      border-radius: 20px;
+      overflow: hidden;
     }
 
-    /* ===== Responsive ===== */
-    @media (max-width: 768px) {
-      .tutorial-wrapper {
-        margin: 50px 20px 60px;
-        padding: 35px 20px;
-      }
-
-      .nav-container {
-        justify-content: center;
-        gap: 15px;
-        padding: 12px 20px;
-      }
-
-      h1 {
-        font-size: 2.2rem;
-      }
-
-      h2 {
-        font-size: 1.7rem;
-      }
-
-      h3 {
-        font-size: 1.3rem;
-      }
+    [data-theme="light"] .tutorial-content {
+      background: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
     }
 
-    /* ===== Theme Toggle Button ===== */
-.theme-toggle {
-  background: transparent;
-  border: 1px solid rgba(99,102,241,0.4);
-  color: #e0e0e0;
-  padding: 8px 16px;
-  border-radius: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
+    /* Header */
+    .content-header {
+      padding: 55px 55px 40px;
+      border-bottom: 1px solid rgba(99,102,241,0.1);
+      background: linear-gradient(135deg, rgba(99,102,241,0.06) 0%, transparent 60%);
+    }
 
-.theme-toggle:hover {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  color: #9d9292;
-  box-shadow: 0 4px 15px rgba(99,102,241,0.4);
-}
+    .content-header-top {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
 
-/* ===== Light Mode ===== */
-body.light-mode {
-  background:
-    linear-gradient(135deg, #f8fafc 0%, #e5e7eb 100%);
-  color: #1f2937;
-}
+    .content-emoji { font-size: 2.8rem; line-height: 1; }
 
-body.light-mode .tutorial-nav {
-  background: rgba(248,250,252,0.95);
-  border-bottom: 1px solid #47484c;
-}
+    .content-header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
 
-body.light-mode .tutorial-wrapper {
-  background: #ffffff;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.12);
-}
+    [data-theme="light"] .content-header h1 { color: #0f172a; }
 
-body.light-mode p,
-body.light-mode li {
-  color: #374151;
-}
+    .content-header .content-desc {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 16px;
+      max-width: 650px;
+    }
 
-body.light-mode h2 {
-  color: #4338ca;
-  border-bottom-color: rgba(67,56,202,0.3);
-}
+    .content-tagline {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
 
-body.light-mode h3 {
-  color: #6d28d9;
-}
+    .content-divider {
+      width: 60px;
+      height: 3px;
+      background: var(--gradient);
+      border-radius: 2px;
+      margin-top: 24px;
+    }
 
-body.light-mode pre {
-  background: #0f172a;
-  color: #818691;
-}
+    /* Meta badges */
+    .content-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 55px;
+      border-bottom: 1px solid rgba(99,102,241,0.08);
+      background: rgba(99,102,241,0.03);
+      flex-wrap: wrap;
+    }
 
-body.light-mode .theme-toggle {
-  color: #1f2937;
-  border-color: #6366f1;
-}
+    .meta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(99,102,241,0.12);
+      color: #a5b4fc;
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid rgba(99,102,241,0.25);
+      font-family: 'JetBrains Mono', monospace;
+    }
 
-/* Fix nav link color in light mode */
-body.light-mode .tutorial-nav a {
-  color: #1f2937; /* dark readable text */
-}
+    [data-theme="light"] .meta-badge {
+      color: var(--primary);
+      background: rgba(99,102,241,0.08);
+    }
 
-body.light-mode .tutorial-nav a:hover {
-  color: #ffffff;
-}
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
 
-.nav-container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px 35px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+    .meta-item i { color: var(--primary); }
 
-/* Logo styling (matches main portfolio) */
-.logo {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 1.8rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  cursor: default;
-}
+    /* Body */
+    .content-body { padding: 45px 55px; }
 
-/* Right-side nav */
-.nav-right {
-  display: flex;
-  gap: 25px;
-}
+    .content-body h2 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-top: 48px;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
 
-.tutorial-nav a {
-  color: #e5e7eb;
-  text-decoration: none;
-  font-weight: 600;
-  padding: 6px 14px;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-}
+    .content-body h2:first-child { margin-top: 0; }
 
-.tutorial-nav a:hover {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  color: #ffffff;
-}
+    .section-separator {
+      border: none;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), transparent);
+      margin: 6px 0 22px;
+      border-radius: 2px;
+    }
 
-:root {
-  /* Light Mode Colors */
-  --quote-bg-light: rgba(99,102,241,0.12);
-  --quote-border-light: #6366f1;
-  --quote-text-light: #1f2937;
+    .content-body h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-top: 28px;
+      margin-bottom: 10px;
+      color: #a5b4fc;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-  /* Dark Mode Colors */
-  --quote-bg-dark: rgba(99,102,241,0.12);
-  --quote-border-dark: #8b5cf6;
-  --quote-text-dark: #e5e7eb;
-}
+    .content-body h3::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 16px;
+      background: var(--primary);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
 
-.tutorial-quote {
-  margin: 40px 0;
-  padding: 22px 28px;
-  border-left: 5px solid;
-  border-radius: 12px;
-  font-style: italic;
-  font-size: 1.1rem;
-  box-shadow: inset 0 0 20px rgba(0,0,0,0.15);
-  transition: all 0.3s ease;
-}
+    [data-theme="light"] .content-body h3 { color: var(--primary); }
 
-/* Light Mode */
-body.light-mode .tutorial-quote {
-  background: var(--quote-bg-light);
-  border-color: var(--quote-border-light);
-  color: var(--quote-text-light);
-}
+    .content-body p {
+      font-size: 1rem;
+      line-height: 1.9;
+      margin-bottom: 16px;
+      color: var(--text-muted);
+    }
 
-/* Dark Mode */
-body.dark-mode .tutorial-quote {
-  background: var(--quote-bg-dark);
-  border-color: var(--quote-border-dark);
-  color: var(--quote-text-dark);
-}
+    .content-body p strong { color: var(--text); }
 
+    .content-body ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 18px 0;
+    }
 
+    .content-body ul li {
+      font-size: 1rem;
+      line-height: 1.85;
+      margin-bottom: 8px;
+      color: var(--text-muted);
+      padding-left: 22px;
+      position: relative;
+    }
+
+    .content-body ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-size: 0.85rem;
+    }
+
+    .content-body ul li strong { color: var(--text); }
+
+    /* Code blocks */
+    .content-body pre {
+      background: #0d1117;
+      border: 1px solid rgba(99,102,241,0.2);
+      border-left: 4px solid var(--primary);
+      border-radius: 0 10px 10px 0;
+      padding: 20px 24px;
+      overflow-x: auto;
+      margin: 16px 0 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: #e2e8f0;
+    }
+
+    [data-theme="light"] .content-body pre {
+      background: #1e293b;
+      color: #e2e8f0;
+    }
+
+    .content-body code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+    }
+
+    /* Quote/blockquote */
+    .tutorial-quote {
+      margin: 24px 0;
+      padding: 18px 24px;
+      border-left: 4px solid var(--primary);
+      background: rgba(99,102,241,0.07);
+      border-radius: 0 10px 10px 0;
+      font-size: 0.98rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    [data-theme="light"] .tutorial-quote { background: rgba(99,102,241,0.05); }
+    .tutorial-quote strong { color: var(--text); font-style: normal; }
+
+    /* Tutorial image */
+    .tutorial-img {
+      width: 60%;
+      border-radius: 12px;
+      display: block;
+      margin: 28px auto;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      border: 1px solid rgba(99,102,241,0.15);
+    }
+
+    /* Key box */
+    .blog-key {
+      margin: 24px 0;
+      padding: 20px 24px;
+      background: rgba(99,102,241,0.07);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 12px;
+    }
+
+    .key-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--primary);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .blog-key p { margin: 0; font-size: 0.98rem; color: var(--text-muted); }
+    .blog-key p strong { color: var(--text); }
+
+    /* Connect */
+    .blog-connect {
+      margin-top: 40px;
+      padding: 20px 24px;
+      background: rgba(99,102,241,0.07);
+      border-radius: 14px;
+      border: 1px solid rgba(99,102,241,0.15);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .blog-connect-icon {
+      width: 40px; height: 40px;
+      background: rgba(99,102,241,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .blog-connect p { margin: 0; font-size: 0.92rem; color: var(--text-muted); }
+    .blog-connect a { color: var(--primary); font-weight: 600; }
+    .blog-connect a:hover { text-decoration: underline; }
+
+    /* Footer bar */
+    .content-footer-bar {
+      padding: 22px 55px;
+      border-top: 1px solid rgba(99,102,241,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      background: rgba(99,102,241,0.03);
+    }
+
+    .content-footer-bar a {
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.3s;
+    }
+
+    .content-footer-bar a:hover { opacity: 0.8; }
+
+    /* ===== CTA Banner ===== */
+    .blog-cta-banner {
+      margin-top: 40px;
+      background: var(--gradient);
+      border-radius: 20px;
+      padding: 40px 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      flex-wrap: wrap;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .blog-cta-banner::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
+    }
+
+    .cta-banner-left { display: flex; align-items: center; gap: 20px; flex: 1; }
+    .cta-banner-icon { font-size: 2.5rem; flex-shrink: 0; }
+
+    .cta-banner-text h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 6px;
+    }
+
+    .cta-banner-text p {
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .cta-banner-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: white;
+      color: var(--primary) !important;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      text-decoration: none;
+      transition: all 0.3s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .cta-banner-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+
+    /* ===== Bottom Cards ===== */
+    .blog-bottom-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .bottom-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(99,102,241,0.12);
+      border-radius: 16px;
+      padding: 28px;
+    }
+
+    [data-theme="light"] .bottom-card {
+      background: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+
+    .author-card-img {
+      width: 72px; height: 72px;
+      border-radius: 12px;
+      object-fit: cover;
+      object-position: top;
+      border: 2px solid rgba(99,102,241,0.3);
+      margin-bottom: 14px;
+    }
+
+    .bottom-card h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .bottom-card p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+
+    .bottom-card-social { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .bottom-card-social a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid rgba(99,102,241,0.3);
+      color: var(--text-muted);
+      transition: all 0.3s;
+    }
+
+    .bottom-card-social a:hover {
+      background: var(--primary);
+      color: white;
+      border-color: transparent;
+    }
+
+    .community-icon { font-size: 1.8rem; margin-bottom: 12px; }
+
+    /* Footer */
+    .footer {
+      background: rgba(15, 23, 42, 0.8);
+      padding: 30px 0;
+      border-top: 1px solid rgba(99, 102, 241, 0.2);
+      text-align: center;
+      color: var(--text-muted);
+      margin-top: 0;
+    }
+
+    [data-theme="light"] .footer { background: rgba(248, 250, 252, 0.8); }
+
+    /* Responsive */
+    @media (max-width: 968px) {
+      .tutorial-layout { grid-template-columns: 1fr; }
+      .blog-sidebar { position: static; }
+      .content-header { padding: 36px 28px 28px; }
+      .content-meta { padding: 12px 28px; }
+      .content-body { padding: 32px 28px; }
+      .content-footer-bar { padding: 18px 28px; }
+      .content-header h1 { font-size: 1.7rem; }
+      .blog-cta-banner { padding: 28px; }
+      .blog-bottom-cards { grid-template-columns: 1fr; }
+      .tutorial-img { width: 90%; }
+    }
   </style>
 </head>
-
 <body>
 
-  <nav class="tutorial-nav">
-    <div class="nav-container">
-
-    
-    <div class="logo">PORTFOLIO</div>
-    
-
-    <div class="nav-right">
-      <button id="themeToggle" class="theme-toggle">🌙 Dark</button>
-      <a href="../index.html">Home</a>
-      <a href="../index.html#tutorial">Tutorials</a>
-    </div>
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <div class="nav-content">
+        <a href="../index.html" class="logo">
+          Grow<span class="logo-highlight">In</span>Data
+          <span class="logo-sub">Kostanca Kovaci</span>
+        </a>
+        <div class="nav-toggle" id="navToggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="../index.html#home" class="nav-link">HOME</a></li>
+          <li>
+            <div class="theme-toggle">
+              <button id="themeToggle" aria-label="Toggle theme">
+                <span class="theme-icon">🌙</span>
+              </button>
+            </div>
+          </li>
+        </ul>
+        <button class="drawer-open-btn" id="drawerOpen">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
     </div>
   </nav>
 
-  <div class="tutorial-wrapper">
+  <!-- Tutorial Page -->
+  <section class="tutorial-page">
+    <div class="container">
 
-    <h1>Data Cleaning & Manipulation</h1>
+      <!-- Tabs -->
+      <div class="blog-tabs">
+        <div class="blog-tabs-inner">
+          <a href="#" class="blog-tab active">Data Cleaning</a>
+          <a href="#" class="blog-tab"></a>
+          <a href="#" class="blog-tab"></a>
+          <a href="#" class="blog-tab"></a>
+        </div>
+      </div>
 
-    <div class="tutorial-meta">
-      <span>Python</span>
-      <span>Pandas</span>
-    </div>
+      <!-- Layout -->
+      <div class="tutorial-layout">
 
-    <p style="font-size: 1.1rem;">
-      Welcome! If you're new to data science or even programming in general, this guide is for you. 
-      We’ll go step-by-step and clearly explain <strong>what we are doing, why it matters, and what results to expect</strong>. 
-      By the end, you will understand how to take raw, messy data and turn it into clean, well-structured 
-      information ready for analysis or machine learning.
-    </p>
+        <!-- Sidebar -->
+        <div class="blog-sidebar">
+          <div class="sidebar-title">Tutorial Contents</div>
 
-    <h2>What is Data Cleaning?</h2>
-    <p style="font-size: 1.1rem;">
-      Data cleaning is the process of identifying and correcting (or removing) errors, inconsistencies, and 
-      inaccuracies in a dataset to improve its quality and reliability. Data cleaning ensures that your data 
-      is accurate, complete, and ready for analysis. <br />
-      This essential step in data analysis prepares data for 
-      accurate decision-making and involves tasks like fixing errors, filling in missing values, and standardizing 
-      formats. In that way, you ensure your insights and models are based on solid ground and not biased information.
-    </p>
+          <div class="sidebar-section">
+            <div class="sidebar-section-title">Data Cleaning</div>
+            <ul class="sidebar-links">
+              <li><a href="#what" class="active">What is Data Cleaning?</a></li>
+              <li><a href="#why">Why It Matters</a></li>
+              <li><a href="#pandas">1. What is Pandas?</a></li>
+              <li><a href="#setup">2. Setting Up</a></li>
+              <li><a href="#dataframes">3. DataFrames</a></li>
+              <li><a href="#importing">4. Importing Data</a></li>
+              <li><a href="#inspecting">5. Inspecting Data</a></li>
+              <li><a href="#cleaning">6. Data Cleaning</a></li>
+              <li><a href="#manipulation">7. Manipulation</a></li>
+              <li><a href="#project">8. Mini Project</a></li>
+              <li><a href="#final">Final Thoughts</a></li>
+            </ul>
+          </div>
 
-    <h2>Why Data Cleaning and Manipulation Matter</h2>
-    <p style="font-size: 1.1rem;">Raw data is almost never usable as-is. It may contain:</p>
+          <div class="sidebar-section">
+            <div class="sidebar-section-title">More Tutorials</div>
+            <ul class="sidebar-links">
+              <li><a href="Pandas_Cheatsheet.html">Free Pandas Cheatsheet</a></li>
+            </ul>
+          </div>
+        </div>
 
-    <ul style="font-size: 1.1rem;">
-      <li style="font-size: 1.1rem;">Missing values</li>
-      <li style="font-size: 1.1rem;">Wrong data types</li>
-      <li style="font-size: 1.1rem;">Duplicates</li>
-      <li style="font-size: 1.1rem;">Inconsistent formatting</li>
-      <li style="font-size: 1.1rem;">Irrelevant information</li>
-    </ul>
-    <br />
+        <!-- Content -->
+        <div class="tutorial-content">
 
-    <p style="font-size: 1.1rem;">
-      If you don't clean data properly:
-    </p>
+          <!-- Header -->
+          <div class="content-header">
+            <div class="content-header-top">
+              <span class="content-emoji">🧹</span>
+              <h1>Data Cleaning & Manipulation</h1>
+            </div>
+            <p class="content-desc">
+              A complete step-by-step guide to taking raw, messy data and turning it into clean, well-structured information ready for analysis or machine learning.
+            </p>
+            <p class="content-tagline">What we are doing, why it matters, and what results to expect.</p>
+            <div class="content-divider"></div>
+          </div>
 
-    <ul style="font-size: 1.1rem;">
-      <li style="font-size: 1.1rem;">Your analysis becomes inaccurate</li>
-      <li style="font-size: 1.1rem;">Your models perform poorly</li>
-      <li style="font-size: 1.1rem;">Your conclusions become misleading</li>
-    </ul>
+          <!-- Meta -->
+          <div class="content-meta">
+            <span class="meta-badge"><i class="fa-brands fa-python"></i> Python</span>
+            <span class="meta-badge">Pandas</span>
+            <div class="meta-item"><i class="fa-regular fa-clock"></i> 15 min read</div>
+            <div class="meta-item"><i class="fa-solid fa-signal"></i> Beginner</div>
+          </div>
 
-    <div style="text-align: center;">
-      <img src="../images/data_clean_tut.png" alt="Data Cleaning Illustration" style="width:60%; margin: 30px 0; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.2);">
-    </div>
-    <blockquote class="tutorial-quote">Cleaning data = removing noise so truth can appear.</blockquote>
+          <!-- Body -->
+          <div class="content-body">
 
-    <h2>1. What is Pandas and Why Use It?</h2>
-    <p style="font-size: 1.1rem;">
-        <strong>Pandas</strong> is a powerful Python library built specifically for <strong>data manipulation and analysis</strong>, 
-        developed on top of NumPy. It provides two main data structures—Series (one-dimensional) and DataFrame (two-dimensional)
-         — that make it incredibly easy to work with <strong>structured data</strong> like spreadsheets or SQL tables. 
-         With pandas, you can quickly <strong>load data</strong> from various formats (CSV, Excel, SQL databases), <strong>clean and transform it, 
-         handle missing values, perform grouping and aggregation operations</strong>, and <strong>merge datasets together</strong>. It's become the go-to 
-         tool for data scientists and analysts because it combines the flexibility of Python with the intuitive feel of working 
-         with tabular data, offering both high performance and readable, expressive syntax.    
-    </p>
+            <p>
+              Welcome! If you're new to data science or even programming in general, this guide is for you.
+              We'll go step-by-step and clearly explain <strong>what we are doing, why it matters, and what results to expect</strong>.
+              By the end, you will understand how to take raw, messy data and turn it into clean, well-structured
+              information ready for analysis or machine learning.
+            </p>
 
-    <h3>Why it is Important?</h3>
-    <ul style="font-size: 1.1rem;">
-      <li style="font-size: 1.1rem;"><strong>Loads CSV, Excel, SQL, and more</strong></li>
-      <li style="font-size: 1.1rem;"><strong>Cleans and restructures data efficiently</strong></li>
-      <li style="font-size: 1.1rem;"><strong>Handles missing values gracefully</strong></li>
-      <li style="font-size: 1.1rem;"><strong>Readable syntax</strong></li>
-    </ul>
+            <h2 id="what">What is Data Cleaning?</h2>
+            <hr class="section-separator">
 
-    <blockquote class="tutorial-quote"><strong>Results:</strong> A clean, organized dataset ready for analysis.</blockquote>
+            <p>
+              Data cleaning is the process of identifying and correcting (or removing) errors, inconsistencies, and
+              inaccuracies in a dataset to improve its quality and reliability. Data cleaning ensures that your data
+              is accurate, complete, and ready for analysis.
+            </p>
 
-    <h2>2. Setting Up Your Environment</h2>
-    <p style="font-size: 1.1rem;">
-      To follow along, you only need Python installed.
-      <br />
-      <br />
-      <strong>Install Pandas:</strong>
-    </p>
-    <pre><code>pip install pandas</code></pre>
+            <p>
+              This essential step in data analysis prepares data for accurate decision-making and involves tasks like
+              fixing errors, filling in missing values, and standardizing formats. In that way, you ensure your insights
+              and models are based on solid ground and not biased information.
+            </p>
 
-    <p style="font-size: 1.1rem;">
-      Pandas isn’t built into Python — you need to install it once.
-    </p>
+            <h2 id="why">Why Data Cleaning and Manipulation Matter</h2>
+            <hr class="section-separator">
 
-    <h2>3. Understanding DataFrames</h2>
-    <p style="font-size: 1.1rem;">
-      A DataFrame is like a digital spreadsheet:
-    </p>
+            <p>Raw data is almost never usable as-is. It may contain:</p>
 
-    <ul style="font-size: 1.1rem;">
-      <li style="font-size: 1.1rem;"><strong>Rows</strong> = observations (e.g., each person, transaction, product)</li>
-      <li style="font-size: 1.1rem;"><strong>Columns</strong> = attributes (e.g., name, age, price)</li>
-      <li style="font-size: 1.1rem;"><strong>Index</strong> = row labels (usually numbers)</li>
-    </ul>
+            <ul>
+              <li>Missing values</li>
+              <li>Wrong data types</li>
+              <li>Duplicates</li>
+              <li>Inconsistent formatting</li>
+              <li>Irrelevant information</li>
+            </ul>
 
-    <p style="font-size: 1.1rem;">
-      Data science is all about analyzing rows and columns — Pandas gives structure.
-    </p>
+            <p>If you don't clean data properly:</p>
 
-    <blockquote class="tutorial-quote"><strong>Once your data is in a DataFrame, you can manipulate it easily.</strong></blockquote>
+            <ul>
+              <li>Your analysis becomes inaccurate</li>
+              <li>Your models perform poorly</li>
+              <li>Your conclusions become misleading</li>
+            </ul>
 
-    <h2>4. Importing Data</h2>
-    <p style="font-size: 1.3rem;">
-      <strong>Example:</strong> Loading a CSV file
-    </p>
-    <pre><code>import pandas as pd
+            <img src="../images/data_clean_tut.png" alt="Data Cleaning Illustration" class="tutorial-img">
+
+            <div class="tutorial-quote">Cleaning data = removing noise so truth can appear.</div>
+
+            <h2 id="pandas">1. What is Pandas and Why Use It?</h2>
+            <hr class="section-separator">
+
+            <p>
+              <strong>Pandas</strong> is a powerful Python library built specifically for <strong>data manipulation and analysis</strong>,
+              developed on top of NumPy. It provides two main data structures — Series (one-dimensional) and DataFrame (two-dimensional) —
+              that make it incredibly easy to work with <strong>structured data</strong> like spreadsheets or SQL tables.
+            </p>
+
+            <p>
+              With Pandas, you can quickly <strong>load data</strong> from various formats (CSV, Excel, SQL databases),
+              <strong>clean and transform it, handle missing values, perform grouping and aggregation operations</strong>,
+              and <strong>merge datasets together</strong>. It's become the go-to tool for data scientists and analysts because
+              it combines the flexibility of Python with the intuitive feel of working with tabular data.
+            </p>
+
+            <h3>Why it is Important?</h3>
+            <ul>
+              <li><strong>Loads CSV, Excel, SQL, and more</strong></li>
+              <li><strong>Cleans and restructures data efficiently</strong></li>
+              <li><strong>Handles missing values gracefully</strong></li>
+              <li><strong>Readable syntax</strong></li>
+            </ul>
+
+            <div class="tutorial-quote"><strong>Result:</strong> A clean, organized dataset ready for analysis.</div>
+
+            <h2 id="setup">2. Setting Up Your Environment</h2>
+            <hr class="section-separator">
+
+            <p>To follow along, you only need Python installed. Install Pandas with:</p>
+
+<pre><code>pip install pandas</code></pre>
+
+            <p>Pandas isn't built into Python — you need to install it once.</p>
+
+            <h2 id="dataframes">3. Understanding DataFrames</h2>
+            <hr class="section-separator">
+
+            <p>A DataFrame is like a digital spreadsheet:</p>
+
+            <ul>
+              <li><strong>Rows</strong> = observations (e.g., each person, transaction, product)</li>
+              <li><strong>Columns</strong> = attributes (e.g., name, age, price)</li>
+              <li><strong>Index</strong> = row labels (usually numbers)</li>
+            </ul>
+
+            <div class="tutorial-quote"><strong>Once your data is in a DataFrame, you can manipulate it easily.</strong></div>
+
+            <h2 id="importing">4. Importing Data</h2>
+            <hr class="section-separator">
+
+            <p><strong>Example:</strong> Loading a CSV file</p>
+
+<pre><code>import pandas as pd
 
 df = pd.read_csv('data.csv')</code></pre>
 
-      <p style="font-size: 1.1rem;">
-       Pandas supports many formats like Excel, SQL, JSON, etc.
-      </p>
+            <p>Pandas supports many formats like Excel, SQL, JSON, etc.</p>
 
-      <blockquote class="tutorial-quote">
-        <strong>You must load data into a DataFrame before you can clean or analyze it. In that way, your CSV becomes a structured, searchable table.</strong></blockquote>
+            <div class="tutorial-quote"><strong>You must load data into a DataFrame before you can clean or analyze it. Your CSV becomes a structured, searchable table.</strong></div>
 
-    <h2>5. Inspecting & Understanding Data</h2>
-    
-    <p style="font-size: 1.1rem;">
-      Before cleaning any data, you must understand what you're dealing with.
-    </p>
+            <h2 id="inspecting">5. Inspecting & Understanding Data</h2>
+            <hr class="section-separator">
 
-    <h3>➤ Check dimensions and shape of dataset</h3>
+            <p>Before cleaning any data, you must understand what you're dealing with.</p>
 
-    <pre><code>df.shape</code></pre>
-    <p style="font-size: 1.1rem;">Tells you how big the dataset is. Result: (rows, columns)</p>
+            <h3>Check dimensions and shape of dataset</h3>
+<pre><code>df.shape</code></pre>
+            <p>Tells you how big the dataset is. Result: <strong>(rows, columns)</strong></p>
 
-    <h3>➤ Check column names</h3>
-    <pre><code>df.columns</code></pre>
-    <p style="font-size: 1.1rem;">Helps you know what information you're working with, what columns are included.</p>
+            <h3>Check column names</h3>
+<pre><code>df.columns</code></pre>
+            <p>Helps you know what information you're working with, what columns are included.</p>
 
-    <h3>➤ Summary of data types & missing values</h3>
-    <pre><code>df.info()</code></pre>
-    <p style="font-size: 1.1rem;">Identifies incorrectly typed data and which columns have missing values.</p>
+            <h3>Summary of data types & missing values</h3>
+<pre><code>df.info()</code></pre>
+            <p>Identifies incorrectly typed data and which columns have missing values.</p>
 
-    <h3>➤ Statistical summary</h3>
-    <pre><code>df.describe()</code></pre>
-    <p style="font-size: 1.1rem;">Gives insights into numeric columns: mean, median, min, and max. Quickly shows averages, standard deviations, etc.</p>
+            <h3>Statistical summary</h3>
+<pre><code>df.describe()</code></pre>
+            <p>Gives insights into numeric columns: mean, median, min, and max. Quickly shows averages, standard deviations, etc.</p>
 
-    <blockquote class="tutorial-quote"><strong>Result:</strong> Helps spot unusual or incorrect values.</blockquote>
+            <div class="tutorial-quote"><strong>Result:</strong> Helps spot unusual or incorrect values.</div>
 
-    <h2>6. Data Cleaning</h2>
-    <p style="font-size: 1.1rem;">
-      This is the heart of data preparation.
-    </p>
+            <h2 id="cleaning">6. Data Cleaning</h2>
+            <hr class="section-separator">
 
-    <h3>6.1 Handling Missing Values</h3>
-    <p style="font-size: 1.1rem;">
-      Missing values appear as <strong>NaN</strong>.
-    </p>
+            <p>This is the heart of data preparation.</p>
 
-    <p style="font-size: 1.3rem;">
-      <strong>Identifying Missing Values</strong>
-    </p>
-    <pre><code>df.isna().sum()</code></pre>
-    <p style="font-size: 1.1rem;">
-      You must know where problems are before fixing them.
-    </p>
+            <h3>6.1 Handling Missing Values</h3>
 
-    <blockquote class="tutorial-quote"><strong>Results:</strong> A count of missing values per column.</blockquote>
+            <p>Missing values appear as <strong>NaN</strong>.</p>
 
-    <p style="font-size: 1.3rem;">
-      <strong>Option 1: Remove incomplete rows</strong>
-    </p>
-    <pre><code># Remove rows with any missing values
+            <p><strong>Identifying Missing Values:</strong></p>
+<pre><code>df.isna().sum()</code></pre>
+            <p>You must know where problems are before fixing them.</p>
+
+            <div class="tutorial-quote"><strong>Result:</strong> A count of missing values per column.</div>
+
+            <p><strong>Option 1: Remove incomplete rows</strong></p>
+<pre><code># Remove rows with any missing values
 df = df.dropna()</code></pre>
-    <p style="font-size: 1.1rem;">
-      Sometimes rows with missing data are unusable.
-    </p>
+            <p>Sometimes rows with missing data are unusable.</p>
 
-    <blockquote class="tutorial-quote"><strong>Results:</strong> Result: Cleaner dataset but fewer rows.</blockquote>
+            <div class="tutorial-quote"><strong>Result:</strong> Cleaner dataset but fewer rows.</div>
 
-    <p style="font-size: 1.3rem;">
-      <strong>Option 2: Fill missing values</strong>
-    </p>
-    <p style="font-size: 1.1rem;">
-      <strong>For numbers:</strong>
-    </p>
-    <pre><code># Fill missing numeric values
-df['age'] = df['age'].fillna(df['age'].mean()) </code></pre>
-      
-    <blockquote class="tutorial-quote"><strong>Results:</strong> Column has no missing values.</blockquote>
+            <p><strong>Option 2: Fill missing values — For numbers:</strong></p>
+<pre><code># Fill missing numeric values
+df['age'] = df['age'].fillna(df['age'].mean())</code></pre>
 
-    <p style="font-size: 1.1rem;">
-      <strong>For text:</strong>
-    </p>
-    <pre><code># Fill missing text values
+            <div class="tutorial-quote"><strong>Result:</strong> Column has no missing values.</div>
+
+            <p><strong>For text:</strong></p>
+<pre><code># Fill missing text values
 df['city'] = df['city'].fillna('Unknown')</code></pre>
+            <p>Makes text columns complete without guessing.</p>
 
-      <p style="font-size: 1.1rem;">
-        Makes text columns complete without guessing.
-      </p>
+            <h3>6.2 Fixing Data Types</h3>
 
-    <h3>6.2 Fixing Data Types</h3>
-    <p style="font-size: 1.1rem;"><strong>Convert to Numeric</strong></p>
-    <pre><code>df['age'] = pd.to_numeric(df['age'])</code></pre>
-    <p style="font-size: 1.1rem;">
-      You cannot do math on strings.
-    </p> 
-    <blockquote class="tutorial-quote"><strong>Results:</strong> A clean numeric column.</blockquote>
+            <p><strong>Convert to Numeric:</strong></p>
+<pre><code>df['age'] = pd.to_numeric(df['age'])</code></pre>
+            <p>You cannot do math on strings.</p>
 
-    <p style="font-size: 1.1rem;"><strong>Convert to DateTime</strong></p>
-    <pre><code>df['date'] = pd.to_datetime(df['date'])</code></pre>
-    <p style="font-size: 1.1rem;">
-      Enables sorting and time-based analysis.
-    </p>
-    <h3>6.3 Removing Duplicates</h3>
-    <pre><code>df = df.drop_duplicates()</code></pre>
-    <p style="font-size: 1.1rem;">
-      Why:
-    </p>
-    <ul style="font-size: 1.1rem;">
-      <li style="font-size: 1.1rem;">Duplicates skew averages</li>
-      <li style="font-size: 1.1rem;">Create false patterns</li>
-    </ul>
-    <blockquote class="tutorial-quote"><strong>Results:</strong> Clean, accurate dataset.</blockquote>
+            <div class="tutorial-quote"><strong>Result:</strong> A clean numeric column.</div>
 
-    <h3>6.4 Renaming Columns</h3>
-    <pre><code>df = df.rename(columns={'oldName': 'new_name'})</code></pre>
-    <p style="font-size: 1.1rem;">
-      Why:
-    </p>
-    <ul style="font-size: 1.1rem;">
-      <li style="font-size: 1.1rem;">Makes column names easier to work with</li>
-      <li style="font-size: 1.1rem;">Improves readability</li>
-    </ul>
-    <blockquote class="tutorial-quote"><strong>Results:</strong> Cleaner, consistent column labels.</blockquote>
+            <p><strong>Convert to DateTime:</strong></p>
+<pre><code>df['date'] = pd.to_datetime(df['date'])</code></pre>
+            <p>Enables sorting and time-based analysis.</p>
 
-    <h2>7. Data Manipulation Techniques</h2>
-    <p style="font-size: 1.1rem;">
-      Now that the data is clean, let's analyze it.
-    </p>
+            <h3>6.3 Removing Duplicates</h3>
+<pre><code>df = df.drop_duplicates()</code></pre>
+            <ul>
+              <li>Duplicates skew averages</li>
+              <li>Create false patterns</li>
+            </ul>
 
-    <h3>➤ Selecting Columns</h3>
-    <p style="font-size: 1.1rem;"><strong>Single column:</strong></p>
-    <pre><code>df['age']</code></pre>
-    <p style="font-size: 1.1rem;">
-      Focus on what matters.
-    </p>
+            <div class="tutorial-quote"><strong>Result:</strong> Clean, accurate dataset.</div>
 
-    <p style="font-size: 1.1rem;"><strong>Multiple columns:</strong></p>
-    <pre><code>df[['name', 'city']]</code></pre>
+            <h3>6.4 Renaming Columns</h3>
+<pre><code>df = df.rename(columns={'oldName': 'new_name'})</code></pre>
+            <ul>
+              <li>Makes column names easier to work with</li>
+              <li>Improves readability</li>
+            </ul>
 
-    <h3>➤ Filtering Rows</h3>
-    <pre><code>df[df['age'] > 25]</code></pre>
-    <p style="font-size: 1.1rem;">
-      Extract only relevant data.
-    </p>
+            <div class="tutorial-quote"><strong>Result:</strong> Cleaner, consistent column labels.</div>
 
-    <h3>➤ Sorting Data</h3>
-    <pre><code>df.sort_values(by='age')</code></pre>
-    <p style="font-size: 1.1rem;">
-      Helps you see trends.
-    </p>
+            <h2 id="manipulation">7. Data Manipulation Techniques</h2>
+            <hr class="section-separator">
 
-    <h3>➤ Creating New Columns</h3>
-    <pre><code>df['age_in_5_years'] = df['age'] + 5</code></pre>
-    <p style="font-size: 1.1rem;">
-      Adds insight or calculated fields.
-    </p>
+            <p>Now that the data is clean, let's analyze it.</p>
 
-    <h3>➤ Grouping & Aggregation</h3>
-    <pre><code>df.groupby('city')['sales'].sum()</code></pre>
-    <p style="font-size: 1.1rem;">
-      Summaries reveal patterns.
-    </p>
-    <blockquote class="tutorial-quote"><strong>Results:</strong> Total sales per city.</blockquote>
+            <h3>Selecting Columns</h3>
+            <p><strong>Single column:</strong></p>
+<pre><code>df['age']</code></pre>
 
-    <h2>8. Mini Project: Cleaning & Analyzing a Dataset</h2>
-    <p style="font-size: 1.1rem;"><strong>Dataset: people.csv</strong></p>
-    <pre><code><strong>name,age,city,income</strong>
+            <p><strong>Multiple columns:</strong></p>
+<pre><code>df[['name', 'city']]</code></pre>
+
+            <h3>Filtering Rows</h3>
+<pre><code>df[df['age'] > 25]</code></pre>
+            <p>Extract only relevant data.</p>
+
+            <h3>Sorting Data</h3>
+<pre><code>df.sort_values(by='age')</code></pre>
+            <p>Helps you see trends.</p>
+
+            <h3>Creating New Columns</h3>
+<pre><code>df['age_in_5_years'] = df['age'] + 5</code></pre>
+            <p>Adds insight or calculated fields.</p>
+
+            <h3>Grouping & Aggregation</h3>
+<pre><code>df.groupby('city')['sales'].sum()</code></pre>
+            <p>Summaries reveal patterns.</p>
+            <div class="tutorial-quote"><strong>Result:</strong> Total sales per city.</div>
+
+            <h2 id="project">8. Mini Project: Cleaning & Analyzing a Dataset</h2>
+            <hr class="section-separator">
+
+            <p><strong>Dataset: people.csv</strong></p>
+
+<pre><code>name,age,city,income
 Alice,25,New York,70000
 Bob,,London,60000
 Carol,22,,50000
 Bob,,London,60000
 Dave,35,Toronto,</code></pre>
-    <p style="font-size: 1.1rem;">
-      We can observe the missing values in our dataset that need to be addressed for accurate analysis.
-    </p>
 
-    <h3>Step 1: Load</h3>
-    <pre><code>df = pd.read_csv('people.csv')</code></pre>
+            <p>We can observe the missing values in our dataset that need to be addressed for accurate analysis.</p>
 
-    <h3>Step 2: Inspect</h3>
-    <pre><code>df.info()
-    df.isna().sum()</code></pre>
-    <p style="font-size: 1.1rem;">
-      Identify missing values and data types.
-    </p>
+            <h3>Step 1: Load</h3>
+<pre><code>df = pd.read_csv('people.csv')</code></pre>
 
-    <h3>Step 3: Clean</h3>
-    <p style="font-size: 1.1rem;"><strong>Fill missing values:</strong></p>
-    <pre><code>df['age'] = df['age'].fillna(df['age'].mean())
-    df['city'] = df['city'].fillna('Unknown')
-    df['income'] = df['income'].fillna(df['income'].median())</code></pre>
+            <h3>Step 2: Inspect</h3>
+<pre><code>df.info()
+df.isna().sum()</code></pre>
+            <p>Identify missing values and data types.</p>
 
-    <p style="font-size: 1.1rem;"><strong>Remove duplicates:</strong></p>
-    <pre><code>df = df.drop_duplicates()</code></pre>
+            <h3>Step 3: Clean</h3>
+            <p><strong>Fill missing values:</strong></p>
+<pre><code>df['age'] = df['age'].fillna(df['age'].mean())
+df['city'] = df['city'].fillna('Unknown')
+df['income'] = df['income'].fillna(df['income'].median())</code></pre>
 
-    <h3>Step 4: Analyze</h3>
-    <p style="font-size: 1.1rem;"><strong>Total income by city:</strong></p>
-    <pre><code>df.groupby('city')['income'].sum()</code></pre>
+            <p><strong>Remove duplicates:</strong></p>
+<pre><code>df = df.drop_duplicates()</code></pre>
 
-    <p style="font-size: 1.1rem;"><strong>Average age:</strong></p>
-    <pre><code>df['age'].mean()</code></pre>
+            <h3>Step 4: Analyze</h3>
+            <p><strong>Total income by city:</strong></p>
+<pre><code>df.groupby('city')['income'].sum()</code></pre>
 
-    <h3>➤ Results:</h3>
-    <ul style="font-size: 1.1rem;">
-      <li style="font-size: 1.1rem;">A fully cleaned dataset</li>
-      <li style="font-size: 1.1rem;">Summary stats you can trust</li>
-      <li style="font-size: 1.1rem;">Insights ready for reporting or modeling</li>
+            <p><strong>Average age:</strong></p>
+<pre><code>df['age'].mean()</code></pre>
+
+            <div class="blog-key">
+              <div class="key-label"><i class="fa-solid fa-check-circle"></i> Results</div>
+              <p>
+                <strong>→</strong> A fully cleaned dataset<br>
+                <strong>→</strong> Summary stats you can trust<br>
+                <strong>→</strong> Insights ready for reporting or modeling
+              </p>
+            </div>
+
+            <h2 id="final">Final Thoughts</h2>
+            <hr class="section-separator">
+
+            <p>You've now learned:</p>
+
+            <ul>
+              <li>Why data cleaning matters</li>
+              <li>How to inspect, clean, and structure data</li>
+              <li>How to manipulate and analyze a dataset</li>
+            </ul>
+
+            <div class="blog-connect">
+              <div class="blog-connect-icon">
+                <i class="fa-brands fa-linkedin-in"></i>
+              </div>
+              <p>Found this useful? <a href="https://www.linkedin.com/in/kostanca-kovaci" target="_blank">Connect with me on LinkedIn</a> — I share more data science tutorials, tips and projects regularly.</p>
+            </div>
+
+          </div>
+
+          <!-- Footer bar -->
+          <div class="content-footer-bar">
+            <a href="../index.html#tutorial">
+              <i class="fa-solid fa-arrow-left"></i> Back to Tutorials
+            </a>
+            <a href="Pandas_Cheatsheet.html">
+              Next: Pandas Cheatsheet <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CTA Banner -->
+      <div class="blog-cta-banner">
+        <div class="cta-banner-left">
+          <div class="cta-banner-icon">💡</div>
+          <div class="cta-banner-text">
+            <h3>Ready to practice with real data?</h3>
+            <p>Check out my projects — real datasets, real problems, hands-on solutions.</p>
+          </div>
+        </div>
+        <a href="../projects/all-projects.html" class="cta-banner-btn">
+          <i class="fa-solid fa-arrow-right"></i> View Projects
+        </a>
+      </div>
+
+      <!-- Bottom Cards -->
+      <div class="blog-bottom-cards">
+
+        <div class="bottom-card">
+          <img src="../me3_1.jpeg" alt="Kostanca Kovaci" class="author-card-img">
+          <h3>Kostanca Kovaci</h3>
+          <p>Data Scientist with a goal to help businesses move from raw data to real decisions — and learners to build real skills through clear, practical content.</p>
+          <div class="bottom-card-social">
+            <a href="https://linkedin.com/in/kostanca-kovaci/" target="_blank">
+              <i class="fa-brands fa-linkedin-in"></i> LinkedIn
+            </a>
+            <a href="https://github.com/kovacikostanca" target="_blank">
+              <i class="fa-brands fa-github"></i> GitHub
+            </a>
+          </div>
+        </div>
+
+        <div class="bottom-card">
+          <div class="community-icon">📬</div>
+          <h3>Stay in the loop</h3>
+          <p>New tutorials, blogs and data science content — shared regularly. Follow along and grow your data skills one step at a time.</p>
+          <div class="bottom-card-social">
+            <a href="mailto:kovacikostanca@gmail.com">
+              <i class="fa-solid fa-envelope"></i> Get in Touch
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 <span class="footer-name">Kostanca Kovaci</span>. All Rights Reserved</p>
+    </div>
+  </footer>
+
+  <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">↑</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="../script_new.js"></script>
+
+  <!-- Side Drawer -->
+<div class="side-drawer" id="sideDrawer">
+  <button class="drawer-close" id="drawerClose">✕</button>
+
+  <div class="drawer-logo">Grow<span>In</span>Data</div>
+
+  <div class="drawer-section">
+    <h4>Navigation</h4>
+    <ul>
+      <li><a href="../index.html#home"><i class="fa-solid fa-house"></i> Home</a></li>
+      <li><a href="../index.html#about"><i class="fa-solid fa-user"></i> About</a></li>
+      <li><a href="../index.html#project"><i class="fa-solid fa-folder"></i> Portfolio</a></li>
+      <li><a href="../index.html#service"><i class="fa-solid fa-briefcase"></i> Services</a></li>
     </ul>
-
-    <h2>Final Thoughts</h2>
-    <p style="font-size: 1.1rem;">
-      You've now learned:
-    </p>
-
-    <ul style="font-size: 1.1rem;">
-      <li style="font-size: 1.1rem;">Why data cleaning matters</li>
-      <li style="font-size: 1.1rem;">How to inspect, clean, and structure data</li>
-      <li style="font-size: 1.1rem;">How to manipulate and analyze a dataset</li>
-    </ul>
-
-    <a href="../index.html#tutorials" class="back-link">← Back to Tutorials</a>
   </div>
 
-  <script>
-  const toggleBtn = document.getElementById('themeToggle');
-  const body = document.body;
+  <div class="drawer-section">
+    <h4>Learn</h4>
+    <ul>
+      <li><a href="../index.html#blog"><i class="fa-solid fa-pen-nib"></i> Blog</a></li>
+      <li><a href="../index.html#tutorial"><i class="fa-solid fa-book-open"></i> Tutorials</a></li>
+      <li><a href="all-tutorials.html"><i class="fa-solid fa-graduation-cap"></i> All Courses</a></li>
+      <li><a href="../projects/all-projects.html"><i class="fa-solid fa-diagram-project"></i> All Projects</a></li>
+    </ul>
+  </div>
 
-  // Load saved theme
-  if (localStorage.getItem('theme') === 'light') {
-    body.classList.add('light-mode');
-    toggleBtn.textContent = '☀️ Light';
-  }
+  <div class="drawer-section">
+    <h4>Contact</h4>
+    <ul>
+      <li><a href="mailto:kovacikostanca@gmail.com"><i class="fa-solid fa-envelope"></i> Email Me</a></li>
+      <li><a href="https://linkedin.com/in/kostanca-kovaci/" target="_blank"><i class="fa-brands fa-linkedin-in"></i> LinkedIn</a></li>
+      <li><a href="https://github.com/kovacikostanca" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a></li>
+    </ul>
+  </div>
 
-  toggleBtn.addEventListener('click', () => {
-    body.classList.toggle('light-mode');
-    const isLight = body.classList.contains('light-mode');
-
-    toggleBtn.textContent = isLight ? '☀️ Light' : '🌙 Dark';
-    localStorage.setItem('theme', isLight ? 'light' : 'dark');
-  });
-</script>
-
+  <a href="../index.html#contact" class="drawer-cta">Get Started</a>
+</div>
+<div class="drawer-overlay" id="drawerOverlay"></div>
 </body>
 </html>
