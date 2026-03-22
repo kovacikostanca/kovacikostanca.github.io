@@ -3,38 +3,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kostanca Kovaci | Data Scientist — ML, NLP & Business Analytics</title>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <title>GrowInData with Kostanca</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Caveat:wght@600&family=Poppins:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style_new.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-  <!-- Owl Carousel CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+
+<style>
+.nav-menu {
+  display: flex;
+  gap: 35px;
+  align-items: center;
+  margin-left: auto;
+}
+
+.nav-content {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 28px 0;
+}
+
+.portfolio-section {
+  padding: 100px 0;
+  background: #030820;
+}
+
+.services-section {
+  padding: 100px 0;
+  background: #050917;
+  border-top: 1px solid rgba(99, 102, 241, 0.1);
+
+}
+
+.tools-section {
+  padding: 80px 0;
+  background: #030514;
+  border-top: 1px solid rgba(99, 102, 241, 0.1);
+  border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+.process-section {
+  padding: 100px 0;
+  background: #0a0e27;
+}
+
+.blog-section {
+  padding: 100px 0;
+  background: #030614;
+}
+
+.tutorial-section {
+  padding: 100px 0;
+  background: #030820;
+}
+
+.contact-section {
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+  background: #0a0e27;
+}
+
+[data-theme="light"] .portfolio-section { background: var(--bg); }
+[data-theme="light"] .services-section { background: var(--bg); }
+[data-theme="light"] .process-section { background: linear-gradient(135deg, rgba(99,102,241,0.03), rgba(139,92,246,0.03)); }
+[data-theme="light"] .blog-section { background: linear-gradient(135deg, rgba(110,112,253,0.059), rgba(138,92,246,0.136)); }
+[data-theme="light"] .tutorial-section { background: var(--bg); }
+[data-theme="light"] .contact-section { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); }
+</style>
 </head>
 <body>
-
-  <!-- Top Bar -->
-  <div class="top-bar">
-    <div class="container">
-      <div class="top-bar-content">
-        <div class="top-bar-info">
-          <a href="mailto:kovacikostanca@gmail.com">✉ kovacikostanca@gmail.com</a>
-          <a>Founder of<span class="footer-link">GrowInData</span></a>
-        </div>
-        <div class="theme-toggle">
-          <button id="themeToggle" aria-label="Toggle theme">
-            <span class="theme-icon">🌙</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Navigation -->
+ 
+  <!-- =====================
+       1. NAVIGATION
+  ===================== -->
   <nav class="navbar" id="navbar">
     <div class="container">
       <div class="nav-content">
-        <div class="logo">PORTFOLIO</div>
+        <div class="logo">Grow<span class="logo-highlight">In</span>Data<span class="logo-sub">Kostanca Kovaci</span></div>
         <div class="nav-toggle" id="navToggle">
           <span></span>
           <span></span>
@@ -42,20 +92,29 @@
         </div>
         <ul class="nav-menu" id="navMenu">
           <li><a href="#home" class="nav-link">HOME</a></li>
-          <li><a href="#about" class="nav-link">ABOUT</a></li>
-          <li><a href="#project" class="nav-link">PORTFOLIO</a></li>
-          <li><a href="#service" class="nav-link">SERVICES</a></li>
-          <li><a href="#blog" class="nav-link">BLOG</a></li>
-          <li><a href="#tutorial" class="nav-link">TUTORIAL</a></li>
+          <li><a href="#project" class="nav-link"><span class="accent-word-red">PORTFOLIO</span></a></li>
+          <li><a href="#blog" class="nav-link">COURSES</a></li>
+          <li>
+            <div class="theme-toggle">
+              <button id="themeToggle" aria-label="Toggle theme">
+                <span class="theme-icon">🌙</span>
+              </button>
+            </div>
+          </li>
           <li><a href="#contact" class="nav-link nav-cta">GET STARTED</a></li>
         </ul>
+        <button class="drawer-open-btn" id="drawerOpen">
+          <i class="fa-solid fa-bars"></i>
+        </button>
       </div>
     </div>
   </nav>
-
-  <!-- Hero Section -->
+ 
+  <!-- =====================
+       2. HERO
+  ===================== -->
   <section class="hero" id="home">
-
+ 
     <div class="particles-bg-hero">
       <div class="particle-hero"></div>
       <div class="particle-hero"></div>
@@ -70,52 +129,56 @@
       <div class="particle-hero"></div>
       <div class="particle-hero"></div>
     </div>
-
+ 
     <div class="container">
       <div class="hero-content">
-        
+ 
         <div class="hero-text">
-          <!-- PATCH 2: removed "Junior", sharpened title and description -->
-          <h1 style="font-family: 'Source Sans 3', sans-serif;">Data Scientist</h1>
-          <p><strong>I turn complex data into clear decisions - for businesses that need results, and people who want to learn how.</strong> I specialize in data cleaning, analytics, building dashboards, machine learning and translate numbers into decisions using SQL, Python, Excel and Tableau.</p>
-            
+          <div class="hero-tagline">Data Scientist & Analyst</div>
+          <h1>
+            <a style="font-size: 2.8rem; font-family: 'Poppins', sans-serif;">Learn Data.<br>Drive Results.</a><br>
+            <span class="accent-word-red">With Kostanca</span>
+          </h1>
+          <p><strong>I turn complex data into clear decisions</strong> - for businesses that need results, and people who want to learn how.</p>
+ 
           <div class="hero-btns">
             <a href="#about" class="btn btn-primary">About Me</a>
             <a href="projects/all-projects.html" class="btn btn-secondary">View All Projects</a>
           </div>
-
-          <div class="tech-stack">
-            <span class="tech-badge">Python</span>
-            <span class="tech-badge">Pandas</span>
-            <span class="tech-badge">NumPy</span>
-            <span class="tech-badge">SQL</span>
-            <span class="tech-badge">Tableau</span>
-            <span class="tech-badge">Machine Learning</span>
-            <span class="tech-badge">LLMs</span>
-            <span class="tech-badge">NLP</span>
-          </div>
         </div>
-        
+ 
         <div class="hero-image">
           <div class="profile-container">
-            <img src="me2.png" alt="Profile" class="profile-image">
-            <div class="floating-badge badge-1">⚡Business Insights</div>
+            <div class="profile-ring"></div>
+            <div class="profile-ring-outer"></div>
+            <div class="profile-dots">
+              <span class="dot dot-1"></span>
+              <span class="dot dot-2"></span>
+              <span class="dot dot-3"></span>
+              <span class="dot dot-4"></span>
+              <span class="dot dot-5"></span>
+              <span class="dot dot-6"></span>
+            </div>
+            <img src="me2.png" alt="Kostanca" class="profile-image">
+            <div class="floating-badge badge-1">⚡ Business Insights</div>
             <div class="floating-badge badge-2">📂 12 Projects</div>
             <div class="floating-badge badge-3">📚 Tutorials</div>
           </div>
         </div>
-
+ 
       </div>
     </div>
   </section>
-
-  <!-- About Section -->
+ 
+  <!-- =====================
+       3. ABOUT
+  ===================== -->
   <section class="about-section" id="about">
     <div class="container">
       <div class="about-content">
+ 
         <div class="about-image">
           <img src="me3_1.jpeg" alt="About">
-          
           <div class="social-links">
             <a href="https://linkedin.com/in/kostanca-kovaci/" title="LinkedIn" target="_blank">
               <i class="fa-brands fa-linkedin-in"></i>
@@ -128,37 +191,67 @@
             </a>
           </div>
         </div>
-
+ 
         <div class="about-text">
-          <span class="section-tag">About me</span>
-          <h2>Kostanca Kovaci</h2>
-          <!-- PATCH 4: rewritten About Me — same warm tone, adds Physics + MSc + 3 focus areas -->
-          <p>
-            Hi, I'm Kostanca — a data scientist, available to work remotely with startups and businesses across Europe. My background is a little unusual: I studied Physics before specialising in Data Science, which means I bring both rigorous analytical thinking and the technical depth to build and ship real solutions.
-            <br /><br />
-            I work across three areas: <br />
-            • 𝐃𝐚𝐭𝐚 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬 & 𝐫𝐞𝐩𝐨𝐫𝐭𝐢𝐧𝐠 — cleaning messy datasets, statistical analysis, clear findings <br /> 
-            • 𝐃𝐚𝐬𝐡𝐛𝐨𝐚𝐫𝐝𝐬 & 𝐯𝐢𝐬𝐮𝐚𝐥𝐢𝐬𝐚𝐭𝐢𝐨𝐧 — interactive tools that help non-technical teams actually use &amp learn from their data <br />
-            • 𝐌𝐋 & 𝐍𝐋𝐏 — classification models, text analysis, and research data (my MSc thesis was original research on bias in large language models)    
-            <br /><br />
-            What matters to me is the last mile — the insight that actually gets acted on. Everything I build is not just technically sound, but understood and useful to the people who need it. I also share what I learn through tutorials and writing, because good data thinking should be accessible to everyone.
+          <span class="section-tag"></span>
+          <div class="hero-tagline">Hey 👋!!</div>
+          <h2>I'm Kostanca Kovaci</h2>
+ 
+          <p class="about-description" style="font-size: 0.9rem;">
+            <strong>A physicist who fell in love with data.</strong><br>
+            My path into data science wasn't typical and that's exactly what makes it powerful.<br><br>
+            It started in 2019 studying Physics, where I built deep foundations in mathematics, statistics, and programming.
+            My first real encounter with data was my thesis — implementing non-linear recursive relations in Python — and I was hooked.<br><br>
+            In 2025 I completed my MSc in Data Science, and somewhere along the way <strong>GrowInData</strong> was born, a space to do what I
+            love most: create value through data, teach others, and help businesses grow.<br><br>
+            I'm not just a data scientist, I'm a translator between data and decisions. Patient, clear, and passionate about making data
+            accessible to everyone. Whether you're a business that needs insights or someone who wants to learn — I'm here to learn, build,
+            share and grow together with you.<br><br>
+            I work across four areas:
           </p>
-          <a href="#project" class="btn btn-primary">Learn More</a>
+ 
+          <ul class="about-checklist" style="font-size: 0.9rem;">
+            <li>
+              <i class="fa-solid fa-circle-check"></i>
+              <span><strong>Data Analysis & Reporting</strong> — I turn messy, overwhelming datasets into clear findings your team can actually act on</span>
+            </li>
+            <li>
+              <i class="fa-solid fa-circle-check"></i>
+              <span><strong>Dashboards & Visualisation</strong> — I build live, interactive tools that make data accessible to everyone — not just analysts</span>
+            </li>
+            <li>
+              <i class="fa-solid fa-circle-check"></i>
+              <span><strong>ML & NLP</strong> — from churn prediction to bias research in LLMs (my MSc thesis), I build models that solve real problems</span>
+            </li>
+            <li>
+              <i class="fa-solid fa-circle-check"></i>
+              <span><strong>Tutorials & Courses</strong> — I teach data science step by step, because good data thinking should be accessible to everyone</span>
+            </li>
+          </ul>
+ 
+          <p class="about-description" style="font-size: 0.9rem;">
+            What matters to me is the last mile — the insight that actually gets acted on.
+          </p>
+          <a href="#project" class="btn btn-primary">View My Work</a>
         </div>
+ 
       </div>
     </div>
   </section>
-
-  <!-- Portfolio/Projects Section -->
+ 
+  <!-- =====================
+       4. PORTFOLIO
+  ===================== -->
   <section class="portfolio-section" id="project">
     <div class="container">
       <div class="section-header">
         <span class="section-tag">PORTFOLIO</span>
-        <h2 style="font-family: sans-serif;">Projects | Work</h2>
+        <h2 style="font-family: 'Poppins', sans-serif;">Projects & Work</h2>
+        <p>Real problems solved with real data</p>
       </div>
-      
+ 
       <div class="owl-carousel owl-theme portfolio-carousel">
-
+ 
         <div class="portfolio-item">
           <a href="projects/project1.html" class="portfolio-link-wrapper">
             <div class="portfolio-image">
@@ -167,12 +260,11 @@
             <div class="portfolio-content">
               <span class="portfolio-tag">NLP | LLM</span>
               <h3>Gendered Perception of Places in LLMs</h3>
-              <!-- PATCH BONUS: stronger project description -->
               <p class="portfolio-description">Developed a comparative analytical framework to study how gendered language shapes the way LLMs perceive and describe physical places — original research at the intersection of NLP, bias analysis, and social science.</p>
             </div>
           </a>
         </div>
-
+ 
         <div class="portfolio-item">
           <a href="projects/project2.html" class="portfolio-link-wrapper">
             <div class="portfolio-image">
@@ -185,7 +277,7 @@
             </div>
           </a>
         </div>
-
+ 
         <div class="portfolio-item">
           <a href="projects/project3.html" class="portfolio-link-wrapper">
             <div class="portfolio-image">
@@ -198,7 +290,7 @@
             </div>
           </a>
         </div>
-
+ 
         <div class="portfolio-item">
           <a href="projects/project4.html" class="portfolio-link-wrapper">
             <div class="portfolio-image">
@@ -211,7 +303,7 @@
             </div>
           </a>
         </div>
-
+ 
         <div class="portfolio-item">
           <a href="projects/project5.html" class="portfolio-link-wrapper">
             <div class="portfolio-image">
@@ -224,7 +316,7 @@
             </div>
           </a>
         </div>
-
+ 
         <div class="portfolio-item">
           <a href="https://github.com/kovacikostanca/Data-Science-Portfolio/tree/main/Netflix-Show-EDA" class="portfolio-link-wrapper">
             <div class="portfolio-image">
@@ -237,256 +329,286 @@
             </div>
           </a>
         </div>
-
-      </div> 
+ 
+      </div>
+ 
       <div class="portfolio-cta">
         <a href="projects/all-projects.html" class="btn btn-primary">See More Projects</a>
       </div>
     </div>
   </section>
-
-  <!-- Stats Section -->
-  <!-- PATCH 3: data-target values fixed from 0 to real numbers -->
-  <section class="stats-section">
-    <div class="container">
-      <div class="stats-grid">
-        <div class="stat-item">
-          <h3 class="stat-number" data-target="12">0</h3>
-          <p>Projects Completed</p>
-        </div>
-        <div class="stat-item">
-          <h3 class="stat-number" data-target="4">0</h3>
-          <p>Services Offered</p>
-        </div>
-        <div class="stat-item">
-          <h3 class="stat-number" data-target="2">0</h3>
-          <p>Blogs Published</p>
-        </div>
-        <div class="stat-item">
-          <h3 class="stat-number" data-target="1">0</h3>
-          <p>Tutorials Created</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Services Section -->
-  <!-- PATCH 5 & 6 & 7: pricing raised, descriptions improved, new ML/AI card added -->
+ 
+  <!-- =====================
+       5. SERVICES
+  ===================== -->
   <section class="services-section" id="service">
     <div class="container">
       <div class="section-header">
         <span class="section-tag">SERVICES</span>
-        <h2>Services I Offer</h2>
-        <div class="services-grid">
-
-          <div class="service-card" onclick="openProject('services/service1.html')">
-            <div class="service-icon">
-              <i class="fa-solid fa-chart-pie"></i>
-            </div>
-            <div class="service-price">
-              Starting from €150
-            </div>
-            <h3>Data Analysis & Report</h3>
-            <p class="service-subtitle">
-              You have data. I tell you what it means and what to do about it — a structured report with findings, visualisations, and prioritised recommendations your team can act on immediately.
-            </p>
-            <ul class="service-features">
-              <li><i class="fa-solid fa-check"></i> Data cleaning & Exploratory Analysis</li>
-              <li><i class="fa-solid fa-check"></i> Visual insights & explanations</li>
-              <li><i class="fa-solid fa-check"></i> Business-focused recommendations</li>
-            </ul>
-            <a href="services/service1.html" class="read-more">VIEW DETAILS</a>
-          </div>
-
-          <div class="service-card" onclick="openProject('services/service2.html')">
-            <div class="service-icon">
-              <i class="fa-solid fa-gauge-high"></i>
-            </div>
-            <div class="service-price">
-              Starting from €300
-            </div>
-            <h3>Interactive Dashboards</h3>
-            <p class="service-subtitle">
-              A live dashboard your team will actually use — connected to your data, built around the decisions you need to make, not just the data you have.
-            </p>
-            <ul class="service-features">
-              <li><i class="fa-solid fa-check"></i> Custom KPIs & filters</li>
-              <li><i class="fa-solid fa-check"></i> SQL-powered data models</li>
-              <li><i class="fa-solid fa-check"></i> Easy-to-use visual reports</li>
-            </ul>
-            <a href="services/service2.html" class="read-more">VIEW DETAILS</a>
-          </div>
-
-          <!-- NEW SERVICE CARD: ML & AI Integration 
-          <div class="service-card">
-            <div class="service-icon">
-              <i class="fa-solid fa-brain"></i>
-            </div>
-            <div class="service-price">
-              From €500 · Project-based
-            </div>
-            <h3>ML Model & AI Integration</h3>
-            <p class="service-subtitle">
-              Predictive models, classifiers, and LLM/NLP systems for startups and B2B companies — from churn prediction to clinical text classifiers to RAG pipelines, built to work in production.
-            </p>
-            <ul class="service-features">
-              <li><i class="fa-solid fa-check"></i> Problem scoping & data audit</li>
-              <li><i class="fa-solid fa-check"></i> Model development & validation</li>
-              <li><i class="fa-solid fa-check"></i> Deployment-ready code + documentation</li>
-              <li><i class="fa-solid fa-check"></i> 30-day post-delivery support</li>
-            </ul>
-            <a href="services/service4.html" class="read-more">VIEW DETAILS</a>
-          </div> -->
-
-          <div class="service-card" onclick="openProject('services/service3.html')">
-            <div class="service-icon">
-              <i class="fa-solid fa-microscope"></i>
-            </div>
-            <div class="service-price">
-              Project-based
-            </div>
-            <h3>Academic & Research Support</h3>
-            <p class="service-subtitle">
-              Data analysis and visualization support for academic or research projects.
-            </p>
-            <ul class="service-features">
-              <li><i class="fa-solid fa-check"></i> Data Cleaning & statistics</li>
-              <li><i class="fa-solid fa-check"></i> Reproducible notebooks</li>
-              <li><i class="fa-solid fa-check"></i> Thesis & research support</li>
-            </ul>
-            <a href="services/service3.html" class="read-more">VIEW DETAILS</a>
-          </div>
-
-        </div>
+        <h2 style="font-family: 'Poppins', sans-serif;">How I Can Help You</h2>
+        <p>From raw data to real decisions — here's what we can build together</p>
       </div>
+ 
+      <div class="services-grid">
+ 
+        <div class="service-card" onclick="window.location='services/service1.html'">
+          <div class="service-icon">
+            <i class="fa-solid fa-chart-pie"></i>
+          </div>
+          <div class="service-price">Custom quote · Free consultation</div>
+          <h3>Data Analysis & Report</h3>
+          <p class="service-subtitle">
+            You have data. I tell you what it means and what to do about it — clear findings, visualisations and recommendations your team can act on immediately.
+          </p>
+          <ul class="service-features">
+            <li><i class="fa-solid fa-check"></i> Data cleaning & Exploratory Analysis</li>
+            <li><i class="fa-solid fa-check"></i> Visual insights & explanations</li>
+            <li><i class="fa-solid fa-check"></i> Business-focused recommendations</li>
+          </ul>
+          <a href="services/service1.html" class="read-more">VIEW DETAILS</a>
+        </div>
+ 
+        <div class="service-card service-card-featured" onclick="window.location='services/service2.html'">
+          <div class="service-featured-label">Most Popular</div>
+          <div class="service-icon">
+            <i class="fa-solid fa-gauge-high"></i>
+          </div>
+          <div class="service-price">Custom quote · Free consultation</div>
+          <h3>Interactive Dashboards</h3>
+          <p class="service-subtitle">
+            A live dashboard your team will actually use — connected to your data, built around the decisions you need to make, not just the data you have.
+          </p>
+          <ul class="service-features">
+            <li><i class="fa-solid fa-check"></i> Custom KPIs & filters</li>
+            <li><i class="fa-solid fa-check"></i> SQL-powered data models</li>
+            <li><i class="fa-solid fa-check"></i> Easy-to-use visual reports</li>
+          </ul>
+          <a href="services/service2.html" class="read-more">VIEW DETAILS</a>
+        </div>
+ 
+        <div class="service-card" onclick="window.location='services/service3.html'">
+          <div class="service-icon">
+            <i class="fa-solid fa-microscope"></i>
+          </div>
+          <div class="service-price">Custom quote · Free consultation</div>
+          <h3>Academic & Research Support</h3>
+          <p class="service-subtitle">
+            Data analysis and visualization support for academic or research projects — from cleaning to final figures.
+          </p>
+          <ul class="service-features">
+            <li><i class="fa-solid fa-check"></i> Data Cleaning & statistics</li>
+            <li><i class="fa-solid fa-check"></i> Reproducible notebooks</li>
+            <li><i class="fa-solid fa-check"></i> Thesis & research support</li>
+          </ul>
+          <a href="services/service3.html" class="read-more">VIEW DETAILS</a>
+        </div>
+ 
+      </div>
+ 
+      <div class="services-cta">
+        <p>Not sure which service fits your needs?</p>
+        <a href="#contact" class="btn btn-primary">
+          <i class="fa-solid fa-envelope"></i> Let's Talk
+        </a>
+      </div>
+ 
     </div>
   </section>
-
-  <!-- Process Section -->
-  <section class="process-section">
+ 
+  <!-- =====================
+       6. TOOLS / TECH STACK
+  ===================== -->
+  <section class="tools-section">
     <div class="container">
-      <div class="section-header">
-        <span class="section-tag">PROCESS</span>
-        <h2>How I Work</h2>
+      <div class="tools-header">
+        <span class="section-tag">TOOLS & TECHNOLOGIES</span>
+        <h2 style="font-family: 'Poppins', sans-serif;">My Tech Stack</h2>
       </div>
-      <div class="process-grid">
-        <div class="process-item">
-          <div class="process-icon">
-            <span>📥</span>
-          </div>
-          <h3>Collect data</h3>
-          <p>Gather and understand your data sources, business context, and specific analytical requirements.</p>
+      <div class="tools-grid">
+        <div class="tool-item">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+          <span>Python</span>
         </div>
-        <div class="process-item">
-          <div class="process-icon">
-            <span>📊</span>
-          </div>
-          <h3>Visualize</h3>
-          <p>Create clear, compelling visualizations that make complex data accessible and understandable.</p>
+        <div class="tool-item">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" alt="Pandas">
+          <span>Pandas</span>
         </div>
-        <div class="process-item">
-          <div class="process-icon">
-            <span>📤</span>
-          </div>
-          <h3>Share</h3>
-          <p>Deliver actionable insights through reports, dashboards, and presentations tailored to your needs.</p>
+        <div class="tool-item">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg" alt="NumPy">
+          <span>NumPy</span>
+        </div>
+        <div class="tool-item">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="SQL">
+          <span>SQL</span>
+        </div>
+        <div class="tool-item">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg" alt="Jupyter">
+          <span>Jupyter</span>
+        </div>
+        <div class="tool-item">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
+          <span>GitHub</span>
+        </div>
+        <div class="tool-item">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code">
+          <span>VS Code</span>
+        </div>
+        <div class="tool-item">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikitlearn/scikitlearn-original.svg" alt="Scikit-learn">
+          <span>Scikit-learn</span>
+        </div>
+        <!-- Power BI -->
+        <div class="tool-item">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/c/cf/New_Power_BI_Logo.svg" alt="Power BI">
+          <span>Power BI</span>
+        </div>
+
+        <!-- Tableau -->
+        <div class="tool-item">
+          <img src="https://cdn.worldvectorlogo.com/logos/tableau-software.svg" alt="Tableau">
+          <span>Tableau</span>
+        </div>
+
+        <!-- Excel -->
+        <div class="tool-item">
+          <img src="https://img.icons8.com/color/96/microsoft-excel-2019--v1.png" alt="Excel">
+          <span>Excel</span>
+        </div>
+        <div class="tool-item">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google Sheets">
+          <span>Google Sheets</span>
+        </div>
+        <div class="tool-item">
+          <img src="https://streamlit.io/images/brand/streamlit-mark-color.svg" alt="Streamlit">
+          <span>Streamlit</span>
         </div>
       </div>
     </div>
   </section>
-
-  <!-- Blog Section -->
+ 
+  <!-- =====================
+     7. WHY WORK WITH ME
+===================== -->
+<section class="process-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">THE JOURNEY</span>
+      <h2 style="font-family: 'Poppins', serif;">Learn → Build → <span class="accent-word">Grow</span></h2>
+    </div>
+    <div class="process-grid">
+      <div class="process-item">
+        <div class="process-icon"><span>📖</span></div>
+        <h3 style="font-family: 'Poppins', sans-serif;">Learn</h3>
+        <p style="font-family: 'Poppins', sans-serif;">Let's break down complex data science concepts into clear, simple, digestible tutorials — so whether you're a complete beginner or levelling up, you always understand what's happening, why and how.</p>
+      </div>
+      <div class="process-item">
+        <div class="process-icon"><span>🛠️</span></div>
+        <h3 style="font-family: 'Poppins', sans-serif;">Build</h3>
+        <p style="font-family: 'Poppins', sans-serif;">Theory without practice goes nowhere and knowledge without application is useless. Every tutorial, course and project is hands-on — real datasets, real problems, real code you can use to learn.</p>
+      </div>
+      <div class="process-item">
+        <div class="process-icon"><span>🚀</span></div>
+        <h3 style="font-family: 'Poppins', sans-serif;">Grow</h3>
+        <p style="font-family: 'Poppins', sans-serif;">Whether you're a business turning data into decisions or a learner building your career — the goal is always the same: real, measurable growth you can be proud of.</p>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+  <!-- =====================
+       8. BLOG
+  ===================== -->
   <section class="blog-section" id="blog">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">BLOGS</span>
-        <h2 style="font-family: sans-serif;">Blogs & Insights</h2>
+        <span class="section-tag">BLOG</span>
+        <h2 style="font-family: 'Poppins', sans-serif;">Blogs & Insights</h2>
         <p>Thoughts on data science, analytics, and real-world problem solving</p>
       </div>
       <div class="blog-grid">
+ 
         <div class="blog-card">
           <div class="blog-image">
-            <a href="blogs/blog1.html" class="portfolio-link-wrapper">
-            <img src="images/Interpretation Framework.png" alt="Blog">
-            <div class="blog-date">12 jan</div>
+            <a href="blogs/blog1.html">
+              <img src="images/Interpretation Framework.png" alt="Blog">
+              <div class="blog-date">12 Jan</div>
+            </a>
           </div>
           <div class="blog-content">
-            <h3 style="font-family: sans-serif;">From Code to Insight: A Systematic Framework for Developing Data Interpretation Skills</h3>
-            <a href="blogs/blog1.html" class="blog-link">Read More</a>
+            <h3>From Code to Insight: A Systematic Framework for Developing Data Interpretation Skills</h3>
+            <a href="blogs/blog1.html" class="blog-link">Read More →</a>
           </div>
         </div>
-
+ 
         <div class="blog-card">
           <div class="blog-image">
-            <a href="blogs/blog2.html" class="portfolio-link-wrapper">
-            <img src="images/beginners_trap.png" alt="Blog">
-            <div class="blog-date">14 jan</div>
+            <a href="blogs/blog2.html">
+              <img src="images/beginners_trap.png" alt="Blog">
+              <div class="blog-date">14 Jan</div>
+            </a>
           </div>
           <div class="blog-content">
-            <h3 style="font-family: sans-serif;">The Beginner's Trap: Learning Tools Without Solving Problems</h3>
-            <a href="blogs/blog2.html" class="blog-link">Read More</a>
+            <h3>The Beginner's Trap: Learning Tools Without Solving Problems</h3>
+            <a href="blogs/blog2.html" class="blog-link">Read More →</a>
           </div>
         </div>
+ 
       </div>
     </div>
   </section>
-
-  <!-- Tutorial Section -->
- <!-- Tutorial Section -->
-<section class="tutorial-section" id="tutorial">
-  <div class="container">
-
-    <div class="section-header">
-      <span class="section-tag">TUTORIAL</span>
-      <h2 style="font-family: sans-serif;">Tutorials & Courses</h2>
-    </div>
-
-    <div class="tutorial-grid">
-
-      <!-- Tutorial 1 -->
-      <a href="tutorials/tutorial1.html" class="portfolio-link-wrapper">
-        <div class="tutorial-card">
-          <div class="tutorial-image">
-            <img src="images/data_clean_tut.png" alt="Data Cleaning Tutorial">
-            <div class="tutorial-overlay">
-              <span>Open Guide</span>
+ 
+  <!-- =====================
+       9. TUTORIALS
+  ===================== -->
+  <section class="tutorial-section" id="tutorial">
+    <div class="container">
+ 
+      <div class="section-header">
+        <span class="section-tag">TUTORIALS</span>
+        <h2 style="font-family: 'Poppins', sans-serif;">Tutorials & Courses</h2>
+        <p>Step-by-step guides to sharpen your data skills</p>
+      </div>
+ 
+      <div class="tutorial-grid">
+ 
+        <a href="tutorials/tutorial1.html" class="portfolio-link-wrapper">
+          <div class="tutorial-card">
+            <div class="tutorial-image">
+              <img src="images/data_clean_tut.png" alt="Data Cleaning Tutorial">
+              <div class="tutorial-overlay"><span>Open Guide</span></div>
+            </div>
+            <div class="tutorial-info">
+              <span class="tutorial-category">Data Cleaning</span>
+              <h3 class="tutorial-title">Data Cleaning with Pandas</h3>
             </div>
           </div>
-          <div class="tutorial-info">
-            <span class="tutorial-category">Data Cleaning</span>
-            <h3 class="tutorial-title">Data Cleaning with Pandas</h3>
-          </div>
-        </div>
-      </a>
-
-      <!-- Tutorial 2 -->
-      <a href="tutorials/Pandas_Cheatsheet.html" class="portfolio-link-wrapper">
-        <div class="tutorial-card">
-          <div class="tutorial-image">
-            <img src="images/free pandas cheatsheet.png" alt="Data Visualization Tutorial">
-            <div class="tutorial-overlay">
-              <span>Open Guide</span>
+        </a>
+ 
+        <a href="tutorials/Pandas_Cheatsheet.html" class="portfolio-link-wrapper">
+          <div class="tutorial-card">
+            <div class="tutorial-image">
+              <img src="images/free pandas cheatsheet.png" alt="Pandas Cheatsheet">
+              <div class="tutorial-overlay"><span>Open Guide</span></div>
+            </div>
+            <div class="tutorial-info">
+              <span class="tutorial-category">Pandas Essentials</span>
+              <h3 class="tutorial-title">Free Pandas Cheatsheet</h3>
             </div>
           </div>
-          <div class="tutorial-info">
-            <span class="tutorial-category">Pandas Essentials</span>
-            <h3 class="tutorial-title">Free Pandas Cheatsheet</h3>
-          </div>
-        </div>
-      </a>
-
+        </a>
+ 
+      </div>
+ 
+      <div class="tutorial-cta">
+        <a href="tutorials/all-tutorials.html" class="btn-view-more">View More Tutorials</a>
+      </div>
+ 
     </div>
-
-    <div class="tutorial-cta">
-      <a href="tutorials/all-tutorials.html" class="btn-view-more">
-        View More Tutorials
-      </a>
-    </div>
-
-  </div>
-</section>
-
-  <!-- Contact Section -->
+  </section>
+ 
+  <!-- =====================
+       10. CONTACT
+  ===================== -->
   <section class="contact-section" id="contact">
     <div class="particles-bg">
       <div class="particle"></div>
@@ -499,15 +621,13 @@
     <div class="container">
       <div class="contact-minimal">
         <span class="section-tag">CONTACT</span>
-        <h2>Let's Work Together</h2>
-        <!-- PATCH 8: updated contact subtext -->
+        <h2 style="font-family: 'Poppins', sans-serif;">Let's Work Together</h2>
         <p class="contact-subtitle">
-          Open to freelance projects and remote collaborations across Europe.
-          <br>Whether you have a specific project in mind or just want to explore what's possible with your data — I'm happy to have a conversation. No pitch, no pressure.
+          Open to freelance projects and remote collaborations.<br>
+          Whether you have a specific project in mind or just want to explore what's possible with your data — I'm happy to have a conversation. No pitch, no pressure.
         </p>
         <a href="mailto:kovacikostanca@gmail.com" class="btn btn-contact">
-          <i class="fa-solid fa-envelope"></i>
-          Get in Touch
+          <i class="fa-solid fa-envelope"></i> Get in Touch
         </a>
         <div class="contact-social">
           <a href="https://linkedin.com/in/kostanca-kovaci/" target="_blank" aria-label="LinkedIn">
@@ -520,18 +640,21 @@
       </div>
     </div>
   </section>
-
-  <!-- Footer -->
+ 
+  <!-- =====================
+       11. FOOTER
+  ===================== -->
   <footer class="footer">
     <div class="container">
       <div class="footer-content">
+ 
         <div class="footer-about">
-          <h3>PORTFOLIO</h3>
-          <p>Data Scientist with a Physics background. I help startups and businesses move from raw data to real decisions — through ML, NLP, and analytics that actually get used.</p>
+          <h3>Grow<span class="accent-word-red">In</span>Data</h3>
+          <p style="font-family: 'Poppins', sans-serif;">Data Scientist with a Physics background. My goal is to help startups and businesses move from raw data to real decisions. ML, NLP, and analytics are my enthusiasms.</p>
         </div>
-
+ 
         <div class="footer-section">
-          <h4>Quick Link</h4>
+          <h4>Quick Links</h4>
           <ul>
             <li><a href="#about">About</a></li>
             <li><a href="#project">Projects</a></li>
@@ -541,7 +664,7 @@
             <li><a href="#contact">Contact</a></li>
           </ul>
         </div>
-
+ 
         <div class="footer-section">
           <h4>Resources</h4>
           <ul>
@@ -550,10 +673,9 @@
             <li><a href="#">Dashboards</a></li>
           </ul>
         </div>
-
+ 
         <div class="footer-section">
           <h4>Contact</h4>
-          <!-- PATCH 7: single clean location line -->
           <p>kovacikostanca@gmail.com</p>
           <div class="social-links">
             <a href="https://linkedin.com/in/kostanca-kovaci/" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
@@ -561,20 +683,58 @@
             <a href="mailto:kovacikostanca@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
           </div>
         </div>
+ 
       </div>
-
       <div class="footer-bottom">
         <p>© 2026 <span class="footer-name">Kostanca Kovaci</span>. All Rights Reserved</p>
       </div>
     </div>
   </footer>
-
-  <!-- Scroll to Top Button -->
+ 
+  <!-- Scroll to Top -->
   <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">↑</button>
-
+ 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
   <script src="script_new.js"></script>
+ 
+  <!-- Side Drawer -->
+<div class="side-drawer" id="sideDrawer">
+  <button class="drawer-close" id="drawerClose">✕</button>
 
+  <div class="drawer-logo">Grow<span>In</span>Data</div>
+
+  <div class="drawer-section">
+    <h4>Navigation</h4>
+    <ul>
+      <li><a href="#home"><i class="fa-solid fa-house"></i> Home</a></li>
+      <li><a href="#about"><i class="fa-solid fa-user"></i> About</a></li>
+      <li><a href="#project"><i class="fa-solid fa-folder"></i> Portfolio</a></li>
+      <li><a href="#service"><i class="fa-solid fa-briefcase"></i> Services</a></li>
+    </ul>
+  </div>
+
+  <div class="drawer-section">
+    <h4>Learn</h4>
+    <ul>
+      <li><a href="#blog"><i class="fa-solid fa-pen-nib"></i> Blog</a></li>
+      <li><a href="#tutorial"><i class="fa-solid fa-book-open"></i> Tutorials</a></li>
+      <li><a href="tutorials/all-tutorials.html"><i class="fa-solid fa-graduation-cap"></i> All Courses</a></li>
+      <li><a href="projects/all-projects.html"><i class="fa-solid fa-diagram-project"></i> All Projects</a></li>
+    </ul>
+  </div>
+
+  <div class="drawer-section">
+    <h4>Contact</h4>
+    <ul>
+      <li><a href="mailto:kovacikostanca@gmail.com"><i class="fa-solid fa-envelope"></i> Email Me</a></li>
+      <li><a href="https://linkedin.com/in/kostanca-kovaci/" target="_blank"><i class="fa-brands fa-linkedin-in"></i> LinkedIn</a></li>
+      <li><a href="https://github.com/kovacikostanca" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a></li>
+    </ul>
+  </div>
+
+  <a href="#contact" class="drawer-cta">Get Started</a>
+</div>
+<div class="drawer-overlay" id="drawerOverlay"></div>
 </body>
 </html>

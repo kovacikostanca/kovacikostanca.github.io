@@ -461,3 +461,38 @@ console.log('%c💼 Looking for a data scientist? Let\'s connect!', 'color: #8b5
 console.log('%c📧 kostanca@example.com', 'color: #94a3b8; font-size: 12px;');
 
 
+// ===== Side Drawer =====
+document.addEventListener('DOMContentLoaded', function() {
+  const drawerOpen = document.getElementById('drawerOpen');
+  const drawerClose = document.getElementById('drawerClose');
+  const sideDrawer = document.getElementById('sideDrawer');
+  const drawerOverlay = document.getElementById('drawerOverlay');
+
+  if (drawerOpen) {
+    drawerOpen.addEventListener('click', () => {
+      sideDrawer.classList.add('open');
+      drawerOverlay.classList.add('open');
+    });
+  }
+
+  if (drawerClose) {
+    drawerClose.addEventListener('click', () => {
+      sideDrawer.classList.remove('open');
+      drawerOverlay.classList.remove('open');
+    });
+  }
+
+  if (drawerOverlay) {
+    drawerOverlay.addEventListener('click', () => {
+      sideDrawer.classList.remove('open');
+      drawerOverlay.classList.remove('open');
+    });
+  }
+
+  document.querySelectorAll('.side-drawer a').forEach(link => {
+    link.addEventListener('click', () => {
+      sideDrawer.classList.remove('open');
+      drawerOverlay.classList.remove('open');
+    });
+  });
+});
