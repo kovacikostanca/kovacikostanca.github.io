@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <title>Superstore SQL Analysis | GrowInData</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Caveat:wght@600&family=Poppins:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@1,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style_new.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+
+    /* ===== NAV ===== */
+    .nav-menu {
+      display: flex;
+      gap: 35px;
+      align-items: center;
+      margin-left: auto;
+    }
+    .nav-content {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 28px 0;
+    }
+
+    /* ===== PAGE ===== */
+    .tutorial-page {
+      padding: 160px 0 80px;
+      min-height: 100vh;
+      background: #050715;
+    }
+    [data-theme="light"] .tutorial-page { background: #f0f4ff; }
+
+    /* ===== TABS ===== */
+    .blog-tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 50px;
+    }
+    .blog-tabs-inner {
+      display: flex;
+      gap: 6px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(99,102,241,0.15);
+      border-radius: 50px;
+      padding: 6px;
+    }
+    [data-theme="light"] .blog-tabs-inner {
+      background: rgba(0,0,0,0.04);
+      border-color: rgba(99,102,241,0.2);
+    }
+    .blog-tab {
+      padding: 10px 28px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      color: var(--text-muted);
+      border: none;
+      background: transparent;
+      transition: all 0.3s ease;
+      font-family: 'Space Grotesk', sans-serif;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .blog-tab:hover { color: var(--text); }
+    .blog-tab.active { background: var(--gradient); color: white; }
+
+    /* ===== LAYOUT ===== */
+    .tutorial-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .blog-sidebar {
+      position: sticky;
+      top: 100px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(99,102,241,0.12);
+      border-radius: 16px;
+      padding: 28px 24px;
+    }
+    [data-theme="light"] .blog-sidebar {
+      background: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    .sidebar-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--primary);
+      margin-bottom: 20px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .sidebar-section { margin-bottom: 24px; }
+    .sidebar-section-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(99,102,241,0.1);
+    }
+    .sidebar-links { list-style: none; padding: 0; margin: 0; }
+    .sidebar-links li { margin-bottom: 4px; }
+    .sidebar-links li a {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 8px;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+    .sidebar-links li a:hover { color: var(--primary); background: rgba(99,102,241,0.08); }
+    .sidebar-links li a.active { color: var(--primary); background: rgba(99,102,241,0.1); font-weight: 600; }
+    .sidebar-links li a::before { content: '›'; color: var(--primary); font-size: 1rem; }
+
+    /* ===== CONTENT WRAPPER ===== */
+    .tutorial-content {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(99,102,241,0.12);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    [data-theme="light"] .tutorial-content {
+      background: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+
+    /* ===== CONTENT HEADER ===== */
+    .content-header {
+      padding: 55px 55px 40px;
+      border-bottom: 1px solid rgba(99,102,241,0.1);
+      background: linear-gradient(135deg, rgba(99,102,241,0.06) 0%, transparent 60%);
+    }
+    .content-header-top {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .content-emoji { font-size: 2.8rem; line-height: 1; }
+    .content-header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+    [data-theme="light"] .content-header h1 { color: #0f172a; }
+    .content-desc {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 16px;
+      max-width: 650px;
+    }
+    .content-tagline {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .content-divider {
+      width: 60px;
+      height: 3px;
+      background: var(--gradient);
+      border-radius: 2px;
+      margin-top: 24px;
+    }
+
+    /* ===== META ===== */
+    .content-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 55px;
+      border-bottom: 1px solid rgba(99,102,241,0.08);
+      background: rgba(99,102,241,0.03);
+      flex-wrap: wrap;
+    }
+    .meta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(99,102,241,0.12);
+      color: #a5b4fc;
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid rgba(99,102,241,0.25);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    [data-theme="light"] .meta-badge { color: var(--primary); background: rgba(99,102,241,0.08); }
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .meta-item i { color: var(--primary); }
+
+    /* ===== BODY TEXT ===== */
+    .content-body { padding: 45px 55px; }
+    .content-body h2 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-top: 48px;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+    .content-body h2:first-child { margin-top: 0; }
+    .section-separator {
+      border: none;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), transparent);
+      margin: 6px 0 22px;
+      border-radius: 2px;
+    }
+    .content-body h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-top: 28px;
+      margin-bottom: 10px;
+      color: #a5b4fc;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .content-body h3::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 16px;
+      background: var(--primary);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    [data-theme="light"] .content-body h3 { color: var(--primary); }
+    .content-body p {
+      font-size: 1rem;
+      line-height: 1.9;
+      margin-bottom: 16px;
+      color: var(--text-muted);
+    }
+    .content-body p strong { color: var(--text); }
+    .content-body ul { list-style: none; padding: 0; margin: 0 0 18px 0; }
+    .content-body ul li {
+      font-size: 1rem;
+      line-height: 1.85;
+      margin-bottom: 8px;
+      color: var(--text-muted);
+      padding-left: 22px;
+      position: relative;
+    }
+    .content-body ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-size: 0.85rem;
+    }
+    .content-body ul li strong { color: var(--text); }
+
+    /* ===== STATS GRID ===== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin: 24px 0 36px;
+    }
+    .stat-card {
+      background: rgba(99,102,241,0.06);
+      border: 1px solid rgba(99,102,241,0.15);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+    [data-theme="light"] .stat-card { background: #f8faff; }
+    .stat-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    .stat-label { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* ===== PHASES ===== */
+    .phases { display: flex; flex-direction: column; gap: 0; }
+    .phase-row {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 0;
+      position: relative;
+    }
+    .phase-line {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 24px;
+    }
+    .phase-dot {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: rgba(99,102,241,0.1);
+      border: 1px solid rgba(99,102,241,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--primary);
+      flex-shrink: 0;
+      z-index: 1;
+    }
+    .phase-connector {
+      width: 1px; flex: 1; min-height: 20px;
+      background: rgba(99,102,241,0.2);
+      margin: 6px 0;
+    }
+    .phase-card {
+      margin: 16px 0 16px 16px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(99,102,241,0.12);
+      border-radius: 12px;
+      padding: 20px 24px;
+      transition: border-color 0.2s;
+    }
+    [data-theme="light"] .phase-card { background: #fafafa; }
+    .phase-card:hover { border-color: rgba(99,102,241,0.35); }
+    .phase-card-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+    .phase-card-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 12px; }
+    .tag-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(99,102,241,0.1);
+      color: #a5b4fc;
+      border: 1px solid rgba(99,102,241,0.25);
+    }
+    .tag.green { background: rgba(46,160,67,0.1); color: #3fb950; border-color: rgba(46,160,67,0.35); }
+    .tag.amber { background: rgba(227,179,65,0.1); color: #e3b341; border-color: rgba(227,179,65,0.35); }
+    .tag.purple { background: rgba(188,140,255,0.1); color: #bc8cff; border-color: rgba(188,140,255,0.35); }
+
+    /* ===== DEPENDENCY LIST ===== */
+    .dependency-container { max-width: 650px; padding: 0; margin-bottom: 24px; }
+    .dependency-list { margin-bottom: 20px; }
+    .dep-item {
+      display: grid;
+      grid-template-columns: 40px 160px 1fr;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .dep-num {
+      width: 26px; height: 26px;
+      background: rgba(99,102,241,0.12);
+      color: var(--primary);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .dep-name {
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .dep-note { color: var(--text-muted); font-size: 13px; }
+    .dep-note span { color: var(--text); font-weight: 600; }
+    .callout-box {
+      background: rgba(227,179,65,0.05);
+      border: 1px solid rgba(227,179,65,0.25);
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+    .callout-title { color: #e3b341; margin: 0 0 8px; font-size: 15px; font-weight: 600; }
+    .callout-text { color: #e3b341; opacity: 0.85; margin: 0; font-size: 13px; line-height: 1.6; }
+
+    /* ===== CODE WINDOW ===== */
+    .code-window {
+      background: #0d1117;
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 20px 0 8px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+    .window-header {
+      background: #161b22;
+      padding: 11px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #30363d;
+    }
+    .window-controls { display: flex; gap: 7px; flex: 1; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; }
+    .red { background: #ff5f56; }
+    .yellow { background: #ffbd2e; }
+    .green-dot { background: #27c93f; }
+    .window-title {
+      color: #8b949e;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      flex: 2;
+      text-align: center;
+    }
+    .window-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #3fb950;
+      text-align: right;
+      flex: 1;
+    }
+    .window-body { padding: 22px 24px; }
+    .window-body pre { margin: 0; white-space: pre-wrap; word-break: break-word; }
+    .window-body code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: #c9d1d9;
+      line-height: 1.75;
+    }
+    .cm  { color: #8b949e; font-style: italic; }
+    .kw  { color: #ff7b72; font-weight: 600; }
+    .fn  { color: #d2a8ff; }
+    .st  { color: #a5d6ff; }
+    .nm  { color: #f2cc60; }
+    .col { color: #79c0ff; }
+
+    /* ===== EXPLANATION ROWS ===== */
+    .explanation-section { margin: 8px 0 28px; }
+    .explanation-header {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 1.5px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+    .explanation-list { display: flex; flex-direction: column; gap: 10px; }
+    .explanation-row {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(99,102,241,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .explanation-row:hover { border-color: rgba(99,102,241,0.25); }
+    [data-theme="light"] .explanation-row { background: #ffffff; border-color: #e2e8f0; }
+    .code-part {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      border-right: 1px solid rgba(99,102,241,0.1);
+      background: rgba(99,102,241,0.04);
+    }
+    [data-theme="light"] .code-part { background: #f8fafc; border-right-color: #f1f5f9; }
+    .code-part code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      color: #c9d1d9;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+    [data-theme="light"] .code-part code { color: #1e293b; }
+    .desc-part { padding: 16px 20px; font-size: 13.5px; line-height: 1.7; color: var(--text-muted); }
+    [data-theme="light"] .desc-part { color: #475569; }
+    .desc-part strong { color: var(--text); font-weight: 600; }
+    [data-theme="light"] .desc-part strong { color: #0f172a; }
+
+    /* ===== QUERY RESULT TABLE ===== */
+    .result-wrap {
+      margin: 8px 0 28px;
+      background: rgba(99,102,241,0.04);
+      border: 1px solid rgba(99,102,241,0.12);
+      border-radius: 10px;
+      overflow-x: auto;
+    }
+    .result-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--primary);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 10px 16px 6px;
+    }
+    .result-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .result-table th {
+      text-align: left;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-bottom: 1px solid rgba(99,102,241,0.12);
+      background: rgba(99,102,241,0.06);
+      letter-spacing: 0.05em;
+    }
+    .result-table td {
+      padding: 9px 16px;
+      border-bottom: 1px solid rgba(99,102,241,0.06);
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+    }
+    .result-table tr:last-child td { border-bottom: none; }
+    .result-table tr.top td { color: #3fb950; font-weight: 600; }
+
+    /* ===== INSIGHT BOX ===== */
+    .insight-box {
+      margin: 8px 0 28px;
+      padding: 16px 20px;
+      background: rgba(46,160,67,0.07);
+      border: 1px solid rgba(46,160,67,0.2);
+      border-radius: 10px;
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .insight-box strong { color: #3fb950; font-weight: 600; display: block; margin-bottom: 4px; }
+
+    /* ===== QUOTE / CALLOUT ===== */
+    .tutorial-quote {
+      margin: 20px 0;
+      padding: 16px 22px;
+      border-left: 4px solid var(--primary);
+      background: rgba(99,102,241,0.07);
+      border-radius: 0 10px 10px 0;
+      font-size: 0.98rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    [data-theme="light"] .tutorial-quote { background: rgba(99,102,241,0.05); }
+    .tutorial-quote strong { color: var(--text); font-style: normal; }
+    .tutorial-quote.green {
+      border-left-color: #3fb950;
+      background: rgba(46,160,67,0.07);
+      color: #3fb950;
+      font-style: normal;
+      font-size: 0.93rem;
+    }
+
+    /* ===== KEY BOX ===== */
+    .blog-key {
+      margin: 20px 0;
+      padding: 18px 22px;
+      background: rgba(99,102,241,0.07);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 12px;
+    }
+    .key-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--primary);
+      margin-bottom: 8px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .blog-key p { margin: 0; font-size: 0.97rem; color: var(--text-muted); }
+    .blog-key p strong { color: var(--text); }
+
+    /* ===== SKILLS GRID ===== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 20px 0 28px;
+    }
+    .skill-item {
+      background: rgba(99,102,241,0.06);
+      border: 1px solid rgba(99,102,241,0.12);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .skill-item code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: #bc8cff;
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+    .skill-item span { font-size: 11.5px; color: var(--text-muted); }
+
+    /* ===== CONNECT ===== */
+    .blog-connect {
+      margin-top: 36px;
+      padding: 18px 22px;
+      background: rgba(99,102,241,0.07);
+      border-radius: 12px;
+      border: 1px solid rgba(99,102,241,0.15);
+      display: flex; align-items: center; gap: 14px;
+    }
+    .blog-connect-icon {
+      width: 40px; height: 40px;
+      background: rgba(99,102,241,0.15);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--primary); font-size: 1rem; flex-shrink: 0;
+    }
+    .blog-connect p { margin: 0; font-size: 0.92rem; color: var(--text-muted); }
+    .blog-connect a { color: var(--primary); font-weight: 600; }
+    .blog-connect a:hover { text-decoration: underline; }
+
+    /* ===== FOOTER BAR ===== */
+    .content-footer-bar {
+      padding: 22px 55px;
+      border-top: 1px solid rgba(99,102,241,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      background: rgba(99,102,241,0.03);
+    }
+    .content-footer-bar a {
+      color: var(--primary); font-weight: 600; font-size: 0.9rem;
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: opacity 0.3s; text-decoration: none;
+    }
+    .content-footer-bar a:hover { opacity: 0.8; }
+
+    /* ===== CTA BANNER ===== */
+    .blog-cta-banner {
+      margin-top: 40px;
+      background: var(--gradient);
+      border-radius: 20px;
+      padding: 40px 50px;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      gap: 30px; flex-wrap: wrap;
+      position: relative; overflow: hidden;
+    }
+    .blog-cta-banner::before {
+      content: '';
+      position: absolute; top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
+    }
+    .cta-banner-left { display: flex; align-items: center; gap: 20px; flex: 1; }
+    .cta-banner-icon { font-size: 2.5rem; flex-shrink: 0; }
+    .cta-banner-text h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.4rem; font-weight: 700;
+      color: white; margin-bottom: 6px;
+    }
+    .cta-banner-text p { font-size: 0.92rem; color: rgba(255,255,255,0.85); line-height: 1.6; margin: 0; }
+    .cta-banner-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; background: white;
+      color: var(--primary) !important;
+      border-radius: 50px; font-weight: 700; font-size: 0.92rem;
+      text-decoration: none; transition: all 0.3s;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .cta-banner-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+    /* ===== BOTTOM CARDS ===== */
+    .blog-bottom-cards {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 24px; margin-top: 24px;
+    }
+    .bottom-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(99,102,241,0.12);
+      border-radius: 16px; padding: 28px;
+    }
+    [data-theme="light"] .bottom-card { background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+    .author-card-img {
+      width: 72px; height: 72px; border-radius: 12px;
+      object-fit: cover; object-position: top;
+      border: 2px solid rgba(99,102,241,0.3); margin-bottom: 14px;
+    }
+    .bottom-card h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--text); margin-bottom: 8px;
+    }
+    .bottom-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 14px; }
+    .bottom-card-social { display: flex; gap: 10px; flex-wrap: wrap; }
+    .bottom-card-social a {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: 20px;
+      font-size: 0.8rem; font-weight: 600;
+      border: 1px solid rgba(99,102,241,0.3);
+      color: var(--text-muted); transition: all 0.3s;
+      text-decoration: none;
+    }
+    .bottom-card-social a:hover { background: var(--primary); color: white; border-color: transparent; }
+    .community-icon { font-size: 1.8rem; margin-bottom: 12px; }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: rgba(15,23,42,0.8);
+      padding: 30px 0;
+      border-top: 1px solid rgba(99,102,241,0.2);
+      text-align: center;
+      color: var(--text-muted);
+    }
+    [data-theme="light"] .footer { background: rgba(248,250,252,0.8); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 968px) {
+      .tutorial-layout { grid-template-columns: 1fr; }
+      .blog-sidebar { position: static; }
+      .content-header { padding: 36px 28px 28px; }
+      .content-meta { padding: 12px 28px; }
+      .content-body { padding: 32px 28px; }
+      .content-footer-bar { padding: 18px 28px; }
+      .content-header h1 { font-size: 1.7rem; }
+      .blog-cta-banner { padding: 28px; }
+      .blog-bottom-cards { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .explanation-row { grid-template-columns: 1fr; }
+      .code-part { border-right: none; border-bottom: 1px solid rgba(99,102,241,0.1); }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <div class="nav-content">
+        <a href="../index.html" class="logo">
+          Grow<span class="logo-highlight">In</span>Data
+          <span class="logo-sub">Kostanca Kovaci</span>
+        </a>
+        <div class="nav-toggle" id="navToggle">
+          <span></span><span></span><span></span>
+        </div>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="../index.html#home" class="nav-link">HOME</a></li>
+          <li>
+            <div class="theme-toggle">
+              <button id="themeToggle" aria-label="Toggle theme">
+                <span class="theme-icon">🌙</span>
+              </button>
+            </div>
+          </li>
+        </ul>
+        <button class="drawer-open-btn" id="drawerOpen">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Tutorial Page -->
+  <section class="tutorial-page">
+    <div class="container">
+
+      <!-- Tabs -->
+      <div class="blog-tabs">
+        <div class="blog-tabs-inner">
+          <a href="#" class="blog-tab active">SQL Portfolio Project | Beginner Level</a>
+        </div>
+      </div>
+
+      <!-- Layout -->
+      <div class="tutorial-layout">
+
+        <!-- Sidebar -->
+        <div class="blog-sidebar">
+          <div class="sidebar-title">Project Contents</div>
+          <div class="sidebar-section">
+            <div class="sidebar-section-title">SQL Beginner Level</div>
+            <ul class="sidebar-links">
+              <li><a href="#overview" class="active">Overview</a></li>
+              <li><a href="#how-built">How It Was Built</a></li>
+              <li><a href="#schema">Table Structure</a></li>
+              <li><a href="#create">Phase 2 — Create Tables</a></li>
+              <li><a href="#insert">Phase 3 — Insert Data</a></li>
+              <li><a href="#queries">Phase 4 — Business Queries</a></li>
+              <li><a href="#insights">Key Insights</a></li>
+              <li><a href="#skills">SQL Skills Used</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <div class="sidebar-section-title">More Tutorials</div>
+            <ul class="sidebar-links">
+              <li><a href="Pandas_Cheatsheet.html">Free Pandas Cheatsheet</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="tutorial-content">
+
+          <!-- Header -->
+          <div class="content-header">
+            <div class="content-header-top">
+              <span class="content-emoji">📊</span>
+              <h1>Superstore Sales Analysis</h1>
+            </div>
+            <p class="content-desc">
+              A full end-to-end SQL project — database design, data insertion, and business intelligence queries built entirely from scratch in PostgreSQL.
+            </p>
+            <p class="content-tagline">No downloaded datasets. No shortcuts. Just SQL from a blank screen.</p>
+            <div class="content-divider"></div>
+          </div>
+
+          <!-- Meta -->
+          <div class="content-meta">
+            <span class="meta-badge"><i class="fa-solid fa-database"></i> SQL</span>
+            <span class="meta-badge">PostgreSQL</span>
+            <span class="meta-badge">Beginner</span>
+            <div class="meta-item"><i class="fa-regular fa-clock"></i> ~1 hour to build</div>
+            <div class="meta-item"><i class="fa-solid fa-signal"></i> Beginner Level</div>
+          </div>
+
+          <!-- Body -->
+          <div class="content-body">
+
+            <!-- OVERVIEW -->
+            <h2 id="overview">What is this Project?</h2>
+            <hr class="section-separator">
+
+            <p>
+              Instead of downloading a pre-made dataset, we built the entire database from scratch — schema design, table creation, and data insertion — then used SQL to answer real business questions a retail manager would actually ask.
+            </p>
+
+            <p>By the end of this project you will have:</p>
+            <ul>
+              <li>Designed a normalized relational database from scratch</li>
+              <li>Written <strong>CREATE TABLE</strong> statements with proper constraints and data types</li>
+              <li>Inserted realistic retail data across 4 connected tables</li>
+              <li>Written 5 business queries using <strong>JOIN, GROUP BY, SUM, COUNT, DATE functions</strong></li>
+              <li>A complete portfolio project ready for GitHub</li>
+            </ul>
+
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-num">4</div>
+                <div class="stat-label">Tables designed</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-num">36</div>
+                <div class="stat-label">Rows of data inserted</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-num">5</div>
+                <div class="stat-label">Business queries</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-num">8</div>
+                <div class="stat-label">SQL files written</div>
+              </div>
+            </div>
+
+            <!-- HOW BUILT -->
+            <h2 id="how-built">How It Was Built</h2>
+            <hr class="section-separator">
+
+            <p>Every step from blank database to business insights — no shortcuts, no downloaded CSVs.</p>
+
+            <div class="phases">
+              <div class="phase-row">
+                <div class="phase-line">
+                  <div class="phase-dot">01</div>
+                  <div class="phase-connector"></div>
+                </div>
+                <div class="phase-card">
+                  <div class="phase-card-title">Schema design</div>
+                  <div class="phase-card-desc">Designed a normalized 4-table schema from scratch — customers, products, orders, and order_items. Mapped relationships and identified primary and foreign keys before writing a single line of SQL.</div>
+                  <div class="tag-row">
+                    <span class="tag">Entity relationships</span>
+                    <span class="tag">Normalization</span>
+                    <span class="tag">Primary keys</span>
+                    <span class="tag">Foreign keys</span>
+                  </div>
+                </div>
+              </div>
+              <div class="phase-row">
+                <div class="phase-line">
+                  <div class="phase-dot">02</div>
+                  <div class="phase-connector"></div>
+                </div>
+                <div class="phase-card">
+                  <div class="phase-card-title">Database creation</div>
+                  <div class="phase-card-desc">Wrote all CREATE TABLE statements in PostgreSQL with proper data types, constraints, and referential integrity. Used SERIAL for auto-increment IDs, NUMERIC for financial data, and DATE for time-based filtering.</div>
+                  <div class="tag-row">
+                    <span class="tag green">CREATE TABLE</span>
+                    <span class="tag green">SERIAL</span>
+                    <span class="tag green">NUMERIC</span>
+                    <span class="tag green">CONSTRAINTS</span>
+                    <span class="tag green">CHECK</span>
+                  </div>
+                </div>
+              </div>
+              <div class="phase-row">
+                <div class="phase-line">
+                  <div class="phase-dot">03</div>
+                  <div class="phase-connector"></div>
+                </div>
+                <div class="phase-card">
+                  <div class="phase-card-title">Data insertion</div>
+                  <div class="phase-card-desc">Populated all 4 tables with realistic retail data — 10 customers, 10 products across 3 categories, 10 orders, and 16 line items with pre-calculated totals. Inserted in dependency order to respect foreign key constraints.</div>
+                  <div class="tag-row">
+                    <span class="tag amber">INSERT INTO</span>
+                    <span class="tag amber">VALUES</span>
+                    <span class="tag amber">Multi-row inserts</span>
+                    <span class="tag amber">Referential integrity</span>
+                  </div>
+                </div>
+              </div>
+              <div class="phase-row">
+                <div class="phase-line">
+                  <div class="phase-dot">04</div>
+                </div>
+                <div class="phase-card">
+                  <div class="phase-card-title">Business queries</div>
+                  <div class="phase-card-desc">Wrote 5 queries answering real business questions — revenue by region, top products, category breakdown, customer lifetime value, and monthly revenue trend. Used JOINs across 3 tables, aggregate functions, and date formatting.</div>
+                  <div class="tag-row">
+                    <span class="tag purple">SELECT</span>
+                    <span class="tag purple">JOIN</span>
+                    <span class="tag purple">GROUP BY</span>
+                    <span class="tag purple">SUM / AVG / COUNT</span>
+                    <span class="tag purple">TO_CHAR</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SCHEMA -->
+            <h2 id="schema">SQL Table Structure</h2>
+            <hr class="section-separator">
+
+            <h3>What is a table, really?</h3>
+            <p>
+              A <strong>database</strong> is like a folder on your computer.<br>
+              A <strong>table</strong> is like an Excel sheet inside that folder.<br>
+              A <strong>row</strong> is one record — one customer, one product, one order.<br>
+              A <strong>column</strong> is one piece of info — like "name" or "city" or "price".<br><br>
+              We created 4 tables, each one storing a different type of information about our store.
+            </p>
+
+            <h3>What does CREATE TABLE actually do?</h3>
+            <p>It's like drawing an empty grid in Excel and labeling the columns. You're not adding any data yet — you're just telling PostgreSQL:</p>
+            <div class="tutorial-quote">"Hey, I want a table called customers. It has these columns. Each column holds this type of data."</div>
+
+            <h3>The order we created the tables — and why it matters</h3>
+            <div class="dependency-container">
+              <div class="dependency-list">
+                <div class="dep-item">
+                  <div class="dep-num">1</div>
+                  <div class="dep-name">customers</div>
+                  <div class="dep-note">No dependencies — goes first</div>
+                </div>
+                <div class="dep-item">
+                  <div class="dep-num">2</div>
+                  <div class="dep-name">products</div>
+                  <div class="dep-note">No dependencies — goes second</div>
+                </div>
+                <div class="dep-item">
+                  <div class="dep-num">3</div>
+                  <div class="dep-name">orders</div>
+                  <div class="dep-note">Needs <span>customers</span> to exist first</div>
+                </div>
+                <div class="dep-item">
+                  <div class="dep-num">4</div>
+                  <div class="dep-name">order_items</div>
+                  <div class="dep-note">Needs <span>orders + products</span> first</div>
+                </div>
+              </div>
+              <div class="callout-box">
+                <h4 class="callout-title">Why does the order matter?</h4>
+                <p class="callout-text">Some tables reference other tables (like orders referencing customers). If you try to create orders before customers exists, PostgreSQL will throw an error — it can't reference something that doesn't exist yet.</p>
+              </div>
+            </div>
+
+            <!-- PHASE 2 — CREATE TABLES -->
+            <h2 id="create">Phase 2 — Creating the Tables</h2>
+            <hr class="section-separator">
+
+            <p>We created 4 tables in PostgreSQL, one at a time, in dependency order. Below is the SQL for each table with a line-by-line explanation.</p>
+
+            <!-- customers -->
+            <h3>Table 1 — customers</h3>
+            <div class="code-window">
+              <div class="window-header">
+                <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+                <div class="window-title">01_customers.sql</div>
+                <div class="window-badge">No dependencies</div>
+              </div>
+              <div class="window-body"><pre><code><span class="cm">-- Create customers table</span>
+<span class="kw">CREATE TABLE</span> customers (
+    customer_id  <span class="fn">SERIAL</span>        <span class="kw">PRIMARY KEY</span>,
+    name         <span class="fn">VARCHAR</span>(100)  <span class="kw">NOT NULL</span>,
+    email        <span class="fn">VARCHAR</span>(150)  <span class="kw">UNIQUE NOT NULL</span>,
+    region       <span class="fn">VARCHAR</span>(50)   <span class="kw">NOT NULL</span>,
+    city         <span class="fn">VARCHAR</span>(100)  <span class="kw">NOT NULL</span>
+);</code></pre></div>
+            </div>
+            <div class="explanation-section">
+              <div class="explanation-header">What does each line mean?</div>
+              <div class="explanation-list">
+                <div class="explanation-row">
+                  <div class="code-part"><code>CREATE TABLE customers</code></div>
+                  <div class="desc-part">"Make me a new empty table and call it customers." Simple as that.</div>
+                </div>
+                <div class="explanation-row">
+                  <div class="code-part"><code>customer_id SERIAL PRIMARY KEY</code></div>
+                  <div class="desc-part"><strong>SERIAL</strong> = a number that counts up automatically (1, 2, 3…). You never type this — PostgreSQL assigns it. <strong>PRIMARY KEY</strong> = this is the unique ID for each row. No two customers share the same ID.</div>
+                </div>
+                <div class="explanation-row">
+                  <div class="code-part"><code>name VARCHAR(100)</code></div>
+                  <div class="desc-part"><strong>VARCHAR(100)</strong> means "text, up to 100 characters". Like a text box with a character limit. Names don't need more than 100 characters.</div>
+                </div>
+                <div class="explanation-row">
+                  <div class="code-part"><code>email VARCHAR(150) UNIQUE NOT NULL</code></div>
+                  <div class="desc-part"><strong>UNIQUE</strong> = two customers can't have the same email. <strong>NOT NULL</strong> = this field is required — you can't leave it blank. Both rules are enforced automatically by PostgreSQL.</div>
+                </div>
+                <div class="explanation-row">
+                  <div class="code-part"><code>( ) and the semicolon ;</code></div>
+                  <div class="desc-part">The parentheses wrap all column definitions. The semicolon tells PostgreSQL "this statement is finished." Every SQL statement ends with a semicolon.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- products -->
+            <h3>Table 2 — products</h3>
+            <div class="code-window">
+              <div class="window-header">
+                <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+                <div class="window-title">02_products.sql</div>
+                <div class="window-badge">No dependencies</div>
+              </div>
+              <div class="window-body"><pre><code><span class="cm">-- Create products table</span>
+<span class="kw">CREATE TABLE</span> products (
+    product_id    <span class="fn">SERIAL</span>        <span class="kw">PRIMARY KEY</span>,
+    product_name  <span class="fn">VARCHAR</span>(200)  <span class="kw">NOT NULL</span>,
+    category      <span class="fn">VARCHAR</span>(50)   <span class="kw">NOT NULL</span>,
+    sub_category  <span class="fn">VARCHAR</span>(50)   <span class="kw">NOT NULL</span>
+);</code></pre></div>
+            </div>
+            <div class="explanation-section">
+              <div class="explanation-list"><div class="explanation-section">
+              <div class="explanation-header">What does each line mean?</div>
+              <div class="explanation-list">
+                <div class="explanation-row">
+                  <div class="code-part"><code>product_id SERIAL PRIMARY KEY</code></div>
+                  <div class="desc-part">Same pattern as customers. Every product gets a unique auto-assigned number. Instead of typing "Staples Easy Button" in every order, we just say <strong>product_id = 7</strong>. Much cleaner.</div>
+                </div>
+                <div class="explanation-row">
+                  <div class="code-part"><code>product_name VARCHAR(200)</code></div>
+                  <div class="desc-part">200 characters because product names can be long — like "Avery Heavy-Duty View Binder with 2-Inch Slant Ring". We gave it more room than the name column.</div>
+                </div>
+                <div class="explanation-row">
+                  <div class="code-part"><code>category / sub_category</code></div>
+                  <div class="desc-part">3 categories: <strong>Furniture, Technology, Office Supplies</strong>. sub_category is more specific — e.g. category = "Technology", sub_category = "Phones". This lets us later compare sales across product types.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- orders -->
+            <h3>Table 3 — orders</h3>
+            <div class="code-window">
+              <div class="window-header">
+                <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+                <div class="window-title">03_orders.sql</div>
+                <div class="window-badge">Needs customers first</div>
+              </div>
+              <div class="window-body"><pre><code><span class="cm">-- Create orders table</span>
+<span class="kw">CREATE TABLE</span> orders (
+    order_id     <span class="fn">SERIAL</span>        <span class="kw">PRIMARY KEY</span>,
+    customer_id  <span class="fn">INT</span>           <span class="kw">NOT NULL</span>,
+    order_date   <span class="fn">DATE</span>          <span class="kw">NOT NULL</span>,
+    ship_mode    <span class="fn">VARCHAR</span>(50)   <span class="kw">NOT NULL</span>,
+    discount     <span class="fn">NUMERIC</span>(4,2)  <span class="kw">DEFAULT</span> 0,
+
+    <span class="kw">CONSTRAINT</span> fk_customer
+        <span class="kw">FOREIGN KEY</span> (customer_id)
+        <span class="kw">REFERENCES</span> customers(customer_id)
+);</code></pre></div>
+            </div>
+            <div class="explanation-section">
+              <div class="explanation-list">
+                <div class="explanation-section">
+              <div class="explanation-header">What does each line mean?</div>
+              <div class="explanation-list">
+                <div class="explanation-row">
+                  <div class="code-part"><code>customer_id INT NOT NULL</code></div>
+                  <div class="desc-part"><strong>INT</strong> = a whole number. This holds the ID of the customer who placed this order. Instead of writing "Maria" in every order, we just write her ID number — for example, 3.</div>
+                </div>
+                <div class="explanation-row">
+                  <div class="code-part"><code>order_date DATE</code></div>
+                  <div class="desc-part"><strong>DATE</strong> stores just a calendar date — like 2023-06-15. PostgreSQL knows it's a date, so you can later filter by month, year, or date range easily.</div>
+                </div>
+                <div class="explanation-row">
+                  <div class="code-part"><code>discount NUMERIC(4,2) DEFAULT 0</code></div>
+                  <div class="desc-part"><strong>NUMERIC(4,2)</strong> = a decimal number, 4 digits total, 2 after the dot. Example: 0.20 = 20% discount. <strong>DEFAULT 0</strong> means if you don't mention discount, it automatically becomes 0.</div>
+                </div>
+                <div class="explanation-row">
+                  <div class="code-part"><code>CONSTRAINT fk_customer FOREIGN KEY…</code></div>
+                  <div class="desc-part">A <strong>FOREIGN KEY</strong> rule: "the customer_id in this table must exist in the customers table." PostgreSQL will reject any order for a customer that doesn't exist. It's a safety net built into the database.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- order_items -->
+            <h3>Table 4 — order_items</h3>
+            <div class="code-window">
+              <div class="window-header">
+                <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+                <div class="window-title">04_order_items.sql</div>
+                <div class="window-badge">Needs orders + products</div>
+              </div>
+              <div class="window-body"><pre><code><span class="cm">-- Create order_items table (the bridge table)</span>
+<span class="kw">CREATE TABLE</span> order_items (
+    item_id      <span class="fn">SERIAL</span>          <span class="kw">PRIMARY KEY</span>,
+    order_id     <span class="fn">INT</span>             <span class="kw">NOT NULL</span>,
+    product_id   <span class="fn">INT</span>             <span class="kw">NOT NULL</span>,
+    quantity     <span class="fn">INT</span>             <span class="kw">NOT NULL CHECK</span> (quantity > 0),
+    unit_price   <span class="fn">NUMERIC</span>(10,2)   <span class="kw">NOT NULL</span>,
+    total_sales  <span class="fn">NUMERIC</span>(10,2)   <span class="kw">NOT NULL</span>,
+
+    <span class="kw">CONSTRAINT</span> fk_order
+        <span class="kw">FOREIGN KEY</span> (order_id)
+        <span class="kw">REFERENCES</span> orders(order_id),
+
+    <span class="kw">CONSTRAINT</span> fk_product
+        <span class="kw">FOREIGN KEY</span> (product_id)
+        <span class="kw">REFERENCES</span> products(product_id)
+);</code></pre></div>
+            </div>
+            <div class="explanation-section">
+              <div class="explanation-section">
+              <div class="explanation-header">What does each line mean?</div>
+              <div class="explanation-list">
+                <div class="explanation-row">
+                  <div class="code-part"><code>quantity INT NOT NULL CHECK (quantity > 0)</code></div>
+                  <div class="desc-part"><strong>INT</strong> = whole numbers only — you can't sell 2.5 chairs. <strong>CHECK (quantity > 0)</strong> rejects any row where quantity is 0 or negative. A safety rule built right into the table definition.</div>
+                </div>
+                <div class="explanation-row">
+                  <div class="code-part"><code>unit_price NUMERIC(10,2)</code></div>
+                  <div class="desc-part">Up to 10 digits with 2 decimal places — enough for any realistic price like 1299.99. Always use <strong>NUMERIC</strong> (not FLOAT) for money — FLOAT has rounding errors that corrupt financial data over time.</div>
+                </div>
+                <div class="explanation-row">
+                  <div class="code-part"><code>total_sales NUMERIC(10,2)</code></div>
+                  <div class="desc-part">Pre-calculated: <strong>quantity × unit_price × (1 − discount)</strong>. Stored so our SUM queries later are fast and simple — no math at query time.</div>
+                </div>
+                <div class="explanation-row">
+                  <div class="code-part"><code>Two FOREIGN KEYs</code></div>
+                  <div class="desc-part">This table links orders to products — that's why it's called a bridge table and why it's always created last. Both order_id and product_id must exist in their parent tables before a row can be inserted here.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PHASE 3 — INSERT -->
+            <h2 id="insert">Phase 3 — Inserting the Data</h2>
+            <hr class="section-separator">
+
+            <p><strong>CREATE TABLE</strong> built the empty grids. <strong>INSERT INTO</strong> is where we fill them with real data. Same dependency order applies — customers and products first, then orders, then order_items.</p>
+
+            <div class="blog-key">
+              <div class="key-label"><i class="fa-solid fa-lightbulb"></i> Key rule</div>
+              <p>We never insert the ID column (customer_id, product_id, etc). PostgreSQL assigns it automatically via SERIAL — starting at 1 and counting up. Alice gets customer_id = 1, Bob gets 2, and so on. Remember these numbers — orders will reference them.</p>
+            </div>
+
+            <div class="code-window">
+              <div class="window-header">
+                <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+                <div class="window-title">05_insert_customers.sql</div>
+                <div class="window-badge">10 rows</div>
+              </div>
+              <div class="window-body"><pre><code><span class="kw">INSERT INTO</span> customers (name, email, region, city)
+<span class="kw">VALUES</span>
+  (<span class="st">'Alice Johnson'</span>,  <span class="st">'alice@email.com'</span>,  <span class="st">'East'</span>,    <span class="st">'New York'</span>),
+  (<span class="st">'Bob Martinez'</span>,   <span class="st">'bob@email.com'</span>,    <span class="st">'West'</span>,    <span class="st">'Los Angeles'</span>),
+  (<span class="st">'Carol White'</span>,    <span class="st">'carol@email.com'</span>,  <span class="st">'Central'</span>, <span class="st">'Chicago'</span>),
+  (<span class="st">'David Lee'</span>,      <span class="st">'david@email.com'</span>,  <span class="st">'West'</span>,    <span class="st">'Seattle'</span>),
+  (<span class="st">'Emma Brown'</span>,     <span class="st">'emma@email.com'</span>,   <span class="st">'South'</span>,   <span class="st">'Houston'</span>),
+  (<span class="st">'Frank Davis'</span>,    <span class="st">'frank@email.com'</span>,  <span class="st">'East'</span>,    <span class="st">'Boston'</span>),
+  (<span class="st">'Grace Wilson'</span>,   <span class="st">'grace@email.com'</span>,  <span class="st">'South'</span>,   <span class="st">'Miami'</span>),
+  (<span class="st">'Henry Taylor'</span>,   <span class="st">'henry@email.com'</span>,  <span class="st">'Central'</span>, <span class="st">'Dallas'</span>),
+  (<span class="st">'Iris Anderson'</span>,  <span class="st">'iris@email.com'</span>,   <span class="st">'West'</span>,    <span class="st">'Phoenix'</span>),
+  (<span class="st">'James Thomas'</span>,   <span class="st">'james@email.com'</span>,  <span class="st">'East'</span>,    <span class="st">'Philadelphia'</span>);</code></pre></div>
+            </div>
+
+            <div class="code-window">
+              <div class="window-header">
+                <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+                <div class="window-title">06_insert_products.sql</div>
+                <div class="window-badge">10 rows</div>
+              </div>
+              <div class="window-body"><pre><code><span class="kw">INSERT INTO</span> products (product_name, category, sub_category)
+<span class="kw">VALUES</span>
+  (<span class="st">'Adjustable Office Chair'</span>,    <span class="st">'Furniture'</span>,       <span class="st">'Chairs'</span>),
+  (<span class="st">'Standing Desk 60 inch'</span>,       <span class="st">'Furniture'</span>,       <span class="st">'Tables'</span>),
+  (<span class="st">'Bookshelf 5-Shelf'</span>,           <span class="st">'Furniture'</span>,       <span class="st">'Bookcases'</span>),
+  (<span class="st">'iPhone 15 Pro'</span>,               <span class="st">'Technology'</span>,      <span class="st">'Phones'</span>),
+  (<span class="st">'Dell 27 inch Monitor'</span>,        <span class="st">'Technology'</span>,      <span class="st">'Monitors'</span>),
+  (<span class="st">'Logitech Wireless Mouse'</span>,     <span class="st">'Technology'</span>,      <span class="st">'Accessories'</span>),
+  (<span class="st">'Staples Binder Pack x10'</span>,     <span class="st">'Office Supplies'</span>, <span class="st">'Binders'</span>),
+  (<span class="st">'Post-it Notes 12 Pack'</span>,       <span class="st">'Office Supplies'</span>, <span class="st">'Paper'</span>),
+  (<span class="st">'Heavy Duty Stapler'</span>,          <span class="st">'Office Supplies'</span>, <span class="st">'Fasteners'</span>),
+  (<span class="st">'Whiteboard 48x36'</span>,            <span class="st">'Office Supplies'</span>, <span class="st">'Whiteboards'</span>);</code></pre></div>
+            </div>
+
+            <div class="code-window">
+              <div class="window-header">
+                <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+                <div class="window-title">07_insert_orders.sql</div>
+                <div class="window-badge">10 rows</div>
+              </div>
+              <div class="window-body"><pre><code><span class="kw">INSERT INTO</span> orders (customer_id, order_date, ship_mode, discount)
+<span class="kw">VALUES</span>
+  (<span class="nm">1</span>,  <span class="st">'2023-01-15'</span>, <span class="st">'Standard Class'</span>, <span class="nm">0.00</span>),
+  (<span class="nm">2</span>,  <span class="st">'2023-02-03'</span>, <span class="st">'First Class'</span>,    <span class="nm">0.10</span>),
+  (<span class="nm">3</span>,  <span class="st">'2023-02-20'</span>, <span class="st">'Standard Class'</span>, <span class="nm">0.20</span>),
+  (<span class="nm">4</span>,  <span class="st">'2023-03-08'</span>, <span class="st">'Second Class'</span>,   <span class="nm">0.00</span>),
+  (<span class="nm">5</span>,  <span class="st">'2023-04-12'</span>, <span class="st">'Same Day'</span>,       <span class="nm">0.15</span>),
+  (<span class="nm">6</span>,  <span class="st">'2023-05-01'</span>, <span class="st">'Standard Class'</span>, <span class="nm">0.00</span>),
+  (<span class="nm">7</span>,  <span class="st">'2023-06-19'</span>, <span class="st">'First Class'</span>,    <span class="nm">0.05</span>),
+  (<span class="nm">8</span>,  <span class="st">'2023-07-30'</span>, <span class="st">'Standard Class'</span>, <span class="nm">0.20</span>),
+  (<span class="nm">9</span>,  <span class="st">'2023-09-14'</span>, <span class="st">'Second Class'</span>,   <span class="nm">0.00</span>),
+  (<span class="nm">10</span>, <span class="st">'2023-11-25'</span>, <span class="st">'Same Day'</span>,       <span class="nm">0.10</span>);</code></pre></div>
+            </div>
+
+            <div class="code-window">
+              <div class="window-header">
+                <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+                <div class="window-title">08_insert_order_items.sql</div>
+                <div class="window-badge">16 rows</div>
+              </div>
+              <div class="window-body"><pre><code><span class="cm">-- order_id, product_id, quantity, unit_price, total_sales</span>
+<span class="kw">INSERT INTO</span> order_items (order_id, product_id, quantity, unit_price, total_sales)
+<span class="kw">VALUES</span>
+  <span class="cm">-- Order 1: Alice buys a chair (no discount)</span>
+  (<span class="nm">1</span>, <span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">250.00</span>, <span class="nm">500.00</span>),
+
+  <span class="cm">-- Order 2: Bob buys a monitor + mouse (10% discount)</span>
+  (<span class="nm">2</span>, <span class="nm">5</span>, <span class="nm">1</span>, <span class="nm">450.00</span>, <span class="nm">405.00</span>),
+  (<span class="nm">2</span>, <span class="nm">6</span>, <span class="nm">1</span>, <span class="nm">35.00</span>,  <span class="nm">31.50</span>),
+
+  <span class="cm">-- Order 3: Carol buys a desk + binders (20% discount)</span>
+  (<span class="nm">3</span>, <span class="nm">2</span>, <span class="nm">1</span>, <span class="nm">599.00</span>, <span class="nm">479.20</span>),
+  (<span class="nm">3</span>, <span class="nm">7</span>, <span class="nm">3</span>, <span class="nm">12.00</span>,  <span class="nm">28.80</span>),
+
+  <span class="cm">-- Order 4: David buys an iPhone (no discount)</span>
+  (<span class="nm">4</span>, <span class="nm">4</span>, <span class="nm">1</span>, <span class="nm">999.00</span>, <span class="nm">999.00</span>),
+
+  <span class="cm">-- Order 5: Emma buys a stapler + post-its (15% discount)</span>
+  (<span class="nm">5</span>, <span class="nm">9</span>, <span class="nm">2</span>, <span class="nm">28.00</span>,  <span class="nm">47.60</span>),
+  (<span class="nm">5</span>, <span class="nm">8</span>, <span class="nm">4</span>, <span class="nm">8.00</span>,   <span class="nm">27.20</span>),
+
+  <span class="cm">-- Order 6: Frank buys a bookshelf (no discount)</span>
+  (<span class="nm">6</span>, <span class="nm">3</span>, <span class="nm">1</span>, <span class="nm">320.00</span>, <span class="nm">320.00</span>),
+
+  <span class="cm">-- Order 7: Grace buys a whiteboard (5% discount)</span>
+  (<span class="nm">7</span>, <span class="nm">10</span>, <span class="nm">1</span>, <span class="nm">185.00</span>, <span class="nm">175.75</span>),
+
+  <span class="cm">-- Order 8: Henry buys a chair + desk (20% discount)</span>
+  (<span class="nm">8</span>, <span class="nm">1</span>, <span class="nm">1</span>, <span class="nm">250.00</span>, <span class="nm">200.00</span>),
+  (<span class="nm">8</span>, <span class="nm">2</span>, <span class="nm">1</span>, <span class="nm">599.00</span>, <span class="nm">479.20</span>),
+
+  <span class="cm">-- Order 9: Iris buys a mouse + binders (no discount)</span>
+  (<span class="nm">9</span>, <span class="nm">6</span>, <span class="nm">2</span>, <span class="nm">35.00</span>,  <span class="nm">70.00</span>),
+  (<span class="nm">9</span>, <span class="nm">7</span>, <span class="nm">5</span>, <span class="nm">12.00</span>,  <span class="nm">60.00</span>),
+
+  <span class="cm">-- Order 10: James buys a monitor + iPhone (10% discount)</span>
+  (<span class="nm">10</span>, <span class="nm">5</span>, <span class="nm">1</span>, <span class="nm">450.00</span>, <span class="nm">405.00</span>),
+  (<span class="nm">10</span>, <span class="nm">4</span>, <span class="nm">1</span>, <span class="nm">999.00</span>, <span class="nm">899.10</span>);</code></pre></div>
+            </div>
+
+            <!-- PHASE 4 — QUERIES -->
+            <h2 id="queries">Phase 4 — Business Queries</h2>
+            <hr class="section-separator">
+
+            <p>With the database fully populated, we wrote 5 queries — each answering a real business question a retail manager would actually ask.</p>
+
+            <!-- Q1 -->
+            <div class="tutorial-quote green">Business question: "Which region is generating the most revenue? Where should we focus our sales team?"</div>
+            <div class="code-window">
+              <div class="window-header">
+                <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+                <div class="window-title">query_01_revenue_by_region.sql</div>
+                <div class="window-badge">2-table JOIN</div>
+              </div>
+              <div class="window-body"><pre><code><span class="kw">SELECT</span>
+    c.<span class="col">region</span>,
+    <span class="fn">SUM</span>(oi.<span class="col">total_sales</span>)              <span class="kw">AS</span> total_revenue,
+    <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> o.<span class="col">order_id</span>)       <span class="kw">AS</span> total_orders,
+    <span class="fn">ROUND</span>(<span class="fn">AVG</span>(oi.<span class="col">total_sales</span>), 2)    <span class="kw">AS</span> avg_order_value
+<span class="kw">FROM</span> order_items oi
+<span class="kw">JOIN</span> orders o        <span class="kw">ON</span> oi.<span class="col">order_id</span>   = o.<span class="col">order_id</span>
+<span class="kw">JOIN</span> customers c     <span class="kw">ON</span> o.<span class="col">customer_id</span> = c.<span class="col">customer_id</span>
+<span class="kw">GROUP BY</span> c.<span class="col">region</span>
+<span class="kw">ORDER BY</span> total_revenue <span class="kw">DESC</span>;</code></pre></div>
+            </div>
+            <div class="insight-box"><strong>Business insight</strong>The East leads in revenue despite matching West in order count — meaning East customers spend more per order. That's a story worth telling to a manager.</div>
+
+            <!-- Q2 -->
+            <div class="tutorial-quote green">Business question: "Which products bring in the most money? What should we keep in stock no matter what?"</div>
+            <div class="code-window">
+              <div class="window-header">
+                <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+                <div class="window-title">query_02_top_products.sql</div>
+                <div class="window-badge">JOIN + LIMIT</div>
+              </div>
+              <div class="window-body"><pre><code><span class="kw">SELECT</span>
+    p.<span class="col">product_name</span>,
+    p.<span class="col">category</span>,
+    <span class="fn">SUM</span>(oi.<span class="col">total_sales</span>)   <span class="kw">AS</span> total_revenue,
+    <span class="fn">SUM</span>(oi.<span class="col">quantity</span>)      <span class="kw">AS</span> units_sold
+<span class="kw">FROM</span> order_items oi
+<span class="kw">JOIN</span> products p   <span class="kw">ON</span> oi.<span class="col">product_id</span> = p.<span class="col">product_id</span>
+<span class="kw">GROUP BY</span> p.<span class="col">product_name</span>, p.<span class="col">category</span>
+<span class="kw">ORDER BY</span> total_revenue <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> 5;</code></pre></div>
+            </div>
+            <div class="insight-box"><strong>Business insight</strong>The iPhone dominates revenue despite selling only 2 units — high price per item. The chair sold 3 units but ranks 4th. Volume alone doesn't equal revenue. Price matters.</div>
+
+            <!-- Q3 -->
+            <div class="tutorial-quote green">Business question: "Which product category brings in the most revenue and sells the most units?"</div>
+            <div class="code-window">
+              <div class="window-header">
+                <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+                <div class="window-title">query_03_category_breakdown.sql</div>
+                <div class="window-badge">Division in SQL</div>
+              </div>
+              <div class="window-body"><pre><code><span class="kw">SELECT</span>
+    p.<span class="col">category</span>,
+    <span class="fn">SUM</span>(oi.<span class="col">total_sales</span>)               <span class="kw">AS</span> total_revenue,
+    <span class="fn">SUM</span>(oi.<span class="col">quantity</span>)                  <span class="kw">AS</span> units_sold,
+    <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> oi.<span class="col">order_id</span>)       <span class="kw">AS</span> num_orders,
+    <span class="fn">ROUND</span>(
+        <span class="fn">SUM</span>(oi.<span class="col">total_sales</span>) /
+        <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> oi.<span class="col">order_id</span>)
+    , 2)                               <span class="kw">AS</span> revenue_per_order
+<span class="kw">FROM</span> order_items oi
+<span class="kw">JOIN</span> products p   <span class="kw">ON</span> oi.<span class="col">product_id</span> = p.<span class="col">product_id</span>
+<span class="kw">GROUP BY</span> p.<span class="col">category</span>
+<span class="kw">ORDER BY</span> total_revenue <span class="kw">DESC</span>;</code></pre></div>
+            </div>
+            <div class="insight-box"><strong>Business insight</strong>Office Supplies sells 15 units — more than the other two categories combined — but generates the least revenue. Technology sells only 6 units but earns the most. These categories need completely different strategies.</div>
+
+            <!-- Q4 -->
+            <div class="tutorial-quote green">Business question: "Who are our most valuable customers? Who should we reach out to first for loyalty offers?"</div>
+            <div class="code-window">
+              <div class="window-header">
+                <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+                <div class="window-title">query_04_best_customers.sql</div>
+                <div class="window-badge">3-table JOIN</div>
+              </div>
+              <div class="window-body"><pre><code><span class="kw">SELECT</span>
+    c.<span class="col">name</span>,
+    c.<span class="col">region</span>,
+    c.<span class="col">city</span>,
+    <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> o.<span class="col">order_id</span>)   <span class="kw">AS</span> total_orders,
+    <span class="fn">SUM</span>(oi.<span class="col">total_sales</span>)           <span class="kw">AS</span> lifetime_value
+<span class="kw">FROM</span> customers c
+<span class="kw">JOIN</span> orders o        <span class="kw">ON</span> c.<span class="col">customer_id</span> = o.<span class="col">customer_id</span>
+<span class="kw">JOIN</span> order_items oi  <span class="kw">ON</span> o.<span class="col">order_id</span>    = oi.<span class="col">order_id</span>
+<span class="kw">GROUP BY</span> c.<span class="col">name</span>, c.<span class="col">region</span>, c.<span class="col">city</span>
+<span class="kw">ORDER BY</span> lifetime_value <span class="kw">DESC</span>;</code></pre></div>
+            </div>
+            <div class="insight-box"><strong>Business insight</strong>James from Philadelphia spent $1,304 in a single order — your highest value customer. In a real business this person gets a personal email, a loyalty reward, or early access. Data drives that decision.</div>
+
+            <!-- Q5 -->
+            <div class="tutorial-quote green">Business question: "How did our revenue grow month by month in 2023? Are there slow months we should prepare for?"</div>
+            <div class="code-window">
+              <div class="window-header">
+                <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+                <div class="window-title">query_05_monthly_trend.sql</div>
+                <div class="window-badge">DATE functions</div>
+              </div>
+              <div class="window-body"><pre><code><span class="kw">SELECT</span>
+    <span class="fn">TO_CHAR</span>(o.<span class="col">order_date</span>, <span class="st">'YYYY-MM'</span>)   <span class="kw">AS</span> month,
+    <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> o.<span class="col">order_id</span>)         <span class="kw">AS</span> orders_placed,
+    <span class="fn">SUM</span>(oi.<span class="col">total_sales</span>)                <span class="kw">AS</span> monthly_revenue
+<span class="kw">FROM</span> orders o
+<span class="kw">JOIN</span> order_items oi  <span class="kw">ON</span> o.<span class="col">order_id</span> = oi.<span class="col">order_id</span>
+<span class="kw">GROUP BY</span> <span class="fn">TO_CHAR</span>(o.<span class="col">order_date</span>, <span class="st">'YYYY-MM'</span>)
+<span class="kw">ORDER BY</span> month <span class="kw">ASC</span>;</code></pre></div>
+            </div>
+            <div class="insight-box"><strong>Business insight</strong>November is the highest revenue month — Black Friday effect, even in a small dataset. April is the weakest. In a real business you'd use this to plan inventory, promotions, and staffing months in advance.</div>
+
+            <!-- INSIGHTS SUMMARY -->
+            <h2 id="insights">Key Insights Summary</h2>
+            <hr class="section-separator">
+
+            <ul>
+              <li><strong>East region leads in revenue</strong> despite matching West in order count — higher spend per order, not more orders.</li>
+              <li><strong>Technology dominates revenue with the fewest units sold</strong> — price per unit matters more than quantity. Critical inventory insight.</li>
+              <li><strong>Office Supplies sells the most units</strong> but generates the least revenue. Needs a different pricing or bundling strategy.</li>
+              <li><strong>James Thomas is the highest lifetime value customer</strong> — $1,304 in one order. Loyalty programs should target profiles like his.</li>
+              <li><strong>November is peak month, April is the danger month</strong> — seasonal patterns that should drive planning for the following year.</li>
+            </ul>
+
+            <!-- SKILLS -->
+            <h2 id="skills">SQL Skills Used</h2>
+            <hr class="section-separator">
+
+            <div class="skills-grid">
+              <div class="skill-item"><code>CREATE TABLE</code><span>Schema design with constraints</span></div>
+              <div class="skill-item"><code>PRIMARY KEY</code><span>Unique row identification</span></div>
+              <div class="skill-item"><code>FOREIGN KEY</code><span>Referential integrity</span></div>
+              <div class="skill-item"><code>INSERT INTO</code><span>Multi-row data population</span></div>
+              <div class="skill-item"><code>SELECT / WHERE</code><span>Data retrieval and filtering</span></div>
+              <div class="skill-item"><code>JOIN (2–3 tables)</code><span>Connecting multiple tables</span></div>
+              <div class="skill-item"><code>GROUP BY</code><span>Aggregation by category</span></div>
+              <div class="skill-item"><code>SUM / AVG / COUNT</code><span>Aggregate functions</span></div>
+              <div class="skill-item"><code>ROUND / TO_CHAR</code><span>Data formatting</span></div>
+              <div class="skill-item"><code>ORDER BY DESC/ASC</code><span>Sorting results</span></div>
+              <div class="skill-item"><code>LIMIT</code><span>Top-N filtering</span></div>
+              <div class="skill-item"><code>NUMERIC(10,2)</code><span>Precise financial types</span></div>
+            </div>
+
+            <div class="blog-connect">
+              <div class="blog-connect-icon"><i class="fa-brands fa-linkedin-in"></i></div>
+              <p>Found this useful? <a href="https://www.linkedin.com/in/kostanca-kovaci" target="_blank">Connect with me on LinkedIn</a> — I share more data science tutorials, tips and projects regularly.</p>
+            </div>
+
+          </div><!-- end content-body -->
+
+          <!-- Footer bar -->
+          <div class="content-footer-bar">
+            <a href="../index.html#tutorial"><i class="fa-solid fa-arrow-left"></i> Back to Tutorials</a>
+            <a href="Pandas_Cheatsheet.html">Next: Pandas Cheatsheet <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+
+        </div><!-- end tutorial-content -->
+      </div><!-- end tutorial-layout -->
+
+      <!-- CTA Banner -->
+      <div class="blog-cta-banner">
+        <div class="cta-banner-left">
+          <div class="cta-banner-icon">💡</div>
+          <div class="cta-banner-text">
+            <h3>Ready to practice with real data?</h3>
+            <p>Check out my projects — real datasets, real problems, hands-on solutions.</p>
+          </div>
+        </div>
+        <a href="../projects/all-projects.html" class="cta-banner-btn">
+          <i class="fa-solid fa-arrow-right"></i> View Projects
+        </a>
+      </div>
+
+      <!-- Bottom Cards -->
+      <div class="blog-bottom-cards">
+        <div class="bottom-card">
+          <img src="../me3_1.jpeg" alt="Kostanca Kovaci" class="author-card-img">
+          <h3>Kostanca Kovaci</h3>
+          <p>Data Scientist with a goal to help businesses move from raw data to real decisions — and learners to build real skills through clear, practical content.</p>
+          <div class="bottom-card-social">
+            <a href="https://linkedin.com/in/kostanca-kovaci/" target="_blank"><i class="fa-brands fa-linkedin-in"></i> LinkedIn</a>
+            <a href="https://github.com/kovacikostanca" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
+          </div>
+        </div>
+        <div class="bottom-card">
+          <div class="community-icon">📬</div>
+          <h3>Stay in the loop</h3>
+          <p>New tutorials, blogs and data science content — shared regularly. Follow along and grow your data skills one step at a time.</p>
+          <div class="bottom-card-social">
+            <a href="mailto:kovacikostanca@gmail.com"><i class="fa-solid fa-envelope"></i> Get in Touch</a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end container -->
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 <span class="footer-name">Kostanca Kovaci</span>. All Rights Reserved</p>
+    </div>
+  </footer>
+
+  <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">↑</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="../script_new.js"></script>
+
+  <!-- Side Drawer -->
+  <div class="side-drawer" id="sideDrawer">
+    <button class="drawer-close" id="drawerClose">✕</button>
+    <div class="drawer-logo">Grow<span>In</span>Data</div>
+    <div class="drawer-section">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="../index.html#home"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li><a href="../index.html#about"><i class="fa-solid fa-user"></i> About</a></li>
+        <li><a href="../index.html#project"><i class="fa-solid fa-folder"></i> Portfolio</a></li>
+        <li><a href="../index.html#service"><i class="fa-solid fa-briefcase"></i> Services</a></li>
+      </ul>
+    </div>
+    <div class="drawer-section">
+      <h4>Learn</h4>
+      <ul>
+        <li><a href="../index.html#blog"><i class="fa-solid fa-pen-nib"></i> Blog</a></li>
+        <li><a href="../index.html#tutorial"><i class="fa-solid fa-book-open"></i> Tutorials</a></li>
+        <li><a href="all-tutorials.html"><i class="fa-solid fa-graduation-cap"></i> All Courses</a></li>
+        <li><a href="../projects/all-projects.html"><i class="fa-solid fa-diagram-project"></i> All Projects</a></li>
+      </ul>
+    </div>
+    <div class="drawer-section">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:kovacikostanca@gmail.com"><i class="fa-solid fa-envelope"></i> Email Me</a></li>
+        <li><a href="https://linkedin.com/in/kostanca-kovaci/" target="_blank"><i class="fa-brands fa-linkedin-in"></i> LinkedIn</a></li>
+        <li><a href="https://github.com/kovacikostanca" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a></li>
+      </ul>
+    </div>
+    <a href="../index.html#contact" class="drawer-cta">Get Started</a>
+  </div>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+</body>
+</html>
