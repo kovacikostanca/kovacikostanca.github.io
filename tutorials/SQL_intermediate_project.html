@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <title>SaaS Revenue Analysis | GrowInData</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Caveat:wght@600&family=Poppins:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@1,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style_new.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+
+    .nav-menu { display: flex; gap: 35px; align-items: center; margin-left: auto; }
+    .nav-content { display: flex; justify-content: flex-start; align-items: center; padding: 28px 0; }
+
+    .tutorial-page { padding: 160px 0 80px; min-height: 100vh; background: #050715; }
+    [data-theme="light"] .tutorial-page { background: #f0f4ff; }
+
+    .blog-tabs { display: flex; justify-content: center; margin-bottom: 50px; }
+    .blog-tabs-inner { display: flex; gap: 6px; background: rgba(255,255,255,0.04); border: 1px solid rgba(99,102,241,0.15); border-radius: 50px; padding: 6px; }
+    [data-theme="light"] .blog-tabs-inner { background: rgba(0,0,0,0.04); border-color: rgba(99,102,241,0.2); }
+    .blog-tab { padding: 10px 28px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; color: var(--text-muted); border: none; background: transparent; transition: all 0.3s ease; font-family: 'Space Grotesk', sans-serif; text-decoration: none; display: inline-block; }
+    .blog-tab:hover { color: var(--text); }
+    .blog-tab.active { background: var(--gradient); color: white; }
+
+    .tutorial-layout { display: grid; grid-template-columns: 260px 1fr; gap: 30px; align-items: start; }
+
+    .blog-sidebar { position: sticky; top: 100px; background: rgba(255,255,255,0.03); border: 1px solid rgba(99,102,241,0.12); border-radius: 16px; padding: 28px 24px; }
+    [data-theme="light"] .blog-sidebar { background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+    .sidebar-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); margin-bottom: 20px; font-family: 'JetBrains Mono', monospace; }
+    .sidebar-section { margin-bottom: 24px; }
+    .sidebar-section-title { font-size: 0.92rem; font-weight: 700; color: var(--text); margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(99,102,241,0.1); }
+    .sidebar-links { list-style: none; padding: 0; margin: 0; }
+    .sidebar-links li { margin-bottom: 4px; }
+    .sidebar-links li a { font-size: 0.85rem; color: var(--text-muted); transition: all 0.3s; display: flex; align-items: center; gap: 8px; padding: 5px 8px; border-radius: 8px; text-decoration: none; }
+    .sidebar-links li a:hover { color: var(--primary); background: rgba(99,102,241,0.08); }
+    .sidebar-links li a.active { color: var(--primary); background: rgba(99,102,241,0.1); font-weight: 600; }
+    .sidebar-links li a::before { content: '›'; color: var(--primary); font-size: 1rem; }
+
+    .tutorial-content { background: rgba(255,255,255,0.03); border: 1px solid rgba(99,102,241,0.12); border-radius: 20px; overflow: hidden; }
+    [data-theme="light"] .tutorial-content { background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+
+    .content-header { padding: 55px 55px 40px; border-bottom: 1px solid rgba(99,102,241,0.1); background: linear-gradient(135deg, rgba(99,102,241,0.06) 0%, transparent 60%); }
+    .content-header-top { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+    .content-emoji { font-size: 2.8rem; line-height: 1; }
+    .content-header h1 { font-family: 'Poppins', sans-serif; font-size: 2.2rem; font-weight: 800; line-height: 1.2; color: var(--text); letter-spacing: -0.5px; }
+    [data-theme="light"] .content-header h1 { color: #0f172a; }
+    .content-desc { font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; max-width: 650px; }
+    .content-tagline { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; font-weight: 700; color: var(--primary); }
+    .content-divider { width: 60px; height: 3px; background: var(--gradient); border-radius: 2px; margin-top: 24px; }
+
+    .content-meta { display: flex; align-items: center; gap: 12px; padding: 14px 55px; border-bottom: 1px solid rgba(99,102,241,0.08); background: rgba(99,102,241,0.03); flex-wrap: wrap; }
+    .meta-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(99,102,241,0.12); color: #a5b4fc; padding: 5px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; border: 1px solid rgba(99,102,241,0.25); font-family: 'JetBrains Mono', monospace; }
+    [data-theme="light"] .meta-badge { color: var(--primary); background: rgba(99,102,241,0.08); }
+    .meta-item { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+    .meta-item i { color: var(--primary); }
+
+    .content-body { padding: 45px 55px; }
+    .content-body h2 { font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: 700; margin-top: 48px; margin-bottom: 6px; color: var(--text); }
+    .content-body h2:first-child { margin-top: 0; }
+    .section-separator { border: none; height: 2px; background: linear-gradient(90deg, var(--primary), transparent); margin: 6px 0 22px; border-radius: 2px; }
+    .content-body h3 { font-family: 'Poppins', sans-serif; font-size: 1.05rem; font-weight: 600; margin-top: 28px; margin-bottom: 10px; color: #a5b4fc; display: flex; align-items: center; gap: 10px; }
+    .content-body h3::before { content: ''; display: inline-block; width: 4px; height: 16px; background: var(--primary); border-radius: 2px; flex-shrink: 0; }
+    [data-theme="light"] .content-body h3 { color: var(--primary); }
+    .content-body p { font-size: 1rem; line-height: 1.9; margin-bottom: 16px; color: var(--text-muted); }
+    .content-body p strong { color: var(--text); }
+    .content-body ul { list-style: none; padding: 0; margin: 0 0 18px 0; }
+    .content-body ul li { font-size: 1rem; line-height: 1.85; margin-bottom: 8px; color: var(--text-muted); padding-left: 22px; position: relative; }
+    .content-body ul li::before { content: '→'; position: absolute; left: 0; color: var(--primary); font-size: 0.85rem; }
+    .content-body ul li strong { color: var(--text); }
+
+    /* Stats */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 24px 0 36px; }
+    .stat-card { background: rgba(99,102,241,0.06); border: 1px solid rgba(99,102,241,0.15); border-radius: 12px; padding: 20px; text-align: center; }
+    [data-theme="light"] .stat-card { background: #f8faff; }
+    .stat-num { font-family: 'Space Mono', monospace; font-size: 2rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+    .stat-label { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* NEW vs BEGINNER comparison */
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 28px; }
+    .compare-card { border-radius: 12px; padding: 18px 20px; border: 1px solid rgba(99,102,241,0.12); }
+    .compare-card.before { background: rgba(255,255,255,0.02); }
+    .compare-card.after { background: rgba(99,102,241,0.06); border-color: rgba(99,102,241,0.25); }
+    .compare-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; font-family: 'JetBrains Mono', monospace; }
+    .compare-label.before { color: var(--text-muted); }
+    .compare-label.after { color: var(--primary); }
+    .compare-item { font-size: 12.5px; color: var(--text-muted); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; }
+    .compare-item::before { content: '·'; color: var(--primary); font-size: 1.2rem; }
+
+    /* Phases */
+    .phases { display: flex; flex-direction: column; gap: 0; }
+    .phase-row { display: grid; grid-template-columns: 80px 1fr; gap: 0; position: relative; }
+    .phase-line { display: flex; flex-direction: column; align-items: center; padding-top: 24px; }
+    .phase-dot { width: 40px; height: 40px; border-radius: 50%; background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.4); display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--primary); flex-shrink: 0; z-index: 1; }
+    .phase-connector { width: 1px; flex: 1; min-height: 20px; background: rgba(99,102,241,0.2); margin: 6px 0; }
+    .phase-card { margin: 16px 0 16px 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(99,102,241,0.12); border-radius: 12px; padding: 20px 24px; transition: border-color 0.2s; }
+    [data-theme="light"] .phase-card { background: #fafafa; }
+    .phase-card:hover { border-color: rgba(99,102,241,0.35); }
+    .phase-card-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+    .phase-card-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 12px; }
+    .tag-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 3px 8px; border-radius: 6px; background: rgba(99,102,241,0.1); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.25); }
+    .tag.green { background: rgba(46,160,67,0.1); color: #3fb950; border-color: rgba(46,160,67,0.35); }
+    .tag.amber { background: rgba(227,179,65,0.1); color: #e3b341; border-color: rgba(227,179,65,0.35); }
+    .tag.purple { background: rgba(188,140,255,0.1); color: #bc8cff; border-color: rgba(188,140,255,0.35); }
+    .tag.red { background: rgba(248,81,73,0.1); color: #f85149; border-color: rgba(248,81,73,0.35); }
+
+    /* Customer stories */
+    .stories-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+    .story-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(99,102,241,0.12); border-radius: 12px; padding: 16px 18px; display: flex; gap: 12px; align-items: flex-start; }
+    .story-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+    .dot-green { background: #3fb950; }
+    .dot-red { background: #f85149; }
+    .dot-amber { background: #e3b341; }
+    .dot-blue { background: #58a6ff; }
+    .story-content-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+    .story-content-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+    /* Code window */
+    .code-window { background: #0d1117; border: 1px solid rgba(99,102,241,0.2); border-radius: 12px; overflow: hidden; margin: 16px 0 8px; box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+    .window-header { background: #161b22; padding: 11px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #30363d; }
+    .window-controls { display: flex; gap: 7px; flex: 1; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; }
+    .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green-dot { background: #27c93f; }
+    .window-title { color: #8b949e; font-family: 'JetBrains Mono', monospace; font-size: 12px; flex: 2; text-align: center; }
+    .window-badge { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #3fb950; text-align: right; flex: 1; }
+    .window-body { padding: 22px 24px; }
+    .window-body pre { margin: 0; white-space: pre-wrap; word-break: break-word; }
+    .window-body code { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #c9d1d9; line-height: 1.75; }
+    .cm { color: #8b949e; font-style: italic; }
+    .kw { color: #ff7b72; font-weight: 600; }
+    .fn { color: #d2a8ff; }
+    .st { color: #a5d6ff; }
+    .nm { color: #f2cc60; }
+    .col { color: #79c0ff; }
+
+    /* Explanation rows */
+    .explanation-section { margin: 8px 0 28px; }
+    .explanation-header { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-muted); letter-spacing: 1.5px; margin-bottom: 14px; text-transform: uppercase; }
+    .explanation-list { display: flex; flex-direction: column; gap: 10px; }
+    .explanation-row { display: grid; grid-template-columns: 240px 1fr; background: rgba(255,255,255,0.02); border: 1px solid rgba(99,102,241,0.1); border-radius: 10px; overflow: hidden; transition: border-color 0.2s; }
+    .explanation-row:hover { border-color: rgba(99,102,241,0.25); }
+    [data-theme="light"] .explanation-row { background: #ffffff; border-color: #e2e8f0; }
+    .code-part { padding: 16px 20px; display: flex; align-items: center; border-right: 1px solid rgba(99,102,241,0.1); background: rgba(99,102,241,0.04); }
+    [data-theme="light"] .code-part { background: #f8fafc; border-right-color: #f1f5f9; }
+    .code-part code { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #c9d1d9; font-weight: 500; line-height: 1.5; }
+    [data-theme="light"] .code-part code { color: #1e293b; }
+    .desc-part { padding: 16px 20px; font-size: 13.5px; line-height: 1.7; color: var(--text-muted); }
+    [data-theme="light"] .desc-part { color: #475569; }
+    .desc-part strong { color: var(--text); font-weight: 600; }
+
+    /* Result tables */
+    .result-wrap { margin: 8px 0 24px; background: rgba(99,102,241,0.04); border: 1px solid rgba(99,102,241,0.12); border-radius: 10px; overflow-x: auto; }
+    .result-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--primary); letter-spacing: 1.5px; text-transform: uppercase; padding: 10px 16px 6px; }
+    .result-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    .result-table th { text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; color: var(--text-muted); padding: 8px 16px; border-bottom: 1px solid rgba(99,102,241,0.12); background: rgba(99,102,241,0.06); letter-spacing: 0.05em; }
+    .result-table td { padding: 9px 16px; border-bottom: 1px solid rgba(99,102,241,0.06); color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+    .result-table tr:last-child td { border-bottom: none; }
+    .result-table tr.hi td { color: #3fb950; font-weight: 600; }
+    .result-table tr.warn td { color: #e3b341; }
+    .result-table tr.danger td { color: #f85149; }
+
+    /* Insight boxes */
+    .insight-box { margin: 8px 0 28px; padding: 16px 20px; background: rgba(46,160,67,0.07); border: 1px solid rgba(46,160,67,0.2); border-radius: 10px; font-size: 13.5px; color: var(--text-muted); line-height: 1.7; }
+    .insight-box strong { color: #3fb950; font-weight: 600; display: block; margin-bottom: 4px; }
+
+    /* Concept callout */
+    .concept-box { margin: 16px 0 20px; padding: 16px 20px; background: rgba(227,179,65,0.06); border: 1px solid rgba(227,179,65,0.2); border-radius: 10px; }
+    .concept-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #e3b341; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace; }
+    .concept-text { font-size: 13.5px; color: var(--text-muted); line-height: 1.7; }
+    .concept-text strong { color: var(--text); }
+
+    /* Quote */
+    .tutorial-quote { margin: 20px 0; padding: 16px 22px; border-left: 4px solid var(--primary); background: rgba(99,102,241,0.07); border-radius: 0 10px 10px 0; font-size: 0.98rem; line-height: 1.8; color: var(--text-muted); font-style: italic; }
+    .tutorial-quote.green { border-left-color: #3fb950; background: rgba(46,160,67,0.07); color: #3fb950; font-style: normal; font-size: 0.93rem; }
+
+    /* Skills grid */
+    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0 28px; }
+    .skill-item { background: rgba(99,102,241,0.06); border: 1px solid rgba(99,102,241,0.12); border-radius: 10px; padding: 14px 16px; }
+    .skill-item code { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #bc8cff; display: block; margin-bottom: 4px; font-weight: 600; }
+    .skill-item span { font-size: 11.5px; color: var(--text-muted); }
+
+    /* Connect */
+    .blog-connect { margin-top: 36px; padding: 18px 22px; background: rgba(99,102,241,0.07); border-radius: 12px; border: 1px solid rgba(99,102,241,0.15); display: flex; align-items: center; gap: 14px; }
+    .blog-connect-icon { width: 40px; height: 40px; background: rgba(99,102,241,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 1rem; flex-shrink: 0; }
+    .blog-connect p { margin: 0; font-size: 0.92rem; color: var(--text-muted); }
+    .blog-connect a { color: var(--primary); font-weight: 600; }
+    .blog-connect a:hover { text-decoration: underline; }
+
+    /* Footer bar */
+    .content-footer-bar { padding: 22px 55px; border-top: 1px solid rgba(99,102,241,0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; background: rgba(99,102,241,0.03); }
+    .content-footer-bar a { color: var(--primary); font-weight: 600; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px; transition: opacity 0.3s; text-decoration: none; }
+    .content-footer-bar a:hover { opacity: 0.8; }
+
+    /* CTA */
+    .blog-cta-banner { margin-top: 40px; background: var(--gradient); border-radius: 20px; padding: 40px 50px; display: flex; align-items: center; justify-content: space-between; gap: 30px; flex-wrap: wrap; position: relative; overflow: hidden; }
+    .blog-cta-banner::before { content: ''; position: absolute; top: -40px; right: -40px; width: 200px; height: 200px; background: rgba(255,255,255,0.08); border-radius: 50%; }
+    .cta-banner-left { display: flex; align-items: center; gap: 20px; flex: 1; }
+    .cta-banner-icon { font-size: 2.5rem; flex-shrink: 0; }
+    .cta-banner-text h3 { font-family: 'Poppins', sans-serif; font-size: 1.4rem; font-weight: 700; color: white; margin-bottom: 6px; }
+    .cta-banner-text p { font-size: 0.92rem; color: rgba(255,255,255,0.85); line-height: 1.6; margin: 0; }
+    .cta-banner-btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; background: white; color: var(--primary) !important; border-radius: 50px; font-weight: 700; font-size: 0.92rem; text-decoration: none; transition: all 0.3s; white-space: nowrap; flex-shrink: 0; }
+    .cta-banner-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+    /* Bottom cards */
+    .blog-bottom-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
+    .bottom-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(99,102,241,0.12); border-radius: 16px; padding: 28px; }
+    [data-theme="light"] .bottom-card { background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+    .author-card-img { width: 72px; height: 72px; border-radius: 12px; object-fit: cover; object-position: top; border: 2px solid rgba(99,102,241,0.3); margin-bottom: 14px; }
+    .bottom-card h3 { font-family: 'Poppins', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .bottom-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 14px; }
+    .bottom-card-social { display: flex; gap: 10px; flex-wrap: wrap; }
+    .bottom-card-social a { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; border: 1px solid rgba(99,102,241,0.3); color: var(--text-muted); transition: all 0.3s; text-decoration: none; }
+    .bottom-card-social a:hover { background: var(--primary); color: white; border-color: transparent; }
+    .community-icon { font-size: 1.8rem; margin-bottom: 12px; }
+
+    .footer { background: rgba(15,23,42,0.8); padding: 30px 0; border-top: 1px solid rgba(99,102,241,0.2); text-align: center; color: var(--text-muted); }
+    [data-theme="light"] .footer { background: rgba(248,250,252,0.8); }
+
+    @media (max-width: 968px) {
+      .tutorial-layout { grid-template-columns: 1fr; }
+      .blog-sidebar { position: static; }
+      .content-header { padding: 36px 28px 28px; }
+      .content-meta { padding: 12px 28px; }
+      .content-body { padding: 32px 28px; }
+      .content-footer-bar { padding: 18px 28px; }
+      .content-header h1 { font-size: 1.7rem; }
+      .blog-cta-banner { padding: 28px; }
+      .blog-bottom-cards { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .compare-grid { grid-template-columns: 1fr; }
+      .stories-grid { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .explanation-row { grid-template-columns: 1fr; }
+      .code-part { border-right: none; border-bottom: 1px solid rgba(99,102,241,0.1); }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <div class="nav-content">
+        <a href="../index.html" class="logo">Grow<span class="logo-highlight">In</span>Data<span class="logo-sub">Kostanca Kovaci</span></a>
+        <div class="nav-toggle" id="navToggle"><span></span><span></span><span></span></div>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="../index.html#home" class="nav-link">HOME</a></li>
+          <li><div class="theme-toggle"><button id="themeToggle" aria-label="Toggle theme"><span class="theme-icon">🌙</span></button></div></li>
+        </ul>
+        <button class="drawer-open-btn" id="drawerOpen"><i class="fa-solid fa-bars"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="tutorial-page">
+    <div class="container">
+
+      <div class="blog-tabs">
+        <div class="blog-tabs-inner">
+          <a href="#" class="blog-tab active">SQL Portfolio Project | Intermediate Level</a>
+        </div>
+      </div>
+
+      <div class="tutorial-layout">
+
+        <!-- Sidebar -->
+        <div class="blog-sidebar">
+          <div class="sidebar-title">Project Contents</div>
+          <div class="sidebar-section">
+            <div class="sidebar-section-title">SQL Intermediate Level</div>
+            <ul class="sidebar-links">
+              <li><a href="#overview" class="active">Overview</a></li>
+              <li><a href="#whats-new">What's New vs Beginner</a></li>
+              <li><a href="#schema">Database Schema</a></li>
+              <li><a href="#create">Phase 2 — Create Tables</a></li>
+              <li><a href="#insert">Phase 3 — Insert Data</a></li>
+              <li><a href="#queries">Phase 4 — Business Queries</a></li>
+              <li><a href="#insights">Key Insights</a></li>
+              <li><a href="#skills">SQL Skills Used</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <div class="sidebar-section-title">Tutorials</div>
+            <ul class="sidebar-links">
+              <li><a href="superstore_sql.html">SQL Superstore Analysis</a></li>
+              <li><a href="Pandas_Cheatsheet.html">Free Pandas Cheatsheet</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="tutorial-content">
+
+          <div class="content-header">
+            <div class="content-header-top">
+              <span class="content-emoji">📈</span>
+              <h1>SaaS Revenue Analysis</h1>
+            </div>
+            <p class="content-desc">A full intermediate SQL project — churn detection, MRR calculation, ARPU by segment, and at-risk customer identification. Built on a subscription database designed from scratch in PostgreSQL.</p>
+            <p class="content-tagline">The queries that catch what standard reporting misses.</p>
+            <div class="content-divider"></div>
+          </div>
+
+          <div class="content-meta">
+            <span class="meta-badge"><i class="fa-solid fa-database"></i> SQL</span>
+            <span class="meta-badge">PostgreSQL</span>
+            <span class="meta-badge">Intermediate</span>
+            <span class="meta-badge">SaaS Analytics</span>
+            <div class="meta-item"><i class="fa-regular fa-clock"></i> ~2 hours to build</div>
+            <div class="meta-item"><i class="fa-solid fa-signal"></i> Intermediate Level</div>
+          </div>
+
+          <div class="content-body">
+
+            <!-- OVERVIEW -->
+            <h2 id="overview">What is this Project?</h2>
+            <hr class="section-separator">
+
+            <p>You're a data analyst at a SaaS company. The CEO wants to understand why revenue is growing but profit is shrinking. You'll use SQL to find out — by calculating MRR, identifying churned customers, flagging at-risk accounts, and breaking down revenue by customer segment.</p>
+
+            <p>Everything is built from scratch — schema design, table creation, realistic data insertion, and 5 business queries using SQL concepts that go beyond basic SELECT statements.</p>
+
+            <div class="stats-grid">
+              <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">Tables designed</div></div>
+              <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">New SQL concepts</div></div>
+              <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">Business queries</div></div>
+              <div class="stat-card"><div class="stat-num">32</div><div class="stat-label">Payment rows inserted</div></div>
+            </div>
+
+            <!-- WHAT'S NEW -->
+            <h2 id="whats-new">What's New vs the Beginner Project?</h2>
+            <hr class="section-separator">
+
+            <p>The <a href="SQL_beginner_project.html" style="color: var(--primary); font-weight: 600;">beginner project</a> taught the fundamentals. This project introduces the concepts that separate a beginner from an analyst who can answer real business questions independently.</p>
+
+            <div class="compare-grid">
+              <div class="compare-card before">
+                <div class="compare-label before">Beginner — Superstore</div>
+                <div class="compare-item">SELECT, WHERE, GROUP BY</div>
+                <div class="compare-item">Regular JOIN (inner)</div>
+                <div class="compare-item">SUM, AVG, COUNT</div>
+                <div class="compare-item">ORDER BY, LIMIT</div>
+                <div class="compare-item">DATE formatting</div>
+                <div class="compare-item">All columns NOT NULL</div>
+              </div>
+              <div class="compare-card after">
+                <div class="compare-label after">Intermediate — SaaS</div>
+                <div class="compare-item">LEFT JOIN + IS NULL</div>
+                <div class="compare-item">CASE WHEN (conditional logic)</div>
+                <div class="compare-item">HAVING (filter after GROUP BY)</div>
+                <div class="compare-item">Subqueries (queries inside queries)</div>
+                <div class="compare-item">Nullable columns (intentional NULLs)</div>
+                <div class="compare-item">CHECK constraints with IN ()</div>
+              </div>
+            </div>
+
+            <!-- SCHEMA -->
+            <h2 id="schema">Phase 1 - Database Schema</h2>
+            <hr class="section-separator">
+
+            <h3>The 4 tables and why they're structured this way</h3>
+
+            <p><strong>customers</strong> — who they are and which segment they belong to (Startup, SMB, Enterprise). The segment column is what drives the CASE WHEN and GROUP BY queries later.</p>
+
+            <p><strong>plans</strong> — the 3 pricing tiers: Starter ($29/mo), Pro ($79/mo), Enterprise ($199/mo). A reference table — rarely changes, but referenced by every subscription.</p>
+
+            <p><strong>subscriptions</strong> — the most important table. Links customers to plans, tracks start and end dates, and holds the status (active, churned, paused). One customer can have multiple subscription rows over time — this is how upgrades and churn are tracked.</p>
+
+            <p><strong>payments</strong> — every payment event: paid, failed, or refunded. Links to subscriptions, not directly to customers. Finding the gap between subscriptions and payments is exactly where LEFT JOIN becomes essential.</p>
+
+            <div class="concept-box">
+              <div class="concept-label">Key schema concept — nullable end_date</div>
+              <div class="concept-text">The <strong>end_date</strong> column in subscriptions has no <strong>NOT NULL</strong> constraint (intentionally). An active subscription has no end date yet, so it stores NULL. When a customer churns, we fill it in. This NULL becomes part of the business logic: <strong>WHERE end_date IS NULL</strong> finds active customers, <strong>WHERE end_date IS NOT NULL</strong> finds churned ones.</div>
+            </div>
+
+            <h3>The data stories — 10 customers, 4 profiles</h3>
+            <div class="stories-grid">
+              <div class="story-card"><div class="story-dot dot-green"></div><div><div class="story-content-title">Healthy (Alice, David, Grace, James)</div><div class="story-content-desc">Active subscriptions, consistent paid payments every month. The baseline.</div></div></div>
+              <div class="story-card"><div class="story-dot dot-red"></div><div><div class="story-content-title">Churned (Bob, Carol)</div><div class="story-content-desc">Cancelled subscriptions with end_date filled in. Bob left in August, Carol in September.</div></div></div>
+              <div class="story-card"><div class="story-dot dot-amber"></div><div><div class="story-content-title">At-risk (Emma, Henry)</div><div class="story-content-desc">Active subscriptions but most recent payment failed. The query that catches these is the most valuable one in the project.</div></div></div>
+              <div class="story-card"><div class="story-dot dot-blue"></div><div><div class="story-content-title">Upgraders (Frank, Iris)</div><div class="story-content-desc">Started on Starter plan, moved to Pro. Each has two subscription rows — one churned, one active. Real upgrade tracking.</div></div></div>
+            </div>
+
+            <!-- PHASE 2 -->
+            <h2 id="create">Phase 2 — Creating the Tables</h2>
+            <hr class="section-separator">
+
+            <p>4 tables, created in dependency order. The new concepts introduced here are <strong>CHECK</strong> constraints with <strong>IN()</strong>, nullable columns, and multiple foreign keys on a single table.</p>
+
+            <h3>Table 1 — customers</h3>
+            <div class="code-window">
+              <div class="window-header">
+                <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+                <div class="window-title">01_customers.sql</div>
+                <div class="window-badge">No dependencies</div>
+              </div>
+              <div class="window-body"><pre><code><span class="kw">CREATE TABLE</span> customers (
+    customer_id   <span class="fn">SERIAL</span>        <span class="kw">PRIMARY KEY</span>,
+    name          <span class="fn">VARCHAR</span>(100)  <span class="kw">NOT NULL</span>,
+    email         <span class="fn">VARCHAR</span>(150)  <span class="kw">UNIQUE NOT NULL</span>,
+    company       <span class="fn">VARCHAR</span>(100)  <span class="kw">NOT NULL</span>,
+    segment       <span class="fn">VARCHAR</span>(20)   <span class="kw">NOT NULL</span>
+                  <span class="kw">CHECK</span> (segment <span class="kw">IN</span> (<span class="st">'Startup'</span>, <span class="st">'SMB'</span>, <span class="st">'Enterprise'</span>)),
+    signup_date   <span class="fn">DATE</span>          <span class="kw">NOT NULL</span>
+);</code></pre></div>
+            </div>
+            <div class="explanation-section">
+              <div class="explanation-list">
+                <div class="explanation-row">
+                  <div class="code-part"><code>segment CHECK (IN (...))</code></div>
+                  <div class="desc-part"><strong>CHECK with IN</strong> restricts this column to only 3 valid values. If you try to insert 'Mid-Market' or a typo, PostgreSQL rejects it instantly — data quality enforced at the schema level, not the application level.</div>
+                </div>
+                <div class="explanation-row">
+                  <div class="code-part"><code>signup_date DATE</code></div>
+                  <div class="desc-part">When the customer first registered — different from when their subscription started. Tracking both reveals your sales cycle length. A customer might sign up today but not pay for a week.</div>
+                </div>
+              </div>
+            </div>
+
+            <h3>Table 2 — plans</h3>
+            <div class="code-window">
+              <div class="window-header">
+                <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+                <div class="window-title">02_plans.sql</div>
+                <div class="window-badge">No dependencies</div>
+              </div>
+              <div class="window-body"><pre><code><span class="kw">CREATE TABLE</span> plans (
+    plan_id         <span class="fn">SERIAL</span>        <span class="kw">PRIMARY KEY</span>,
+    plan_name       <span class="fn">VARCHAR</span>(50)   <span class="kw">NOT NULL UNIQUE</span>,
+    billing_cycle   <span class="fn">VARCHAR</span>(10)   <span class="kw">NOT NULL</span>
+                    <span class="kw">CHECK</span> (billing_cycle <span class="kw">IN</span> (<span class="st">'monthly'</span>, <span class="st">'annual'</span>)),
+    monthly_price   <span class="fn">NUMERIC</span>(8,2)  <span class="kw">NOT NULL CHECK</span> (monthly_price > 0)
+);</code></pre></div>
+            </div>
+            <div class="explanation-section">
+              <div class="explanation-list">
+                <div class="explanation-row">
+                  <div class="code-part"><code>monthly_price CHECK (> 0)</code></div>
+                  <div class="desc-part">Two constraints on one column — NOT NULL and a value check. Even annual plans store their monthly equivalent here. This is how MRR (Monthly Recurring Revenue) stays comparable across billing cycles.</div>
+                </div>
+              </div>
+            </div>
+
+            <h3>Table 3 — subscriptions</h3>
+            <div class="code-window">
+              <div class="window-header">
+                <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+                <div class="window-title">03_subscriptions.sql</div>
+                <div class="window-badge">Needs customers + plans</div>
+              </div>
+              <div class="window-body"><pre><code><span class="kw">CREATE TABLE</span> subscriptions (
+    subscription_id  <span class="fn">SERIAL</span>       <span class="kw">PRIMARY KEY</span>,
+    customer_id      <span class="fn">INT</span>          <span class="kw">NOT NULL</span>,
+    plan_id          <span class="fn">INT</span>          <span class="kw">NOT NULL</span>,
+    start_date       <span class="fn">DATE</span>         <span class="kw">NOT NULL</span>,
+    end_date         <span class="fn">DATE</span>,        <span class='kw'>NULL</span>,        <span class="cm">-- NULL means still active</span>
+    status           <span class="fn">VARCHAR</span>(10)  <span class="kw">NOT NULL</span>
+                     <span class="kw">CHECK</span> (status <span class="kw">IN</span> (<span class="st">'active'</span>, <span class="st">'churned'</span>, <span class="st">'paused'</span>)),
+
+    <span class="kw">CONSTRAINT</span> fk_customer
+        <span class="kw">FOREIGN KEY</span> (customer_id) <span class="kw">REFERENCES</span> customers(customer_id),
+
+    <span class="kw">CONSTRAINT</span> fk_plan
+        <span class="kw">FOREIGN KEY</span> (plan_id) <span class="kw">REFERENCES</span> plans(plan_id)
+);</code></pre></div>
+            </div>
+            <div class="explanation-section">
+              <div class="explanation-list">
+                <div class="explanation-row">
+                  <div class="code-part"><code>end_date DATE</code><br><small style="color:#8b949e">(no NOT NULL)</small></div>
+                  <div class="desc-part">Intentionally nullable. Active subscriptions have no end date yet — NULL here is meaningful business data, not missing data. Churned subscriptions get this filled in. <strong>WHERE end_date IS NULL</strong> finds all active customers.</div>
+                </div>
+                <div class="explanation-row">
+                  <div class="code-part"><code>Two FOREIGN KEYs</code></div>
+                  <div class="desc-part">This table bridges customers and plans. Both parent tables must exist before this one can be created. This is why subscriptions is always created third in the dependency order.</div>
+                </div>
+              </div>
+            </div>
+
+            <h3>Table 4 — payments</h3>
+            <div class="code-window">
+              <div class="window-header">
+                <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+                <div class="window-title">04_payments.sql</div>
+                <div class="window-badge">Needs subscriptions</div>
+              </div>
+              <div class="window-body"><pre><code><span class="kw">CREATE TABLE</span> payments (
+    payment_id       <span class="fn">SERIAL</span>        <span class="kw">PRIMARY KEY</span>,
+    subscription_id  <span class="fn">INT</span>           <span class="kw">NOT NULL</span>,
+    payment_date     <span class="fn">DATE</span>          <span class="kw">NOT NULL</span>,
+    amount           <span class="fn">NUMERIC</span>(8,2)  <span class="kw">NOT NULL CHECK</span> (amount > 0),
+    payment_status   <span class="fn">VARCHAR</span>(10)   <span class="kw">NOT NULL</span>
+                     <span class="kw">CHECK</span> (payment_status <span class="kw">IN</span>
+                     (<span class="st">'paid'</span>, <span class="st">'failed'</span>, <span class="st">'refunded'</span>)),
+
+    <span class="kw">CONSTRAINT</span> fk_subscription
+        <span class="kw">FOREIGN KEY</span> (subscription_id)
+        <span class="kw">REFERENCES</span> subscriptions(subscription_id)
+);</code></pre></div>
+            </div>
+            <div class="explanation-section">
+              <div class="explanation-list">
+                <div class="explanation-row">
+                  <div class="code-part"><code>FK to subscriptions (not customers)</code></div>
+                  <div class="desc-part">Payments link to subscriptions, not directly to customers. To trace a payment back to a customer you JOIN through subscriptions. This is a 3-table chain — and it's exactly the pattern the business queries use.</div>
+                </div>
+                <div class="explanation-row">
+                  <div class="code-part"><code>payment_status CHECK (IN (...))</code></div>
+                  <div class="desc-part">Three states: <strong>paid</strong> (money received), <strong>failed</strong> (card declined), <strong>refunded</strong> (money returned). Failed payments still get a row — you need a record that an attempt was made. The status tells you the outcome.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PHASE 3 -->
+<h2 id="insert">Phase 3 — Inserting the Data</h2>
+<hr class="section-separator">
+
+<p>12 subscriptions across 10 customers. Frank and Iris each have two — their old Starter subscription (churned) and their new Pro subscription (active). 32 payment rows with a deliberate mix of paid, failed, and refunded — designed so every query in Phase 4 surfaces something meaningful.</p>
+
+<h3>INSERT: customers</h3>
+<div class="code-window">
+  <div class="window-header">
+    <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+    <div class="window-title">05_insert_customers.sql</div>
+    <div class="window-badge">10 rows</div>
+  </div>
+  <div class="window-body"><pre><code><span class="kw">INSERT INTO</span> customers (name, email, company, segment, signup_date)
+<span class="kw">VALUES</span>
+  (<span class="st">'Alice Johnson'</span>,  <span class="st">'alice@techflow.io'</span>,    <span class="st">'TechFlow'</span>,    <span class="st">'Startup'</span>,    <span class="st">'2023-01-10'</span>),
+  (<span class="st">'Bob Martinez'</span>,   <span class="st">'bob@growfast.com'</span>,     <span class="st">'GrowFast'</span>,    <span class="st">'SMB'</span>,        <span class="st">'2023-01-22'</span>),
+  (<span class="st">'Carol White'</span>,    <span class="st">'carol@nexagroup.com'</span>,  <span class="st">'NexaGroup'</span>,   <span class="st">'Enterprise'</span>, <span class="st">'2023-02-05'</span>),
+  (<span class="st">'David Lee'</span>,      <span class="st">'david@launchpad.io'</span>,   <span class="st">'LaunchPad'</span>,   <span class="st">'Startup'</span>,    <span class="st">'2023-02-14'</span>),
+  (<span class="st">'Emma Brown'</span>,     <span class="st">'emma@peakretail.com'</span>,  <span class="st">'PeakRetail'</span>,  <span class="st">'SMB'</span>,        <span class="st">'2023-03-01'</span>),
+  (<span class="st">'Frank Davis'</span>,    <span class="st">'frank@scalehub.io'</span>,    <span class="st">'ScaleHub'</span>,    <span class="st">'Startup'</span>,    <span class="st">'2023-03-18'</span>),
+  (<span class="st">'Grace Wilson'</span>,   <span class="st">'grace@meridian.com'</span>,   <span class="st">'Meridian Co'</span>, <span class="st">'Enterprise'</span>, <span class="st">'2023-04-02'</span>),
+  (<span class="st">'Henry Taylor'</span>,   <span class="st">'henry@brightops.com'</span>,  <span class="st">'BrightOps'</span>,   <span class="st">'SMB'</span>,        <span class="st">'2023-04-20'</span>),
+  (<span class="st">'Iris Anderson'</span>,  <span class="st">'iris@cloudnine.io'</span>,    <span class="st">'CloudNine'</span>,   <span class="st">'Startup'</span>,    <span class="st">'2023-05-07'</span>),
+  (<span class="st">'James Thomas'</span>,   <span class="st">'james@fortressco.com'</span>, <span class="st">'FortressCo'</span>,  <span class="st">'Enterprise'</span>, <span class="st">'2023-05-15'</span>);</code></pre></div>
+</div>
+
+<h3>INSERT: plans</h3>
+<div class="code-window">
+  <div class="window-header">
+    <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+    <div class="window-title">06_insert_plans.sql</div>
+    <div class="window-badge">3 rows</div>
+  </div>
+  <div class="window-body"><pre><code><span class="kw">INSERT INTO</span> plans (plan_name, billing_cycle, monthly_price)
+<span class="kw">VALUES</span>
+  (<span class="st">'Starter'</span>,    <span class="st">'monthly'</span>, <span class="nm">29.00</span>),
+  (<span class="st">'Pro'</span>,        <span class="st">'monthly'</span>, <span class="nm">79.00</span>),
+  (<span class="st">'Enterprise'</span>, <span class="st">'annual'</span>,  <span class="nm">199.00</span>);</code></pre></div>
+</div>
+
+<h3>INSERT: subscriptions</h3>
+<div class="code-window">
+  <div class="window-header">
+    <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+    <div class="window-title">07_insert_subscriptions.sql</div>
+    <div class="window-badge">12 rows</div>
+  </div>
+  <div class="window-body"><pre><code><span class="cm">-- customer_id, plan_id, start_date, end_date, status</span>
+<span class="kw">INSERT INTO</span> subscriptions (customer_id, plan_id, start_date, end_date, status)
+<span class="kw">VALUES</span>
+  <span class="cm">-- Healthy active customers</span>
+  (<span class="nm">1</span>,  <span class="nm">2</span>, <span class="st">'2023-01-10'</span>, <span class="kw">NULL</span>,         <span class="st">'active'</span>),   <span class="cm">-- Alice, Pro</span>
+  (<span class="nm">4</span>,  <span class="nm">1</span>, <span class="st">'2023-02-14'</span>, <span class="kw">NULL</span>,         <span class="st">'active'</span>),   <span class="cm">-- David, Starter</span>
+  (<span class="nm">7</span>,  <span class="nm">3</span>, <span class="st">'2023-04-02'</span>, <span class="kw">NULL</span>,         <span class="st">'active'</span>),   <span class="cm">-- Grace, Enterprise</span>
+  (<span class="nm">10</span>, <span class="nm">3</span>, <span class="st">'2023-05-15'</span>, <span class="kw">NULL</span>,         <span class="st">'active'</span>),   <span class="cm">-- James, Enterprise</span>
+
+  <span class="cm">-- Churned customers</span>
+  (<span class="nm">2</span>,  <span class="nm">1</span>, <span class="st">'2023-01-22'</span>, <span class="st">'2023-08-01'</span>, <span class="st">'churned'</span>),  <span class="cm">-- Bob</span>
+  (<span class="nm">3</span>,  <span class="nm">2</span>, <span class="st">'2023-02-05'</span>, <span class="st">'2023-09-15'</span>, <span class="st">'churned'</span>),  <span class="cm">-- Carol</span>
+
+  <span class="cm">-- At-risk: active but failed payment incoming</span>
+  (<span class="nm">5</span>,  <span class="nm">2</span>, <span class="st">'2023-03-01'</span>, <span class="kw">NULL</span>,         <span class="st">'active'</span>),   <span class="cm">-- Emma, Pro</span>
+  (<span class="nm">8</span>,  <span class="nm">1</span>, <span class="st">'2023-04-20'</span>, <span class="kw">NULL</span>,         <span class="st">'active'</span>),   <span class="cm">-- Henry, Starter</span>
+
+  <span class="cm">-- Upgraders: old Starter sub then new Pro sub</span>
+  (<span class="nm">6</span>,  <span class="nm">1</span>, <span class="st">'2023-03-18'</span>, <span class="st">'2023-06-30'</span>, <span class="st">'churned'</span>),  <span class="cm">-- Frank old sub</span>
+  (<span class="nm">6</span>,  <span class="nm">2</span>, <span class="st">'2023-07-01'</span>, <span class="kw">NULL</span>,         <span class="st">'active'</span>),   <span class="cm">-- Frank new sub</span>
+  (<span class="nm">9</span>,  <span class="nm">1</span>, <span class="st">'2023-05-07'</span>, <span class="st">'2023-08-31'</span>, <span class="st">'churned'</span>),  <span class="cm">-- Iris old sub</span>
+  (<span class="nm">9</span>,  <span class="nm">2</span>, <span class="st">'2023-09-01'</span>, <span class="kw">NULL</span>,         <span class="st">'active'</span>);   <span class="cm">-- Iris new sub</span></code></pre></div>
+</div>
+
+<h3>INSERT: payments</h3>
+<div class="code-window">
+  <div class="window-header">
+    <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+    <div class="window-title">08_insert_payments.sql</div>
+    <div class="window-badge">32 rows</div>
+  </div>
+  <div class="window-body"><pre><code><span class="cm">-- subscription_id, payment_date, amount, payment_status</span>
+<span class="kw">INSERT INTO</span> payments (subscription_id, payment_date, amount, payment_status)
+<span class="kw">VALUES</span>
+  <span class="cm">-- Sub 1: Alice (Pro, healthy)</span>
+  (<span class="nm">1</span>, <span class="st">'2023-01-10'</span>, <span class="nm">79.00</span>, <span class="st">'paid'</span>),
+  (<span class="nm">1</span>, <span class="st">'2023-02-10'</span>, <span class="nm">79.00</span>, <span class="st">'paid'</span>),
+  (<span class="nm">1</span>, <span class="st">'2023-03-10'</span>, <span class="nm">79.00</span>, <span class="st">'paid'</span>),
+  (<span class="nm">1</span>, <span class="st">'2023-04-10'</span>, <span class="nm">79.00</span>, <span class="st">'paid'</span>),
+  (<span class="nm">1</span>, <span class="st">'2023-05-10'</span>, <span class="nm">79.00</span>, <span class="st">'paid'</span>),
+  (<span class="nm">1</span>, <span class="st">'2023-06-10'</span>, <span class="nm">79.00</span>, <span class="st">'paid'</span>),
+
+  <span class="cm">-- Sub 2: David (Starter, healthy)</span>
+  (<span class="nm">2</span>, <span class="st">'2023-02-14'</span>, <span class="nm">29.00</span>, <span class="st">'paid'</span>),
+  (<span class="nm">2</span>, <span class="st">'2023-03-14'</span>, <span class="nm">29.00</span>, <span class="st">'paid'</span>),
+  (<span class="nm">2</span>, <span class="st">'2023-04-14'</span>, <span class="nm">29.00</span>, <span class="st">'paid'</span>),
+  (<span class="nm">2</span>, <span class="st">'2023-05-14'</span>, <span class="nm">29.00</span>, <span class="st">'paid'</span>),
+
+  <span class="cm">-- Sub 3: Grace (Enterprise, healthy)</span>
+  (<span class="nm">3</span>, <span class="st">'2023-04-02'</span>, <span class="nm">199.00</span>, <span class="st">'paid'</span>),
+  (<span class="nm">3</span>, <span class="st">'2023-05-02'</span>, <span class="nm">199.00</span>, <span class="st">'paid'</span>),
+  (<span class="nm">3</span>, <span class="st">'2023-06-02'</span>, <span class="nm">199.00</span>, <span class="st">'paid'</span>),
+
+  <span class="cm">-- Sub 4: James (Enterprise, healthy)</span>
+  (<span class="nm">4</span>, <span class="st">'2023-05-15'</span>, <span class="nm">199.00</span>, <span class="st">'paid'</span>),
+  (<span class="nm">4</span>, <span class="st">'2023-06-15'</span>, <span class="nm">199.00</span>, <span class="st">'paid'</span>),
+
+  <span class="cm">-- Sub 5: Bob (churned Aug)</span>
+  (<span class="nm">5</span>, <span class="st">'2023-01-22'</span>, <span class="nm">29.00</span>, <span class="st">'paid'</span>),
+  (<span class="nm">5</span>, <span class="st">'2023-02-22'</span>, <span class="nm">29.00</span>, <span class="st">'paid'</span>),
+
+  <span class="cm">-- Sub 6: Carol (churned Sep, one refund)</span>
+  (<span class="nm">6</span>, <span class="st">'2023-02-05'</span>, <span class="nm">79.00</span>, <span class="st">'paid'</span>),
+  (<span class="nm">6</span>, <span class="st">'2023-03-05'</span>, <span class="nm">79.00</span>, <span class="st">'paid'</span>),
+  (<span class="nm">6</span>, <span class="st">'2023-09-05'</span>, <span class="nm">79.00</span>, <span class="st">'refunded'</span>),
+
+  <span class="cm">-- Sub 7: Emma (at-risk, last payment failed)</span>
+  (<span class="nm">7</span>, <span class="st">'2023-03-01'</span>, <span class="nm">79.00</span>, <span class="st">'paid'</span>),
+  (<span class="nm">7</span>, <span class="st">'2023-04-01'</span>, <span class="nm">79.00</span>, <span class="st">'paid'</span>),
+  (<span class="nm">7</span>, <span class="st">'2023-05-01'</span>, <span class="nm">79.00</span>, <span class="st">'failed'</span>),
+
+  <span class="cm">-- Sub 8: Henry (at-risk, last payment failed)</span>
+  (<span class="nm">8</span>, <span class="st">'2023-04-20'</span>, <span class="nm">29.00</span>, <span class="st">'paid'</span>),
+  (<span class="nm">8</span>, <span class="st">'2023-05-20'</span>, <span class="nm">29.00</span>, <span class="st">'failed'</span>),
+
+  <span class="cm">-- Sub 9: Frank old Starter sub</span>
+  (<span class="nm">9</span>, <span class="st">'2023-03-18'</span>, <span class="nm">29.00</span>, <span class="st">'paid'</span>),
+  (<span class="nm">9</span>, <span class="st">'2023-04-18'</span>, <span class="nm">29.00</span>, <span class="st">'paid'</span>),
+
+  <span class="cm">-- Sub 10: Frank new Pro sub</span>
+  (<span class="nm">10</span>, <span class="st">'2023-07-01'</span>, <span class="nm">79.00</span>, <span class="st">'paid'</span>),
+  (<span class="nm">10</span>, <span class="st">'2023-08-01'</span>, <span class="nm">79.00</span>, <span class="st">'paid'</span>),
+
+  <span class="cm">-- Sub 11: Iris old Starter sub</span>
+  (<span class="nm">11</span>, <span class="st">'2023-05-07'</span>, <span class="nm">29.00</span>, <span class="st">'paid'</span>),
+  (<span class="nm">11</span>, <span class="st">'2023-06-07'</span>, <span class="nm">29.00</span>, <span class="st">'paid'</span>),
+
+  <span class="cm">-- Sub 12: Iris new Pro sub</span>
+  (<span class="nm">12</span>, <span class="st">'2023-09-01'</span>, <span class="nm">79.00</span>, <span class="st">'paid'</span>),
+  (<span class="nm">12</span>, <span class="st">'2023-10-01'</span>, <span class="nm">79.00</span>, <span class="st">'paid'</span>);</code></pre></div>
+</div>
+
+            <!-- PHASE 4 — QUERIES -->
+            <h2 id="queries">Phase 4 — Business Queries</h2>
+            <hr class="section-separator">
+
+            <p>5 business questions, 5 queries. Each one introduces a SQL concept that goes beyond the <a href="SQL_beginner_project.html" style="color: var(--primary); font-weight: 600;">beginner project</a> — and each one answers a question a real SaaS analyst would be asked on their first week of the job.</p>
+
+            <!-- Q1 -->
+            <h3>Query 1 — MRR by plan</h3>
+            <div class="tutorial-quote green"><strong>Business question:</strong> "How much Monthly Recurring Revenue does each plan generate? Are any plans underperforming?"</div>
+            <div class="concept-box">
+              <div class="concept-label">New concept — HAVING</div>
+              <div class="concept-text"><strong>WHERE</strong> filters rows before grouping. <strong>HAVING</strong> filters groups after grouping. You cannot use WHERE on a SUM or COUNT result — those values don't exist yet when WHERE runs. HAVING runs after GROUP BY, so the aggregates are already calculated.</div>
+            </div>
+            <div class="code-window">
+              <div class="window-header">
+                <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+                <div class="window-title">query_01_mrr_by_plan.sql</div>
+                <div class="window-badge">HAVING</div>
+              </div>
+              <div class="window-body"><pre><code><span class="kw">SELECT</span>
+    p.<span class="col">plan_name</span>,
+    p.<span class="col">monthly_price</span>,
+    <span class="fn">COUNT</span>(s.<span class="col">subscription_id</span>)     <span class="kw">AS</span> active_subscribers,
+    <span class="fn">SUM</span>(p.<span class="col">monthly_price</span>)         <span class="kw">AS</span> mrr
+<span class="kw">FROM</span> subscriptions s
+<span class="kw">JOIN</span> plans p <span class="kw">ON</span> s.<span class="col">plan_id</span> = p.<span class="col">plan_id</span>
+<span class="kw">WHERE</span> s.<span class="col">status</span> = <span class="st">'active'</span>
+<span class="kw">GROUP BY</span> p.<span class="col">plan_name</span>, p.<span class="col">monthly_price</span>
+<span class="kw">HAVING</span> <span class="fn">COUNT</span>(s.<span class="col">subscription_id</span>) > <span class="nm">1</span>
+<span class="kw">ORDER BY</span> mrr <span class="kw">DESC</span>;</code></pre></div>
+            </div>
+            <div class="result-wrap">
+              <div class="result-label">Expected result</div>
+              <table class="result-table">
+                <tr><th>plan_name</th><th>monthly_price</th><th>active_subscribers</th><th>mrr</th></tr>
+                <tr class="hi"><td>Enterprise</td><td>199.00</td><td>2</td><td>398.00</td></tr>
+                <tr><td>Pro</td><td>79.00</td><td>4</td><td>316.00</td></tr>
+                <tr><td>Starter</td><td>29.00</td><td>2</td><td>58.00</td></tr>
+              </table>
+            </div>
+            <div class="insight-box"><strong>Business insight</strong>Enterprise generates the most MRR per customer by far — $199 per subscriber vs $79 for Pro and $29 for Starter. With only 2 Enterprise customers matching the revenue of 4 Pro customers combined, the growth strategy is clear: move customers up-tier, not just acquire more.</div>
+
+            <!-- Q2 -->
+            <h3>Query 2 — Churn analysis</h3>
+            <div class="tutorial-quote green"><strong>Business question:</strong> "Which customers churned? And which active customers have never made a successful payment?"</div>
+            <div class="concept-box">
+              <div class="concept-label">New concept — LEFT JOIN + IS NULL</div>
+              <div class="concept-text">A regular JOIN only returns rows where a match exists in both tables — subscriptions with no payments would disappear silently. <strong>LEFT JOIN</strong> keeps ALL rows from the left table and shows NULL where no match exists. Filtering for IS NULL then finds exactly the rows with no counterpart — the ghost subscribers.</div>
+            </div>
+            <div class="code-window">
+              <div class="window-header">
+                <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+                <div class="window-title">query_02_churn_analysis.sql</div>
+                <div class="window-badge">LEFT JOIN</div>
+              </div>
+              <div class="window-body"><pre><code><span class="cm">-- Formally churned customers</span>
+<span class="kw">SELECT</span>
+    c.<span class="col">name</span>, c.<span class="col">company</span>, c.<span class="col">segment</span>,
+    s.<span class="col">end_date</span>   <span class="kw">AS</span> churn_date,
+    p.<span class="col">plan_name</span>  <span class="kw">AS</span> last_plan
+<span class="kw">FROM</span> subscriptions s
+<span class="kw">JOIN</span> customers c  <span class="kw">ON</span> s.<span class="col">customer_id</span> = c.<span class="col">customer_id</span>
+<span class="kw">JOIN</span> plans p      <span class="kw">ON</span> s.<span class="col">plan_id</span>     = p.<span class="col">plan_id</span>
+<span class="kw">WHERE</span> s.<span class="col">status</span> = <span class="st">'churned'</span>
+  <span class="kw">AND</span> s.<span class="col">end_date</span> <span class="kw">IS NOT NULL</span>
+<span class="kw">ORDER BY</span> s.<span class="col">end_date</span> <span class="kw">DESC</span>;
+
+<span class="cm">-- Active subs with zero successful payments (LEFT JOIN)</span>
+<span class="kw">SELECT</span>
+    c.<span class="col">name</span>, c.<span class="col">company</span>, s.<span class="col">start_date</span>, p.<span class="col">plan_name</span>
+<span class="kw">FROM</span> subscriptions s
+<span class="kw">JOIN</span> customers c   <span class="kw">ON</span> s.<span class="col">customer_id</span>    = c.<span class="col">customer_id</span>
+<span class="kw">JOIN</span> plans p       <span class="kw">ON</span> s.<span class="col">plan_id</span>        = p.<span class="col">plan_id</span>
+<span class="kw">LEFT JOIN</span> payments pay
+    <span class="kw">ON</span>  s.<span class="col">subscription_id</span> = pay.<span class="col">subscription_id</span>
+    <span class="kw">AND</span> pay.<span class="col">payment_status</span> = <span class="st">'paid'</span>
+<span class="kw">WHERE</span> s.<span class="col">status</span> = <span class="st">'active'</span>
+  <span class="kw">AND</span> pay.<span class="col">payment_id</span> <span class="kw">IS NULL</span>;</code></pre></div>
+            </div>
+            <div class="result-wrap">
+              <div class="result-label">Churned customers</div>
+              <table class="result-table">
+                <tr><th>name</th><th>company</th><th>segment</th><th>churn_date</th><th>last_plan</th></tr>
+                <tr class="warn"><td>Carol White</td><td>NexaGroup</td><td>Enterprise</td><td>2023-09-15</td><td>Pro</td></tr>
+                <tr class="warn"><td>Iris Anderson</td><td>CloudNine</td><td>Startup</td><td>2023-08-31</td><td>Starter</td></tr>
+                <tr class="warn"><td>Bob Martinez</td><td>GrowFast</td><td>SMB</td><td>2023-08-01</td><td>Starter</td></tr>
+                <tr class="warn"><td>Frank Davis</td><td>ScaleHub</td><td>Startup</td><td>2023-06-30</td><td>Starter</td></tr>
+              </table>
+            </div>
+            <div class="insight-box"><strong>Business insight</strong>Carol is your biggest loss — an Enterprise customer on Pro who churned in September, costing you $79/month. Bob left in August on Starter, lower priority. Frank and Iris look like churn but aren't — they upgraded from Starter to Pro, so their old subscriptions show as churned. Send them a win-back campaign and you'll embarrass yourself. Always cross-check churned rows against active subscriptions before acting on this data.</div>
+
+            <!-- Q3 -->
+            <h3>Query 3 — ARPU by segment</h3>
+            <div class="tutorial-quote green"><strong>Business question:</strong> "What is the average revenue per user by customer segment? Which segment is most valuable?"</div>
+            <div class="concept-box">
+              <div class="concept-label">New concept — CASE WHEN</div>
+              <div class="concept-text">Think of CASE WHEN as an IF statement inside SQL. PostgreSQL evaluates each WHEN condition top to bottom and returns the first THEN value that matches. ELSE is the fallback. You can use aggregate functions inside CASE WHEN — it runs after GROUP BY so the aggregates are already calculated per group.</div>
+            </div>
+            <div class="code-window">
+              <div class="window-header">
+                <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+                <div class="window-title">query_03_arpu_by_segment.sql</div>
+                <div class="window-badge">CASE WHEN</div>
+              </div>
+              <div class="window-body"><pre><code><span class="kw">SELECT</span>
+    c.<span class="col">segment</span>,
+    <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> c.<span class="col">customer_id</span>)   <span class="kw">AS</span> total_customers,
+    <span class="fn">ROUND</span>(<span class="fn">AVG</span>(p.<span class="col">monthly_price</span>), <span class="nm">2</span>) <span class="kw">AS</span> arpu,
+    <span class="fn">SUM</span>(p.<span class="col">monthly_price</span>)            <span class="kw">AS</span> segment_mrr,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> <span class="fn">AVG</span>(p.<span class="col">monthly_price</span>) >= <span class="nm">150</span> <span class="kw">THEN</span> <span class="st">'High value'</span>
+        <span class="kw">WHEN</span> <span class="fn">AVG</span>(p.<span class="col">monthly_price</span>) >= <span class="nm">60</span>  <span class="kw">THEN</span> <span class="st">'Mid value'</span>
+        <span class="kw">ELSE</span>                                   <span class="st">'Low value'</span>
+    <span class="kw">END</span>                              <span class="kw">AS</span> value_tier
+<span class="kw">FROM</span> subscriptions s
+<span class="kw">JOIN</span> customers c <span class="kw">ON</span> s.<span class="col">customer_id</span> = c.<span class="col">customer_id</span>
+<span class="kw">JOIN</span> plans p     <span class="kw">ON</span> s.<span class="col">plan_id</span>     = p.<span class="col">plan_id</span>
+<span class="kw">WHERE</span> s.<span class="col">status</span> = <span class="st">'active'</span>
+<span class="kw">GROUP BY</span> c.<span class="col">segment</span>
+<span class="kw">ORDER BY</span> arpu <span class="kw">DESC</span>;</code></pre></div>
+            </div>
+            <div class="result-wrap">
+              <div class="result-label">Expected result</div>
+              <table class="result-table">
+                <tr><th>segment</th><th>total_customers</th><th>arpu</th><th>segment_mrr</th><th>value_tier</th></tr>
+                <tr class="hi"><td>Enterprise</td><td>2</td><td>199.00</td><td>398.00</td><td>High value</td></tr>
+                <tr><td>Startup</td><td>3</td><td>66.50</td><td>266.00</td><td>Mid value</td></tr>
+                <tr class="warn"><td>SMB</td><td>1</td><td>54.00</td><td>108.00</td><td>Low value</td></tr>
+              </table>
+            </div>
+            <div class="insight-box"><strong>Business insight</strong>Enterprise customers are worth 6.8× more per user than SMB. The value_tier column was created entirely from data — it didn't exist in any table. This is how analysts add business logic directly in SQL without touching the database schema.</div>
+
+            <!-- Q4 -->
+            <h3>Query 4 — At-risk customers</h3>
+            <div class="tutorial-quote green"><strong>Business question:</strong> Which customers are at risk — active but haven't paid recently?.</div>
+            <div class="concept-box">
+              <div class="concept-label">New concept — Subquery</div>
+              <div class="concept-text">A query inside another query. The inner query runs first and produces a result. The outer query uses that result like a regular table. <strong>JOIN (...) AS alias</strong> creates a temporary derived table on the fly — it doesn't exist in your database, it's computed during the query execution.</div>
+            </div>
+            <div class="code-window">
+              <div class="window-header">
+                <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+                <div class="window-title">query_04_at_risk_customers.sql</div>
+                <div class="window-badge">Subquery</div>
+              </div>
+              <div class="window-body"><pre><code><span class="kw">SELECT</span>
+    c.<span class="col">name</span>, c.<span class="col">company</span>, c.<span class="col">segment</span>,
+    p.<span class="col">plan_name</span>,
+    last_pay.<span class="col">last_payment_date</span>,
+    last_pay.<span class="col">last_status</span>
+<span class="kw">FROM</span> subscriptions s
+<span class="kw">JOIN</span> customers c  <span class="kw">ON</span> s.<span class="col">customer_id</span> = c.<span class="col">customer_id</span>
+<span class="kw">JOIN</span> plans p      <span class="kw">ON</span> s.<span class="col">plan_id</span>     = p.<span class="col">plan_id</span>
+<span class="kw">JOIN</span> (
+    <span class="cm">-- Subquery: most recent payment per subscription</span>
+    <span class="kw">SELECT</span>
+        <span class="col">subscription_id</span>,
+        <span class="fn">MAX</span>(<span class="col">payment_date</span>) <span class="kw">AS</span> last_payment_date,
+        <span class="col">payment_status</span>   <span class="kw">AS</span> last_status
+    <span class="kw">FROM</span> payments
+    <span class="kw">WHERE</span> payment_date = (
+        <span class="kw">SELECT MAX</span>(payment_date)
+        <span class="kw">FROM</span> payments p2
+        <span class="kw">WHERE</span> p2.<span class="col">subscription_id</span> = payments.<span class="col">subscription_id</span>
+    )
+    <span class="kw">GROUP BY</span> <span class="col">subscription_id</span>, <span class="col">payment_status</span>
+) <span class="kw">AS</span> last_pay <span class="kw">ON</span> s.<span class="col">subscription_id</span> = last_pay.<span class="col">subscription_id</span>
+<span class="kw">WHERE</span> s.<span class="col">status</span> = <span class="st">'active'</span>
+  <span class="kw">AND</span> last_pay.<span class="col">last_status</span> = <span class="st">'failed'</span>;</code></pre></div>
+            </div>
+            <div class="result-wrap">
+              <div class="result-label">Customers to call today</div>
+              <table class="result-table">
+                <tr><th>name</th><th>company</th><th>segment</th><th>plan_name</th><th>last_payment_date</th><th>last_status</th></tr>
+                <tr class="danger"><td>Emma Brown</td><td>PeakRetail</td><td>SMB</td><td>Pro</td><td>2023-05-01</td><td>failed</td></tr>
+                <tr class="danger"><td>Henry Taylor</td><td>BrightOps</td><td>SMB</td><td>Starter</td><td>2023-05-20</td><td>failed</td></tr>
+              </table>
+            </div>
+            <div class="insight-box"><strong>Business insight</strong>Emma and Henry look fine in any status = 'active' report — but their last payment failed. Without this subquery they're invisible. This is the query that catches what standard reporting misses and why subqueries exist.</div>
+
+            <!-- Q5 -->
+            <h3>Query 5 — Revenue breakdown by segment</h3>
+            <div class="tutorial-quote green"><strong>Business question:</strong> "What is total revenue collected by segment — broken down by paid, failed, and refunded?"</div>
+            <div class="concept-box">
+              <div class="concept-label">New concept — Conditional aggregation (CASE WHEN inside SUM)</div>
+              <div class="concept-text">Instead of filtering rows with WHERE, you include all rows but only sum the ones matching a condition. Rows that don't match contribute 0 instead of being excluded. Three SUM(CASE WHEN) columns scan the same rows but pick up different amounts — equivalent to a pivot table, in a single query.</div>
+            </div>
+            <div class="code-window">
+              <div class="window-header">
+                <div class="window-controls"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green-dot"></span></div>
+                <div class="window-title">query_05_revenue_by_segment.sql</div>
+                <div class="window-badge">Conditional aggregation</div>
+              </div>
+              <div class="window-body"><pre><code><span class="kw">SELECT</span>
+    c.<span class="col">segment</span>,
+    <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> c.<span class="col">customer_id</span>)            <span class="kw">AS</span> customers,
+    <span class="fn">SUM</span>(pay.<span class="col">amount</span>)                            <span class="kw">AS</span> gross_revenue,
+    <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> pay.<span class="col">payment_status</span> = <span class="st">'paid'</span>
+             <span class="kw">THEN</span> pay.<span class="col">amount</span> <span class="kw">ELSE</span> <span class="nm">0</span> <span class="kw">END</span>)    <span class="kw">AS</span> collected_revenue,
+    <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> pay.<span class="col">payment_status</span> = <span class="st">'failed'</span>
+             <span class="kw">THEN</span> pay.<span class="col">amount</span> <span class="kw">ELSE</span> <span class="nm">0</span> <span class="kw">END</span>)    <span class="kw">AS</span> failed_revenue,
+    <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> pay.<span class="col">payment_status</span> = <span class="st">'refunded'</span>
+             <span class="kw">THEN</span> pay.<span class="col">amount</span> <span class="kw">ELSE</span> <span class="nm">0</span> <span class="kw">END</span>)    <span class="kw">AS</span> refunded_revenue
+<span class="kw">FROM</span> payments pay
+<span class="kw">JOIN</span> subscriptions s <span class="kw">ON</span> pay.<span class="col">subscription_id</span> = s.<span class="col">subscription_id</span>
+<span class="kw">JOIN</span> customers c     <span class="kw">ON</span> s.<span class="col">customer_id</span>      = c.<span class="col">customer_id</span>
+<span class="kw">GROUP BY</span> c.<span class="col">segment</span>
+<span class="kw">ORDER BY</span> collected_revenue <span class="kw">DESC</span>;</code></pre></div>
+            </div>
+            <div class="result-wrap">
+              <div class="result-label">Result</div>
+              <table class="result-table">
+                <tr><th>segment</th><th>customers</th><th>gross_revenue</th><th>collected_revenue</th><th>failed_revenue</th><th>refunded_revenue</th></tr>
+                <tr class="hi"><td>Enterprise</td><td>3</td><td>1232.00</td><td>1153.00</td><td>0.00</td><td>79.00</td></tr>
+                <tr><td>Startup</td><td>4</td><td>1022.00</td><td>1022.00</td><td>0.00</td><td>0.00</td></tr>
+                <tr class="danger"><td>SMB</td><td>3</td><td>353.00</td><td>245.00</td><td>108.00</td><td>0.00</td></tr>
+              </table>
+            </div>
+            <div class="insight-box"><strong>Business insight</strong> SMB is your collection problem — $108 in failed payments against only $245 collected. That's a 31% failure rate. Enterprise has a $79 refund from Carol's churn but otherwise clean. Startup is perfect — $1,022 gross, $1,022 collected, zero failures, zero refunds. If you're prioritizing where to fix revenue leakage, SMB needs a dunning system before anything else.</div>
+
+            <!-- INSIGHTS -->
+            <h2 id="insights">Key Insights Summary</h2>
+            <hr class="section-separator">
+
+            <ul>
+              <li><strong>Enterprise ARPU sits at $199</strong> — nearly 4× SMB's $54. Every sales dollar should follow ARPU, not headcount.</li>
+              <li><strong>Carol and Bob churned,</strong> but Carol is the only real priority. She was on Pro in the Enterprise segment — $79/month lost and a high chance of winning back. Bob was on Starter, lower urgency.</li>
+              <li><strong>Emma and Henry are your hidden risk.</strong> Both show as active but their last payment failed. Standard reporting misses them entirely — they only surface through the subquery.</li>
+              <li><strong>SMB has a 31% payment failure rate</strong> — $108 failed against $245 collected. That's not a data quirk, it's a revenue leak that needs a dunning system before it gets worse.</li>
+              <li><strong>Startup is your cleanest segment.</strong> $1,022 collected, zero failures, zero refunds. Lower ARPU than Enterprise but zero collection risk — a reliable revenue base.</li>
+            </ul>
+
+            <!-- SKILLS -->
+            <h2 id="skills">SQL Skills Used</h2>
+            <hr class="section-separator">
+
+            <p>The intermediate skills introduced here are what separate analysts who can run reports from analysts who can answer questions that reports miss.</p>
+
+            <div class="skills-grid">
+              <div class="skill-item"><code>LEFT JOIN</code><span>Find rows with no counterpart</span></div>
+              <div class="skill-item"><code>IS NULL / IS NOT NULL</code><span>Query on missing data</span></div>
+              <div class="skill-item"><code>CASE WHEN</code><span>Conditional logic in SQL</span></div>
+              <div class="skill-item"><code>HAVING</code><span>Filter after GROUP BY</span></div>
+              <div class="skill-item"><code>Subqueries</code><span>Queries inside queries</span></div>
+              <div class="skill-item"><code>Conditional SUM</code><span>SUM(CASE WHEN) pivot pattern</span></div>
+              <div class="skill-item"><code>CHECK (IN (...))</code><span>Enforce valid values at schema level</span></div>
+              <div class="skill-item"><code>Nullable columns</code><span>Intentional NULLs as business logic</span></div>
+              <div class="skill-item"><code>Multi-FK tables</code><span>Two foreign keys on one table</span></div>
+              <div class="skill-item"><code>MRR / ARPU</code><span>SaaS revenue metrics</span></div>
+              <div class="skill-item"><code>Churn detection</code><span>Status + date logic</span></div>
+              <div class="skill-item"><code>Correlated subquery</code><span>Inner query references outer table</span></div>
+            </div>
+
+            <div class="blog-connect">
+              <div class="blog-connect-icon"><i class="fa-brands fa-linkedin-in"></i></div>
+              <p>Found this useful? <a href="https://www.linkedin.com/in/kostanca-kovaci" target="_blank">Connect with me on LinkedIn</a> — I share more data science tutorials, tips and projects regularly.</p>
+            </div>
+
+          </div>
+
+          <div class="content-footer-bar">
+            <a href="superstore_sql.html"><i class="fa-solid fa-arrow-left"></i> Previous: Superstore SQL Analysis</a>
+            <a href="Pandas_Cheatsheet.html">Next: FREE Pandas Cheatsheet <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="blog-cta-banner">
+        <div class="cta-banner-left">
+          <div class="cta-banner-icon">💡</div>
+          <div class="cta-banner-text">
+            <h3>Ready to practice with real data?</h3>
+            <p>Check out my projects — real datasets, real problems, hands-on solutions.</p>
+          </div>
+        </div>
+        <a href="../projects/all-projects.html" class="cta-banner-btn"><i class="fa-solid fa-arrow-right"></i> View Projects</a>
+      </div>
+
+      <div class="blog-bottom-cards">
+        <div class="bottom-card">
+          <img src="../me3_1.jpeg" alt="Kostanca Kovaci" class="author-card-img">
+          <h3>Kostanca Kovaci</h3>
+          <p>Data Scientist with a goal to help businesses move from raw data to real decisions — and learners to build real skills through clear, practical content.</p>
+          <div class="bottom-card-social">
+            <a href="https://linkedin.com/in/kostanca-kovaci/" target="_blank"><i class="fa-brands fa-linkedin-in"></i> LinkedIn</a>
+            <a href="https://github.com/kovacikostanca" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
+          </div>
+        </div>
+        <div class="bottom-card">
+          <div class="community-icon">📬</div>
+          <h3>Stay in the loop</h3>
+          <p>New tutorials, blogs and data science content — shared regularly. Follow along and grow your data skills one step at a time.</p>
+          <div class="bottom-card-social">
+            <a href="mailto:kovacikostanca@gmail.com"><i class="fa-solid fa-envelope"></i> Get in Touch</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 <span class="footer-name">Kostanca Kovaci</span>. All Rights Reserved</p>
+    </div>
+  </footer>
+
+  <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">↑</button>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="../script_new.js"></script>
+
+  <div class="side-drawer" id="sideDrawer">
+    <button class="drawer-close" id="drawerClose">✕</button>
+    <div class="drawer-logo">Grow<span>In</span>Data</div>
+    <div class="drawer-section"><h4>Navigation</h4><ul>
+      <li><a href="../index.html#home"><i class="fa-solid fa-house"></i> Home</a></li>
+      <li><a href="../index.html#about"><i class="fa-solid fa-user"></i> About</a></li>
+      <li><a href="../index.html#project"><i class="fa-solid fa-folder"></i> Portfolio</a></li>
+      <li><a href="../index.html#service"><i class="fa-solid fa-briefcase"></i> Services</a></li>
+    </ul></div>
+    <div class="drawer-section"><h4>Learn</h4><ul>
+      <li><a href="../index.html#blog"><i class="fa-solid fa-pen-nib"></i> Blog</a></li>
+      <li><a href="../index.html#tutorial"><i class="fa-solid fa-book-open"></i> Tutorials</a></li>
+      <li><a href="all-tutorials.html"><i class="fa-solid fa-graduation-cap"></i> All Courses</a></li>
+      <li><a href="../projects/all-projects.html"><i class="fa-solid fa-diagram-project"></i> All Projects</a></li>
+    </ul></div>
+    <div class="drawer-section"><h4>Contact</h4><ul>
+      <li><a href="mailto:kovacikostanca@gmail.com"><i class="fa-solid fa-envelope"></i> Email Me</a></li>
+      <li><a href="https://linkedin.com/in/kostanca-kovaci/" target="_blank"><i class="fa-brands fa-linkedin-in"></i> LinkedIn</a></li>
+      <li><a href="https://github.com/kovacikostanca" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a></li>
+    </ul></div>
+    <a href="../index.html#contact" class="drawer-cta">Get Started</a>
+  </div>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+</body>
+</html>
