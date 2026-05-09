@@ -168,6 +168,8 @@ document.addEventListener('click', (e) => {
   }
 });
 
+
+
 // ===== Navbar Scroll Effect =====
 const navbar = document.getElementById('navbar');
 let lastScroll = 0;
