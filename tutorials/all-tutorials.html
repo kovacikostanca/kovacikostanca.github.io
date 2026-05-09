@@ -151,6 +151,30 @@
       text-transform: uppercase;
       margin-bottom: 12px;
     }
+
+    .tutorial-category-second {
+      display: inline-block;
+      background: #cf4af7;
+      color: #fff;
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .tutorial-category-third {
+      display: inline-block;
+      background: #eef74a;
+      color: #615757;
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
  
     .tutorial-card-page .tutorial-content h3 {
       font-size: 1.15rem;
@@ -213,6 +237,8 @@
         </div>
         <ul class="nav-menu" id="navMenu">
           <li><a href="../index.html#home" class="nav-link">HOME</a></li>
+          <li><a href="../projects/all-projects.html" class="nav-link"><span class="accent-word-red">PORTFOLIO</span></a></li>
+          <li><a href="../tutorials/all-tutorials.html" class="nav-link">COURSES</a></li>
           <li>
             <div class="theme-toggle">
               <button id="themeToggle" aria-label="Toggle theme">
@@ -231,67 +257,72 @@
     <div class="container">
  
       <div class="section-header">
-        <span class="section-tag">TUTORIALS</span>
-        <h2 style="font-family: Poppins, sans-serif;">All Tutorials & Courses</h2>
-        <p>Step-by-step guides to sharpen your data science skills</p>
+        <span class="section-tag"></span>
+        <br>
+        <h2 style="font-family: Poppins, sans-serif; font-size: 3.8rem; font-weight: 700;" >Cources & Projects</h2>
+        <p style="font-family: Poppins, sans-serif; font-size: 1.5rem;" >Step-by-step guides  and cources to sharpen your data science skills</p>
       </div>
  
       <!-- Filter Buttons -->
       <div class="project-filters">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="data_cleaning">Data Cleaning</button>
-        <button class="filter-btn" data-filter="pandas">Pandas</button>
-        <button class="filter-btn" data-filter="python">Python</button>
+        <button style="font-family: Poppins, sans-serif;" class="filter-btn active" data-filter="all">All</button>
+        <button style="font-family: Poppins, sans-serif;" class="filter-btn" data-filter="pandas">Pandas</button>
+        <button style="font-family: Poppins, sans-serif;" class="filter-btn" data-filter="python">Python</button>
+        <button style="font-family: Poppins, sans-serif;" class="filter-btn" data-filter="sql">SQL</button>
       </div>
  
       <!-- Tutorials Grid -->
       <div class="tutorials-grid">
  
-        <div class="tutorial-card-page" data-category="data_cleaning" onclick="location.href='tutorial1.html'">
+        <div class="tutorial-card-page" data-category="pandas python" onclick="location.href='Pandas_Data_Cleaning.html'">
           <div class="tutorial-image-wrap">
-            <img src="../images/data_clean_tut.png" alt="Data Cleaning Tutorial">
+            <img src="../images/Pandas_Data_Cleaning.png" style="width: 100%; height: 100%;" alt="Data Cleaning Tutorial">
             <div class="tutorial-overlay"><span>Open Guide</span></div>
           </div>
           <div class="tutorial-content">
-            <span class="tutorial-category">Data Cleaning</span>
+            <span class="tutorial-category" style="font-family: Poppins, sans-serif;">Data Cleaning</span>
+            <span class="tutorial-category-third" style="font-family: Poppins, sans-serif;">TUTORIAL</span>
             <h3>Data Cleaning with Pandas</h3>
             <p>Python | Pandas</p>
           </div>
         </div>
  
-        <div class="tutorial-card-page" data-category="pandas" onclick="location.href='Pandas_Cheatsheet.html'">
+        <div class="tutorial-card-page" data-category="pandas python" onclick="location.href='Pandas_Cheatsheet.html'">
           <div class="tutorial-image-wrap">
-            <img src="../images/free pandas cheatsheet.png" alt="Pandas Cheatsheet">
+            <img src="../images/Pandas_Free_Cheatsheet.png" style="width: 100%; height: 100%;" alt="Pandas Cheatsheet">
             <div class="tutorial-overlay"><span>Open Guide</span></div>
           </div>
           <div class="tutorial-content">
-            <span class="tutorial-category">Pandas Essentials</span>
+            <span class="tutorial-category" style="font-family: Poppins, sans-serif;">Pandas Essentials</span>
+            <span class="tutorial-category-third" style="font-family: Poppins, sans-serif;">CHEATSHEET</span>
             <h3>Free Pandas Cheatsheet</h3>
             <p>Python | Pandas</p>
           </div>
         </div>
 
-        <div class="tutorial-card-page" data-category="pandas" onclick="location.href='SQL_beginner_project.html'">
+        <div class="tutorial-card-page" data-category="sql" onclick="location.href='SQL_beginner_project.html'">
           <div class="tutorial-image-wrap">
-            <img src="../images/beginner_sql_project.png" alt="SQL Superstore Analysis">
+            <img src="../images/SQL_Beginner.png" alt="SQL Superstore Analysis">
             <div class="tutorial-overlay"><span>Open Guide</span></div>
           </div>
           <div class="tutorial-content">
-            <span class="tutorial-category">SQL Beginner</span>
+            <span class="tutorial-category" style="font-family: Poppins, sans-serif;">SQL Beginner</span>
+            <span class="tutorial-category-second" style="font-family: Poppins, sans-serif;">PROJECT</span>
             <h3>SQL Superstore Analysis</h3>
             <p>SQL | PostgreSQL</p>
           </div>
         </div>
 
-        <div class="tutorial-card-page" data-category="pandas" onclick="location.href='SQL_intermediate_project'">
+        <div class="tutorial-card-page" data-category="sql"onclick="location.href='SQL_intermediate_project.html'">
           <div class="tutorial-image-wrap">
-            <img src="../images/intermediate_sql_project.png" alt="SQL SaaS Analysis">
+            <img src="../images/SQL_Intermediate.png" alt="SQL SaaS Analysis">
             <div class="tutorial-overlay"><span>Open Guide</span></div>
           </div>
           <div class="tutorial-content">
-            <span class="tutorial-category">SQL Intermediate</span>
+            <span class="tutorial-category" style="font-family: Poppins, sans-serif;">SQL Intermediate</span>
+            <span class="tutorial-category-second" style="font-family: Poppins, sans-serif;">PROJECT</span>
             <h3>SQL SaaS Analysis</h3>
-            <p>SQL | PosgreSQL</p>
+            <p>SQL | PostgreSQL</p>
           </div>
         </div>
  
@@ -316,22 +347,24 @@
   <script src="../script_new.js"></script>
   <script>
     const filterButtons = document.querySelectorAll('.filter-btn');
-    const tutorials = document.querySelectorAll('.tutorial-card-page');
- 
-    filterButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const filter = btn.getAttribute('data-filter');
-        tutorials.forEach(card => {
-          if (filter === 'all' || card.getAttribute('data-category') === filter) {
-            card.style.display = 'flex';
-          } else {
-            card.style.display = 'none';
-          }
-        });
-      });
+const tutorials = document.querySelectorAll('.tutorial-card-page');
+
+filterButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterButtons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const filter = btn.getAttribute('data-filter');
+
+    tutorials.forEach(card => {
+      if (filter === 'all' || card.getAttribute('data-category').split(' ').includes(filter)) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
     });
+  });
+});
   </script>
  
 </body>
