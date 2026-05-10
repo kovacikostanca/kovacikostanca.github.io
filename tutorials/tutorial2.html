@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Science Interview Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .interview-container {
+            min-height: 100vh;
+            background: linear-gradient(to bottom right, #eff6ff, #e0e7ff);
+        }
+        .code-block {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="interview-container p-8"></div>
+
+    <script>
+        // Interview data
+        const interviewRounds = {
+            technical: {
+                title: "Technical Round - Statistics & ML",
+                questions: [
+                    {
+                        q: "Explain the difference between Type I and Type II errors. Can you give me a business scenario where each would be particularly costly?",
+                        hints: ["Think about hypothesis testing", "Consider false positives vs false negatives"],
+                        answer: "Type I error (false positive) occurs when we reject a true null hypothesis - like flagging a legitimate transaction as fraud. Type II error (false negative) happens when we fail to reject a false null hypothesis - like missing actual fraud. In a medical test, Type I means telling a healthy person they're sick (causes unnecessary treatment), while Type II means missing a disease (patient doesn't get treatment). The business impact depends on context: in fraud detection, Type I errors annoy customers while Type II errors cost money directly."
+                    },
+                    {
+                        q: "You've built a model with 95% accuracy, but your stakeholder isn't happy. What could be the problem?",
+                        hints: ["Think about class imbalance", "Consider other metrics"],
+                        answer: "High accuracy can be misleading with imbalanced datasets. If 95% of cases are negative, a model that always predicts 'negative' achieves 95% accuracy but is useless. We should examine precision, recall, F1-score, and the confusion matrix. For example, in fraud detection with 1% fraud rate, predicting 'no fraud' always gives 99% accuracy but catches zero fraud cases. We need to understand the business cost of false positives vs false negatives and optimize for the right metric."
+                    },
+                    {
+                        q: "How would you detect and handle multicollinearity in a linear regression model?",
+                        hints: ["VIF", "Correlation matrix", "Feature selection"],
+                        answer: "Detection methods include: 1) Correlation matrix to identify highly correlated features (>0.8), 2) Variance Inflation Factor (VIF) - values >10 indicate multicollinearity, 3) Condition number of the design matrix. Handling approaches: remove one of the correlated features, combine them (PCA, feature engineering), use regularization (Ridge/Lasso regression), or collect more data. The choice depends on interpretability needs and prediction goals."
+                    },
+                    {
+                        q: "Explain the bias-variance tradeoff. How does it relate to overfitting and underfitting?",
+                        hints: ["Model complexity", "Training vs test error"],
+                        answer: "Bias is error from wrong assumptions in the model (underfitting) - high bias means the model is too simple. Variance is error from sensitivity to training data fluctuations (overfitting) - high variance means the model is too complex. As model complexity increases, bias decreases but variance increases. The sweet spot minimizes total error (bias² + variance + irreducible error). Simple models (linear regression) have high bias, low variance. Complex models (deep neural nets) have low bias, high variance. We use cross-validation, regularization, and ensemble methods to find the right balance."
+                    },
+                    {
+                        q: "What's the difference between bagging and boosting? When would you use each?",
+                        hints: ["Random Forest vs XGBoost", "Parallel vs sequential"],
+                        answer: "Bagging (Bootstrap Aggregating) trains multiple models in parallel on different data samples and averages predictions - reduces variance. Example: Random Forest. Boosting trains models sequentially, where each model corrects errors of previous ones - reduces bias. Examples: XGBoost, AdaBoost, Gradient Boosting. Use bagging when you have high variance (overfitting) and want stability. Use boosting when you have high bias (underfitting) and need better accuracy. Bagging is less prone to overfitting, while boosting requires careful tuning to avoid it."
+                    }
+                ]
+            },
+            sql: {
+                title: "SQL & Data Manipulation Round",
+                questions: [
+                    {
+                        q: "Write a query to find the second highest salary from an Employee table without using LIMIT or TOP.",
+                        hints: ["Use MAX with subquery", "Or use DENSE_RANK"],
+                        answer: `-- Method 1: Using subquery
+SELECT MAX(salary) as second_highest
+FROM employees
+WHERE salary < (SELECT MAX(salary) FROM employees);
+
+-- Method 2: Using DENSE_RANK (handles ties better)
+SELECT salary
+FROM (
+  SELECT salary, DENSE_RANK() OVER (ORDER BY salary DESC) as rank
+  FROM employees
+) ranked
+WHERE rank = 2;`
+                    },
+                    {
+                        q: "Given tables 'orders' and 'customers', write a query to find customers who placed orders in 2023 but not in 2024.",
+                        hints: ["Use NOT EXISTS or LEFT JOIN", "Date filtering"],
+                        answer: `SELECT DISTINCT c.customer_id, c.customer_name
+FROM customers c
+INNER JOIN orders o2023 
+  ON c.customer_id = o2023.customer_id
+  AND YEAR(o2023.order_date) = 2023
+WHERE NOT EXISTS (
+  SELECT 1 FROM orders o2024
+  WHERE o2024.customer_id = c.customer_id
+  AND YEAR(o2024.order_date) = 2024
+);`
+                    },
+                    {
+                        q: "Explain the difference between INNER JOIN, LEFT JOIN, and FULL OUTER JOIN with an example.",
+                        hints: ["Venn diagram thinking", "NULL handling"],
+                        answer: `INNER JOIN: Returns only matching rows from both tables
+LEFT JOIN: Returns all rows from left table + matching from right (NULLs for non-matches)
+FULL OUTER JOIN: Returns all rows from both tables (NULLs where no match)
+
+Example with Customers and Orders:
+- INNER JOIN: Only customers who have placed orders
+- LEFT JOIN: All customers, including those with no orders (order fields NULL)
+- FULL OUTER JOIN: All customers AND orphaned orders
+
+-- LEFT JOIN example showing customers without orders
+SELECT c.name, COUNT(o.order_id) as order_count
+FROM customers c
+LEFT JOIN orders o ON c.id = o.customer_id
+GROUP BY c.name
+HAVING COUNT(o.order_id) = 0;`
+                    },
+                    {
+                        q: "What's the difference between WHERE and HAVING? Write a query that uses both.",
+                        hints: ["Aggregation timing", "GROUP BY"],
+                        answer: `WHERE filters rows BEFORE grouping/aggregation
+HAVING filters groups AFTER aggregation
+
+-- Find product categories with >$10k revenue, excluding returns
+SELECT 
+  category,
+  COUNT(*) as order_count,
+  SUM(amount) as total_revenue
+FROM orders
+WHERE status != 'returned'  -- Filter individual rows first
+GROUP BY category
+HAVING SUM(amount) > 10000  -- Then filter aggregated results
+ORDER BY total_revenue DESC;`
+                    }
+                ]
+            },
+            case_study: {
+                title: "Case Study & Business Problem",
+                questions: [
+                    {
+                        q: "An e-commerce company notices their conversion rate dropped from 5% to 3% last month. How would you investigate this?",
+                        hints: ["Segment the data", "Time series analysis", "Funnel analysis"],
+                        answer: `Investigation approach:
+1. Segment analysis: Break down by device, traffic source, product category, geography, new vs returning users
+2. Time-based: When exactly did it drop? Gradual or sudden? Any deployments/changes?
+3. Funnel analysis: Where are users dropping off? Homepage → Product → Cart → Checkout
+4. Technical issues: Page load times, errors, broken features (especially on mobile)
+5. External factors: Seasonality, competitor actions, marketing changes, pricing changes
+6. Cohort analysis: Is it affecting all users or specific cohorts?
+
+I'd create a dashboard showing conversion by segment, set up alerts, and A/B test potential fixes.`
+                    },
+                    {
+                        q: "You need to build a churn prediction model for a subscription business. Walk me through your approach from start to finish.",
+                        hints: ["Define churn", "Feature engineering", "Model selection"],
+                        answer: `1. Define the problem:
+   - What is churn? (canceled subscription, no login for 30 days?)
+   - Prediction window: Predict churn in next 30/60/90 days
+
+2. Data collection & exploration:
+   - User demographics, subscription history, usage patterns, support tickets
+   - Check data quality, missing values, outliers
+
+3. Feature engineering:
+   - Recency: days since last login/activity
+   - Frequency: logins per week, features used
+   - Monetary: spending, plan type
+   - Engagement score, declining usage patterns
+
+4. Model development:
+   - Split data: train (60%), validation (20%), test (20%)
+   - Handle class imbalance: SMOTE, class weights
+   - Try models: Logistic Regression, Random Forest, XGBoost
+   - Optimize for recall vs precision based on business cost
+
+5. Deployment & monitoring:
+   - Score users daily/weekly, create risk tiers
+   - Monitor model performance over time`
+                    }
+                ]
+            },
+            behavioral: {
+                title: "Behavioral & Collaboration",
+                questions: [
+                    {
+                        q: "Tell me about a time when your analysis contradicted what stakeholders expected. How did you handle it?",
+                        hints: ["Communication", "Data storytelling", "Influence"],
+                        answer: `STAR Format Answer:
+
+Situation: Working on customer segmentation, marketing team expected our 'VIP' segment to be most valuable.
+
+Task: My analysis showed a different segment had 3x higher LTV and better engagement.
+
+Action: 
+- Validated analysis thoroughly
+- Created visualizations comparing segments
+- Scheduled meeting to walk through findings
+- Acknowledged their hypothesis first
+- Showed concrete examples and customer profiles
+- Discussed ROI implications
+
+Result: They agreed to A/B test both approaches. New segment outperformed by 55%, leading to budget reallocation.
+
+Key learning: Data tells a story, but delivery matters. Being collaborative helps stakeholders trust unexpected findings.`
+                    },
+                    {
+                        q: "Tell me about a time you made a mistake in your analysis. How did you discover it and what did you do?",
+                        hints: ["Ownership", "Learning", "Process improvement"],
+                        answer: `STAR Format:
+
+Situation: Built a customer lifetime value model used for retention campaigns.
+
+Task: Model was in production for 2 weeks when predictions seemed off.
+
+Action - Discovery:
+- Investigated and found I'd used 'total_revenue' which included refunds as positive values
+- 15% of predictions were affected
+
+Action - Response:
+- Immediately informed manager and stakeholders
+- Quantified the impact
+- Stopped active campaign
+- Fixed the bug and revalidated
+- Added unit tests and data validation checklist
+
+Result: Corrected within 24 hours, minimal cost. New process caught 3 other issues in subsequent projects.
+
+Key learning: Own mistakes immediately, build safeguards for the future.`
+                    }
+                ]
+            },
+            python: {
+                title: "Python & Coding Round",
+                questions: [
+                    {
+                        q: "Write a function to find the most frequent element in a list. Handle edge cases.",
+                        hints: ["Dictionary/Counter", "Empty list", "Ties"],
+                        answer: `from collections import Counter
+
+def most_frequent(lst):
+    """Find the most frequent element in a list."""
+    if not lst:
+        return None
+    
+    # Using Counter (most Pythonic)
+    counts = Counter(lst)
+    return counts.most_common(1)[0][0]
+
+# Test cases
+print(most_frequent([1, 2, 2, 3, 3, 3]))  # 3
+print(most_frequent([]))  # None
+print(most_frequent([1]))  # 1
+
+# Time: O(n), Space: O(n)`
+                    },
+                    {
+                        q: "Given a pandas DataFrame with user activity, write code to calculate 7-day rolling average of daily active users.",
+                        hints: ["groupby + rolling", "Date handling"],
+                        answer: `import pandas as pd
+
+def calculate_7day_dau(df):
+    # Ensure date is datetime
+    df['date'] = pd.to_datetime(df['date'])
+    
+    # Get daily active users
+    daily_active = df.groupby('date')['user_id'].nunique().reset_index()
+    daily_active.columns = ['date', 'dau']
+    
+    # Sort by date
+    daily_active = daily_active.sort_values('date')
+    
+    # Calculate 7-day rolling average
+    daily_active['dau_7day_avg'] = daily_active['dau'].rolling(
+        window=7, 
+        min_periods=1
+    ).mean()
+    
+    return daily_active`
+                    }
+                ]
+            }
+        };
+
+        // State management
+        let state = {
+            currentRound: 'select',
+            currentQuestion: 0,
+            showAnswer: false,
+            score: { correct: 0, total: 0 }
+        };
+
+        // Render functions
+        function render() {
+            const app = document.getElementById('app');
+            if (state.currentRound === 'select') {
+                app.innerHTML = renderRoundSelect();
+            } else {
+                app.innerHTML = renderQuestion();
+            }
+        }
+
+        function renderRoundSelect() {
+            const rounds = Object.entries(interviewRounds).map(([key, round]) => `
+                <button
+                    onclick="selectRound('${key}')"
+                    class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 text-left"
+                >
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-3">
+                        ${round.title}
+                    </h3>
+                    <p class="text-gray-600 mb-4">
+                        ${round.questions.length} questions
+                    </p>
+                    <div class="flex items-center text-indigo-600 font-medium">
+                        Start Practice →
+                    </div>
+                </button>
+            `).join('');
+
+            const scoreSection = state.score.total > 0 ? `
+                <div class="mt-8 bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-xl font-semibold mb-2">Your Progress</h3>
+                    <p class="text-3xl font-bold text-indigo-600">
+                        ${state.score.correct} / ${state.score.total}
+                        <span class="text-lg text-gray-600 ml-2">
+                            (${Math.round((state.score.correct / state.score.total) * 100)}%)
+                        </span>
+                    </p>
+                </div>
+            ` : '';
+
+            return `
+                <div class="max-w-4xl mx-auto">
+                    <div class="text-center mb-12">
+                        <h1 class="text-4xl font-bold text-gray-900 mb-4">
+                            Data Science Interview Simulator
+                        </h1>
+                        <p class="text-lg text-gray-600">
+                            Practice real interview questions across different rounds
+                        </p>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        ${rounds}
+                    </div>
+                    ${scoreSection}
+                </div>
+            `;
+        }
+
+        function renderQuestion() {
+            const round = interviewRounds[state.currentRound];
+            const question = round.questions[state.currentQuestion];
+            const isFirst = state.currentQuestion === 0;
+            const isLast = state.currentQuestion === round.questions.length - 1;
+
+            const hintsSection = !state.showAnswer ? `
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                    <p class="font-medium text-yellow-800 mb-2">💡 Hints:</p>
+                    <ul class="text-sm text-yellow-700 space-y-1">
+                        ${question.hints.map(hint => `<li>• ${hint}</li>`).join('')}
+                    </ul>
+                </div>
+                <button
+                    onclick="showAnswer()"
+                    class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors font-medium"
+                >
+                    Show Answer
+                </button>
+            ` : '';
+
+            const answerSection = state.showAnswer ? `
+                <div class="bg-green-50 border-l-4 border-green-400 p-6 mb-6">
+                    <h3 class="font-semibold text-green-900 text-lg mb-3">✓ Model Answer:</h3>
+                    <div class="code-block text-sm text-gray-800">
+${question.answer}
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <button
+                        onclick="scoreQuestion(true)"
+                        class="flex-1 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-medium"
+                    >
+                        ✓ Got It Right
+                    </button>
+                    <button
+                        onclick="scoreQuestion(false)"
+                        class="flex-1 bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors font-medium"
+                    >
+                        ✗ Need More Practice
+                    </button>
+                </div>
+            ` : '';
+
+            return `
+                <div class="max-w-4xl mx-auto">
+                    <div class="mb-6 flex justify-between items-center">
+                        <button
+                            onclick="resetInterview()"
+                            class="flex items-center text-gray-600 hover:text-gray-900"
+                        >
+                            ← Back to Menu
+                        </button>
+                        <div class="text-sm text-gray-600">
+                            Question ${state.currentQuestion + 1} of ${round.questions.length}
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-lg p-8 mb-6">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">
+                            ${round.title}
+                        </h2>
+
+                        <div class="mb-8">
+                            <div class="flex items-start mb-4">
+                                <div class="bg-indigo-100 text-indigo-800 font-semibold px-3 py-1 rounded-full text-sm mr-3">
+                                    Q${state.currentQuestion + 1}
+                                </div>
+                                <p class="text-lg text-gray-800 flex-1">
+                                    ${question.q}
+                                </p>
+                            </div>
+
+                            <div class="mt-6">
+                                ${hintsSection}
+                                ${answerSection}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center">
+                        <button
+                            onclick="previousQuestion()"
+                            ${isFirst ? 'disabled' : ''}
+                            class="px-6 py-3 rounded-lg font-medium transition-colors ${
+                                isFirst
+                                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                    : 'bg-white text-gray-700 hover:bg-gray-100'
+                            }"
+                        >
+                            ← Previous
+                        </button>
+
+                        ${state.score.total > 0 ? `
+                            <div class="text-center">
+                                <p class="text-sm text-gray-600">Your Score</p>
+                                <p class="text-2xl font-bold text-indigo-600">
+                                    ${state.score.correct}/${state.score.total}
+                                </p>
+                            </div>
+                        ` : ''}
+
+                        <button
+                            onclick="nextQuestion()"
+                            ${isLast ? 'disabled' : ''}
+                            class="px-6 py-3 rounded-lg font-medium transition-colors ${
+                                isLast
+                                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                    : 'bg-indigo-600 text-white hover:bg-indigo-700'
+                            }"
+                        >
+                            Next →
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Event handlers
+        function selectRound(round) {
+            state.currentRound = round;
+            state.currentQuestion = 0;
+            state.showAnswer = false;
+            render();
+        }
+
+        function showAnswer() {
+            state.showAnswer = true;
+            render();
+        }
+
+        function scoreQuestion(correct) {
+            state.score.correct += correct ? 1 : 0;
+            state.score.total += 1;
+            render();
+        }
+
+        function nextQuestion() {
+            const round = interviewRounds[state.currentRound];
+            if (state.currentQuestion < round.questions.length - 1) {
+                state.currentQuestion++;
+                state.showAnswer = false;
+                render();
+            }
+        }
+
+        function previousQuestion() {
+            if (state.currentQuestion > 0) {
+                state.currentQuestion--;
+                state.showAnswer = false;
+                render();
+            }
+        }
+
+        function resetInterview() {
+            state.currentRound = 'select';
+            state.currentQuestion = 0;
+            state.showAnswer = false;
+            render();
+        }
+
+        // Initial render
+        render();
+    </script>
+</body>
+</html>

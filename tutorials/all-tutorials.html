@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon" href="../favicon.ico">
   <link rel="icon" type="image/png" href="../favicon.png">
-  <title>Tutorials | GrowInData</title>
+  <title>Courses | GrowInData</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Caveat:wght@600&family=Poppins:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style_new.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -15,36 +15,23 @@
       min-height: 100vh;
       background: #050715;
     }
- 
-    [data-theme="light"] .tutorials-page {
-      background: var(--bg);
-    }
- 
+
+    [data-theme="light"] .tutorials-page { background: var(--bg); }
+
     .tutorials-page .section-header {
       text-align: center;
       margin-bottom: 50px;
     }
- 
-    .tutorials-page .section-header h2 {
-      font-size: 3rem;
-      font-weight: 700;
-      margin-bottom: 15px;
-    }
- 
-    .tutorials-page .section-header p {
-      color: var(--text-muted);
-      font-size: 1.1rem;
-    }
- 
-    /* Filter buttons */
+
+    /* Filter pill buttons */
     .project-filters {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
       justify-content: center;
-      margin-bottom: 50px;
+      margin-bottom: 30px;
     }
- 
+
     .filter-btn {
       padding: 10px 22px;
       border-radius: 50px;
@@ -57,18 +44,114 @@
       transition: all 0.3s ease;
       font-family: 'Space Grotesk', sans-serif;
     }
- 
-    .filter-btn:hover {
+
+    .filter-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .filter-btn.active { background: var(--gradient); border-color: transparent; color: white; }
+
+    /* Controls bar */
+    .courses-controls {
+      padding: 24px 0;
+      background: rgba(5,7,21,0.95);
+      border-top: 1px solid rgba(99, 101, 241, 0);
+      border-bottom: 1px solid rgba(99, 101, 241, 0);
+      margin-bottom: 40px;
+      backdrop-filter: blur(10px);
+    }
+
+    [data-theme="light"] .courses-controls { background: rgba(240,244,255,0.95); }
+
+    .controls-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .controls-left { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(99,102,241,0.05);
+      border: 1.5px solid rgba(99,102,241,0.2);
+      border-radius: 50px;
+      padding: 11px 20px;
+      width: 260px;
+      transition: border-color 0.3s;
+    }
+
+    [data-theme="light"] .search-box { background: white; }
+    .search-box:focus-within { border-color: var(--primary); }
+    .search-box i { color: var(--text-muted); font-size: 0.9rem; }
+
+    .search-box input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.1rem;
+      width: 100%;
+    }
+
+    .search-box input::placeholder { color: var(--text-muted); }
+
+    .category-select {
+      appearance: none;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(99,102,241,0.2);
+      border-radius: 100px;
+      padding: 11px 40px 11px 20px;
+      color: var(--text-muted);
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.1rem;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.3s;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236366f1' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 18px;
+    }
+
+    [data-theme="light"] .category-select { background-color: white; color: #0f172a; }
+    .category-select:focus { border-color: var(--primary); }
+
+    /* This targets the actual dropdown list (the "options") */
+    .category-select option {
+      background-color: #0f1121; /* Dark background for the list in dark mode */
+      color: #b0b3c1;
+    }
+
+    [data-theme="light"] .category-select option {
+      background-color: #ffffff; /* Light background for the list in light mode */
+      color: #1e293b;
+    }
+
+    .category-select:focus {
       border-color: var(--primary);
-      color: var(--primary);
     }
- 
-    .filter-btn.active {
-      background: var(--gradient);
-      border-color: transparent;
-      color: white;
+
+    .controls-right { display: flex; gap: 8px; }
+
+    .type-btn {
+      padding: 11px 26px;
+      border-radius: 50px;
+      border: 1.5px solid rgba(99,102,241,0.2);
+      background: transparent;
+      color: var(--text-muted);
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
     }
- 
+
+    .type-btn.active { background: var(--gradient); border-color: transparent; color: white; }
+    .type-btn:hover:not(.active) { border-color: var(--primary); color: var(--primary); }
+
     /* Tutorials grid */
     .tutorials-grid {
       display: grid;
@@ -76,7 +159,7 @@
       gap: 30px;
       margin-bottom: 60px;
     }
- 
+
     .tutorial-card-page {
       background: var(--card-bg);
       border-radius: 16px;
@@ -87,31 +170,29 @@
       display: flex;
       flex-direction: column;
     }
- 
+
     .tutorial-card-page:hover {
       transform: translateY(-8px);
       box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
       border-color: var(--primary);
     }
- 
+
     .tutorial-card-page .tutorial-image-wrap {
       position: relative;
       width: 100%;
       height: 200px;
       overflow: hidden;
     }
- 
+
     .tutorial-card-page .tutorial-image-wrap img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       transition: transform 0.4s ease;
     }
- 
-    .tutorial-card-page:hover .tutorial-image-wrap img {
-      transform: scale(1.05);
-    }
- 
+
+    .tutorial-card-page:hover .tutorial-image-wrap img { transform: scale(1.05); }
+
     .tutorial-card-page .tutorial-image-wrap .tutorial-overlay {
       position: absolute;
       top: 0; left: 0;
@@ -123,23 +204,21 @@
       opacity: 0;
       transition: all 0.3s ease;
     }
- 
-    .tutorial-card-page:hover .tutorial-overlay {
-      opacity: 1;
-    }
- 
+
+    .tutorial-card-page:hover .tutorial-overlay { opacity: 1; }
+
     .tutorial-card-page .tutorial-overlay span {
       color: white;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
- 
+
     .tutorial-card-page .tutorial-content {
       padding: 24px;
       flex-grow: 1;
     }
- 
+
     .tutorial-card-page .tutorial-content .tutorial-category {
       display: inline-block;
       background: #4a86f7;
@@ -150,6 +229,7 @@
       font-weight: 700;
       text-transform: uppercase;
       margin-bottom: 12px;
+      margin-right: 4px;
     }
 
     .tutorial-category-second {
@@ -175,7 +255,7 @@
       text-transform: uppercase;
       margin-bottom: 12px;
     }
- 
+
     .tutorial-card-page .tutorial-content h3 {
       font-size: 1.15rem;
       font-weight: 700;
@@ -183,19 +263,27 @@
       color: var(--text);
       line-height: 1.4;
     }
- 
+
     .tutorial-card-page .tutorial-content p {
       color: var(--text-muted);
       font-size: 0.9rem;
       font-family: 'JetBrains Mono', monospace;
     }
- 
-    /* Back button */
-    .back-btn-wrap {
+
+    /* No results */
+    .no-results {
       text-align: center;
-      margin-top: 20px;
+      padding: 60px 0;
+      color: var(--text-muted);
+      display: none;
+      grid-column: 1 / -1;
     }
- 
+
+    .no-results i { font-size: 3rem; margin-bottom: 16px; display: block; color: rgba(99,102,241,0.3); }
+
+    /* Back button */
+    .back-btn-wrap { text-align: center; margin-top: 20px; }
+
     /* Footer */
     .footer {
       background: rgba(15, 23, 42, 0.8);
@@ -204,16 +292,17 @@
       text-align: center;
       color: var(--text-muted);
     }
- 
-    [data-theme="light"] .footer {
-      background: rgba(248, 250, 252, 0.8);
-    }
- 
+
+    [data-theme="light"] .footer { background: rgba(248, 250, 252, 0.8); }
+
     /* Responsive */
     @media (max-width: 968px) {
       .tutorials-grid { grid-template-columns: repeat(2, 1fr); }
+      .controls-inner { flex-direction: column; align-items: stretch; }
+      .controls-left, .controls-right { justify-content: center; }
+      .search-box { width: 100%; }
     }
- 
+
     @media (max-width: 640px) {
       .tutorials-grid { grid-template-columns: 1fr; }
       .tutorials-page .section-header h2 { font-size: 2rem; }
@@ -221,7 +310,7 @@
   </style>
 </head>
 <body>
- 
+
   <!-- Navigation -->
   <nav class="navbar" id="navbar">
     <div class="container">
@@ -238,7 +327,7 @@
         <ul class="nav-menu" id="navMenu">
           <li><a href="../index.html#home" class="nav-link">HOME</a></li>
           <li><a href="../projects/all-projects.html" class="nav-link"><span class="accent-word-red">PORTFOLIO</span></a></li>
-          <li><a href="../tutorials/all-tutorials.html" class="nav-link">COURSES</a></li>
+          <li><a href="all-tutorials.html" class="nav-link">COURSES</a></li>
           <li>
             <div class="theme-toggle">
               <button id="themeToggle" aria-label="Toggle theme">
@@ -246,126 +335,255 @@
               </button>
             </div>
           </li>
-          <li><a href="../index.html#contact" class="nav-link nav-cta">GET STARTED</a></li>
+          <!-- <li><a href="../index.html#contact" class="nav-link nav-cta">GET STARTED</a></li> -->
         </ul>
+        <button class="drawer-open-btn" id="drawerOpen">
+          <i class="fa-solid fa-bars"></i>
+        </button>
       </div>
     </div>
   </nav>
- 
+
   <!-- Tutorials Page -->
   <section class="tutorials-page">
     <div class="container">
- 
+
       <div class="section-header">
-        <span class="section-tag"></span>
         <br>
-        <h2 style="font-family: Poppins, sans-serif; font-size: 3.8rem; font-weight: 700;" >Cources & Projects</h2>
-        <p style="font-family: Poppins, sans-serif; font-size: 1.5rem;" >Step-by-step guides  and cources to sharpen your data science skills</p>
+        <h2 style="font-family: Poppins, sans-serif; font-size: 3.8rem; font-weight: 700;">Courses & Projects</h2>
+        <p style="font-family: Poppins, sans-serif; font-size: 1.5rem;">Step-by-step guides and courses to sharpen your data science skills</p>
       </div>
- 
-      <!-- Filter Buttons -->
+
+      <!-- Pill Filter Buttons 
       <div class="project-filters">
         <button style="font-family: Poppins, sans-serif;" class="filter-btn active" data-filter="all">All</button>
         <button style="font-family: Poppins, sans-serif;" class="filter-btn" data-filter="pandas">Pandas</button>
         <button style="font-family: Poppins, sans-serif;" class="filter-btn" data-filter="python">Python</button>
         <button style="font-family: Poppins, sans-serif;" class="filter-btn" data-filter="sql">SQL</button>
+      </div>-->
+
+      <!-- Search + Type Controls -->
+      <div class="courses-controls">
+        <div class="controls-inner">
+          <div class="controls-left">
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="searchInput" placeholder="Search courses...">
+            </div>
+            <select class="category-select" id="categorySelect">
+              <option value="all">All courses</option>
+              <option value="pandas">Pandas</option>
+              <option value="python">Python</option>
+              <option value="sql">SQL</option>
+            </select>
+          </div>
+          <div class="controls-right">
+            <button class="type-btn active" data-type="all">All</button>
+            <button class="type-btn" data-type="courses">Courses</button>
+            <button class="type-btn" data-type="projects">Projects</button>
+          </div>
+        </div>
       </div>
- 
-      <!-- Tutorials Grid -->
-      <div class="tutorials-grid">
- 
-        <div class="tutorial-card-page" data-category="pandas python" onclick="location.href='Pandas_Data_Cleaning.html'">
+
+      <!-- Grid -->
+      <div class="tutorials-grid" id="tutorialsGrid">
+
+        <div class="tutorial-card-page"
+             data-category="pandas python"
+             data-type="courses"
+             data-title="data cleaning with pandas"
+             onclick="location.href='Pandas_Data_Cleaning.html'">
           <div class="tutorial-image-wrap">
-            <img src="../images/Pandas_Data_Cleaning.png" style="width: 100%; height: 100%;" alt="Data Cleaning Tutorial">
+            <img src="../images/Pandas_Data_Cleaning.png" style="width:100%;height:100%;" alt="Data Cleaning Tutorial">
             <div class="tutorial-overlay"><span>Open Guide</span></div>
           </div>
           <div class="tutorial-content">
-            <span class="tutorial-category" style="font-family: Poppins, sans-serif;">Data Cleaning</span>
-            <span class="tutorial-category-third" style="font-family: Poppins, sans-serif;">TUTORIAL</span>
+            <span class="tutorial-category" style="font-family:Poppins,sans-serif;">Data Cleaning</span>
+            <span class="tutorial-category-third" style="font-family:Poppins,sans-serif;">TUTORIAL</span>
             <h3>Data Cleaning with Pandas</h3>
             <p>Python | Pandas</p>
           </div>
         </div>
- 
-        <div class="tutorial-card-page" data-category="pandas python" onclick="location.href='Pandas_Cheatsheet.html'">
+
+        <div class="tutorial-card-page"
+             data-category="pandas python"
+             data-type="courses"
+             data-title="free pandas cheatsheet"
+             onclick="location.href='Pandas_Cheatsheet.html'">
           <div class="tutorial-image-wrap">
-            <img src="../images/Pandas_Free_Cheatsheet.png" style="width: 100%; height: 100%;" alt="Pandas Cheatsheet">
+            <img src="../images/Pandas_Free_Cheatsheet.png" style="width:100%;height:100%;" alt="Pandas Cheatsheet">
             <div class="tutorial-overlay"><span>Open Guide</span></div>
           </div>
           <div class="tutorial-content">
-            <span class="tutorial-category" style="font-family: Poppins, sans-serif;">Pandas Essentials</span>
-            <span class="tutorial-category-third" style="font-family: Poppins, sans-serif;">CHEATSHEET</span>
+            <span class="tutorial-category" style="font-family:Poppins,sans-serif;">Pandas Essentials</span>
+            <span class="tutorial-category-third" style="font-family:Poppins,sans-serif;">CHEATSHEET</span>
             <h3>Free Pandas Cheatsheet</h3>
             <p>Python | Pandas</p>
           </div>
         </div>
 
-        <div class="tutorial-card-page" data-category="sql" onclick="location.href='SQL_beginner_project.html'">
+        <div class="tutorial-card-page"
+             data-category="sql"
+             data-type="projects"
+             data-title="sql superstore analysis"
+             onclick="location.href='SQL_beginner_project.html'">
           <div class="tutorial-image-wrap">
             <img src="../images/SQL_Beginner.png" alt="SQL Superstore Analysis">
             <div class="tutorial-overlay"><span>Open Guide</span></div>
           </div>
           <div class="tutorial-content">
-            <span class="tutorial-category" style="font-family: Poppins, sans-serif;">SQL Beginner</span>
-            <span class="tutorial-category-second" style="font-family: Poppins, sans-serif;">PROJECT</span>
+            <span class="tutorial-category" style="font-family:Poppins,sans-serif;">SQL Beginner</span>
+            <span class="tutorial-category-second" style="font-family:Poppins,sans-serif;">PROJECT</span>
             <h3>SQL Superstore Analysis</h3>
             <p>SQL | PostgreSQL</p>
           </div>
         </div>
 
-        <div class="tutorial-card-page" data-category="sql"onclick="location.href='SQL_intermediate_project.html'">
+        <div class="tutorial-card-page"
+             data-category="sql"
+             data-type="projects"
+             data-title="sql saas analysis"
+             onclick="location.href='SQL_intermediate_project.html'">
           <div class="tutorial-image-wrap">
             <img src="../images/SQL_Intermediate.png" alt="SQL SaaS Analysis">
             <div class="tutorial-overlay"><span>Open Guide</span></div>
           </div>
           <div class="tutorial-content">
-            <span class="tutorial-category" style="font-family: Poppins, sans-serif;">SQL Intermediate</span>
-            <span class="tutorial-category-second" style="font-family: Poppins, sans-serif;">PROJECT</span>
+            <span class="tutorial-category" style="font-family:Poppins,sans-serif;">SQL Intermediate</span>
+            <span class="tutorial-category-second" style="font-family:Poppins,sans-serif;">PROJECT</span>
             <h3>SQL SaaS Analysis</h3>
             <p>SQL | PostgreSQL</p>
           </div>
         </div>
- 
+
+        <div class="no-results" id="noResults">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <p>No courses found. Try a different search or filter.</p>
+        </div>
+
       </div>
- 
+
       <div class="back-btn-wrap">
-        <a href="../index.html" class="btn btn-primary">← Back to Home</a>
+        <a href="../index.html" style="font-family:Poppins,sans-serif;display:inline-block;padding:12px 28px;border-radius:50px;background:var(--primary);color:white;font-weight:600;transition:background 0.3s ease;">
+          ← Back to Home
+        </a>
       </div>
- 
+
     </div>
   </section>
- 
+
   <footer class="footer">
     <div class="container">
       <p>© 2026 <span class="footer-name">Kostanca Kovaci</span>. All Rights Reserved</p>
     </div>
   </footer>
- 
+
   <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">↑</button>
- 
+
+  <!-- Side Drawer -->
+  <div class="side-drawer" id="sideDrawer">
+    <button class="drawer-close" id="drawerClose">✕</button>
+    <div class="drawer-logo">Grow<span>In</span>Data</div>
+    <div class="drawer-section">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="../index.html#home"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li><a href="../index.html#about"><i class="fa-solid fa-user"></i> About</a></li>
+        <li><a href="../index.html#project"><i class="fa-solid fa-folder"></i> Portfolio</a></li>
+        <li><a href="../index.html#service"><i class="fa-solid fa-briefcase"></i> Services</a></li>
+      </ul>
+    </div>
+    <div class="drawer-section">
+      <h4>Learn</h4>
+      <ul>
+        <li><a href="../index.html#blog"><i class="fa-solid fa-pen-nib"></i> Blog</a></li>
+        <li><a href="all-tutorials.html"><i class="fa-solid fa-book-open"></i> Tutorials</a></li>
+        <li><a href="../projects/all-projects.html"><i class="fa-solid fa-diagram-project"></i> All Projects</a></li>
+      </ul>
+    </div>
+    <div class="drawer-section">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:kovacikostanca@gmail.com"><i class="fa-solid fa-envelope"></i> Email Me</a></li>
+        <li><a href="https://linkedin.com/in/kostanca-kovaci/" target="_blank"><i class="fa-brands fa-linkedin-in"></i> LinkedIn</a></li>
+        <li><a href="https://github.com/kovacikostanca" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a></li>
+      </ul>
+    </div>
+    <a href="../index.html#contact" class="drawer-cta">Get Started</a>
+  </div>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="../script_new.js"></script>
   <script>
-    const filterButtons = document.querySelectorAll('.filter-btn');
-const tutorials = document.querySelectorAll('.tutorial-card-page');
+    const cards = document.querySelectorAll('.tutorial-card-page');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const typeBtns = document.querySelectorAll('.type-btn');
+    const searchInput = document.getElementById('searchInput');
+    const categorySelect = document.getElementById('categorySelect');
+    const noResults = document.getElementById('noResults');
 
-filterButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    filterButtons.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+    let activeCategory = 'all';
+    let activeType = 'all';
+    let searchTerm = '';
 
-    const filter = btn.getAttribute('data-filter');
+    function runFilter() {
+      let visible = 0;
+      cards.forEach(card => {
+        const cardCategories = card.getAttribute('data-category').split(' ');
+        const cardType = card.getAttribute('data-type');
+        const cardTitle = card.getAttribute('data-title').toLowerCase();
 
-    tutorials.forEach(card => {
-      if (filter === 'all' || card.getAttribute('data-category').split(' ').includes(filter)) {
-        card.style.display = 'flex';
-      } else {
-        card.style.display = 'none';
-      }
+        const matchesCategory = activeCategory === 'all' || cardCategories.includes(activeCategory);
+        const matchesType = activeType === 'all' || cardType === activeType;
+        const matchesSearch = searchTerm === '' || cardTitle.includes(searchTerm);
+
+        if (matchesCategory && matchesType && matchesSearch) {
+          card.style.display = 'flex';
+          visible++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      noResults.style.display = visible === 0 ? 'block' : 'none';
+    }
+
+    // Pill buttons → update category + sync dropdown
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeCategory = btn.getAttribute('data-filter');
+        categorySelect.value = activeCategory;
+        runFilter();
+      });
     });
-  });
-});
+
+    // Dropdown → update category + sync pill buttons
+    categorySelect.addEventListener('change', () => {
+      activeCategory = categorySelect.value;
+      filterBtns.forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-filter') === activeCategory);
+      });
+      runFilter();
+    });
+
+    // Type buttons
+    typeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        typeBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeType = btn.getAttribute('data-type');
+        runFilter();
+      });
+    });
+
+    // Search
+    searchInput.addEventListener('input', () => {
+      searchTerm = searchInput.value.toLowerCase().trim();
+      runFilter();
+    });
   </script>
- 
+
 </body>
 </html>
