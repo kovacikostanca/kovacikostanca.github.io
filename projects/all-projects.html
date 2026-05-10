@@ -33,7 +33,7 @@
     }
  
     .projects-page .section-header p {
-      color: var(--text-muted);
+      color: white;
       font-size: 1.1rem;
     }
  
@@ -163,7 +163,7 @@
 </head>
 <body>
  
-  <!-- Navigation — matches index.html exactly -->
+  <!-- Navigation -->
   <nav class="navbar" id="navbar">
     <div class="container">
       <div class="nav-content">
@@ -177,9 +177,9 @@
           <span></span>
         </div>
         <ul class="nav-menu" id="navMenu">
-          <li><a href="../index.html#home" class="nav-link">HOME</a></li>
-          <li><a href="../projects/all-projects.html" class="nav-link"><span class="accent-word-red">PORTFOLIO</span></a></li>
-          <li><a href="../tutorials/all-tutorials.html" class="nav-link">COURSES</a></li>
+          <li><a href="../index.html#home" class="nav-link" style="font-size: 1.3rem;">HOME</a></li>
+          <li><a href="../projects/all-projects.html" class="nav-link" style="font-size: 1.3rem;"><span class="accent-word-red">PORTFOLIO</span></a></li>
+          <li><a href="../tutorials/all-tutorials.html" class="nav-link" style="font-size: 1.3rem;">COURSES</a></li>
           <li>
             <div class="theme-toggle">
               <button id="themeToggle" aria-label="Toggle theme">
@@ -187,8 +187,11 @@
               </button>
             </div>
           </li>
-          <li><a href="../index.html#contact" class="nav-link nav-cta">GET STARTED</a></li>
+          <!-- <li><a href="../index.html#contact" class="nav-link nav-cta">GET STARTED</a></li> -->
         </ul>
+        <button class="drawer-open-btn" id="drawerOpen">
+          <i class="fa-solid fa-bars"></i>
+        </button>
       </div>
     </div>
   </nav>
@@ -198,9 +201,9 @@
     <div class="container">
  
       <div class="section-header">
-        <span class="section-tag">PORTFOLIO</span>
+        <!-- <span class="section-tag">PORTFOLIO</span> -->
         <br>
-        <h2 style="font-family: Poppins, sans-serif; font-size: 3.8rem; font-weight: 700;">All Projects</h2>
+        <h2 style="font-family: Poppins, sans-serif; font-size: 3.8rem; font-weight: 700;">Portfolio</h2>
         <p style="font-family: Poppins, sans-serif; font-size: 1.5rem;">A complete collection of my data science & analytics work</p>
       </div>
  
@@ -309,7 +312,9 @@
       </div>
  
       <div class="back-btn-wrap">
-        <a href="../index.html" class="btn btn-primary">← Back to Home</a>
+        <a href="../index.html" class="back-btn" style="font-family: Poppins, sans-serif; display: inline-block; padding: 12px 28px; border-radius: 50px; background: var(--primary); color: white; font-weight: 600; transition: background 0.3s ease;">
+          ← Back to Home
+        </a>
       </div>
  
     </div>
