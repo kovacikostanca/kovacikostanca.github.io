@@ -13,20 +13,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
 
 <style>
-.nav-menu {
-  display: flex;
-  gap: 35px;
-  align-items: center;
-  margin-left: auto;
-}
-
-.nav-content {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 28px 0;
-}
-
 .portfolio-section {
   padding: 100px 0;
   background: #030820;
@@ -91,24 +77,22 @@
         <span></span>
         <span></span>
       </div>
-
       <ul class="nav-menu" id="navMenu">
-        <li><a href="#home" class="nav-link">HOME</a></li>
-        <li><a href="projects/all-projects.html" class="nav-link"><span class="accent-word-red">PORTFOLIO</span></a></li>
-        <li><a href="tutorials/all-tutorials.html" class="nav-link">COURSES</a></li>
-        <!-- <li><a href="#contact" class="nav-link nav-cta">GET STARTED</a></li> -->
-      </ul>
-
-      <div class="theme-toggle">
-        <button id="themeToggle" aria-label="Toggle theme">
-          <span class="theme-icon">🌙</span>
+          <li><a href="index.html#home" class="nav-link">HOME</a></li>
+          <li><a href="projects/all-projects.html" class="nav-link"><span class="accent-word-red">PORTFOLIO</span></a></li>
+          <li><a href="tutorials/all-tutorials.html" class="nav-link">COURSES</a></li>
+          <li>
+            <div class="theme-toggle">
+              <button id="themeToggle" aria-label="Toggle theme">
+                <span class="theme-icon">🌙</span>
+              </button>
+            </div>
+          </li>
+          <!-- <li><a href="../index.html#contact" class="nav-link nav-cta">GET STARTED</a></li> -->
+        </ul>
+        <button class="drawer-open-btn" id="drawerOpen">
+          <i class="fa-solid fa-bars"></i>
         </button>
-      </div>
-      
-      <button class="drawer-open-btn" id="drawerOpen">
-        <i class="fa-solid fa-bars"></i>
-      </button>
-
     </div>
   </div>
 </nav>
@@ -148,7 +132,7 @@
           </p> 
           <div class="hero-btns">
             <a href="#about" class="btn btn-primary">About Me</a>
-            <a href="projects/all-projects.html" class="btn btn-secondary">View My Work</a>
+            <a href="projects/all-projects.html" class="btn btn-secondary">PORTFOLIO</a>
           </div>
         </div>
  
