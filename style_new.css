@@ -133,7 +133,7 @@ ul {
 
 [data-theme="light"] .navbar {
   background: rgba(255, 255, 255, 0.95);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0);
   background: transparent;
 }
 
@@ -389,7 +389,7 @@ ul {
   object-position: center top;
   border: 4px solid rgba(99, 102, 241, 0.5);
   box-shadow: 0 0 40px rgba(99, 102, 241, 0.3);
-  animation: float 3s ease-in-out infinite;
+  animation: paused;
   position: relative;
   z-index: 2;
 }
@@ -802,7 +802,6 @@ ul {
 }
 
 
-
 /* ===== About Section ===== */
 .about-section {
   padding: 100px 0;
@@ -945,9 +944,6 @@ ul {
   margin-bottom: 15px;
   text-transform: auto;
 }
-
-
-
 
 
 
@@ -2205,7 +2201,7 @@ ul {
 }
 /* ===== Footer ===== */
 .footer {
-  background: rgba(15, 23, 42, 0.8);
+  background: rgba(8, 16, 36, 0.923);
   padding: 60px 0 30px;
   border-top: 1px solid rgba(99, 102, 241, 0.2);
 }
