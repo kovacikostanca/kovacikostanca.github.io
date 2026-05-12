@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Retail Sales Analytics Dashboard | Case Study</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary:      #1A2E5A;
+      --primary-dark: #111E3A;
+      --primary-lt:   #2D4A8A;
+      --green:        #1D5C3A;
+      --purple:       #4A2375;
+      --accent:       #C8A800;
+
+      --bg-body:  #ffffff;
+      --bg-card:  #ffffff;
+      --bg-alt:   #f8fafc;
+
+      --text-main:  #0D1B2A;
+      --text-muted: #475569;
+
+      --border-color: #e2e8f0;
+      --hero-bg: linear-gradient(135deg, #f0f4fa 0%, #e8f0fe 100%);
+      --nav-bg:  rgba(255,255,255,0.96);
+
+      --shadow: 0 4px 24px rgba(26,46,90,0.09);
+      --shadow-lg: 0 8px 40px rgba(26,46,90,0.14);
+    }
+
+    [data-theme="dark"] {
+      --bg-body:  #090f1a;
+      --bg-card:  #111e35;
+      --bg-alt:   #0d1525;
+
+      --text-main:  #f1f5f9;
+      --text-muted: #8fa3bf;
+
+      --border-color: #1e3050;
+      --hero-bg: linear-gradient(135deg, #0d1525 0%, #111e35 100%);
+      --nav-bg:  rgba(9,15,26,0.97);
+
+      --shadow: 0 4px 24px rgba(0,0,0,0.4);
+      --shadow-lg: 0 8px 40px rgba(0,0,0,0.5);
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box;
+      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.7;
+    }
+    img { max-width: 100%; display: block; }
+
+    /* ── NAV ── */
+    .nav {
+      position: sticky; top: 0; z-index: 1000;
+      backdrop-filter: blur(12px);
+      background: var(--nav-bg);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .nav-container {
+      max-width: 1400px; margin: 0 auto;
+      padding: 15px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-back {
+      text-decoration: none; color: var(--text-muted);
+      font-size: 14px; font-weight: 500;
+      padding: 9px 16px; border-radius: 8px;
+    }
+    .nav-back:hover { background: var(--bg-alt); color: var(--primary); }
+    .nav-actions { display: flex; gap: 12px; align-items: center; }
+    .nav-btn {
+      border: 1px solid var(--border-color);
+      background: var(--bg-card); color: var(--text-muted);
+      padding: 9px 18px; border-radius: 8px;
+      font-size: 14px; font-weight: 500;
+      text-decoration: none; cursor: pointer;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .nav-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .nav-btn.primary { background: var(--primary); color: white; border-color: var(--primary); }
+    .nav-btn.primary:hover { background: var(--primary-dark); }
+
+    /* ── HERO ── */
+    .hero { background: var(--hero-bg); padding: 90px 40px 70px; }
+    .hero-container { max-width: 1200px; margin: 0 auto; }
+    .breadcrumb {
+      display: flex; gap: 8px;
+      color: var(--text-muted); font-size: 14px;
+      margin-bottom: 28px; flex-wrap: wrap;
+    }
+    .hero-title {
+      font-size: 54px; font-weight: 800;
+      line-height: 1.08; margin-bottom: 24px;
+      letter-spacing: -0.03em; color: var(--text-main);
+    }
+    .hero-subtitle {
+      max-width: 860px; font-size: 19px;
+      color: var(--text-muted); margin-bottom: 48px;
+      font-weight: 400; line-height: 1.7;
+    }
+    .hero-stats {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 20px; max-width: 1000px;
+    }
+    .stat {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px; padding: 24px;
+      box-shadow: var(--shadow);
+    }
+    .stat-value {
+      display: block; font-size: 36px; font-weight: 800;
+      color: var(--primary); margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+    [data-theme="dark"] .stat-value { color: #7ea8d8; }
+    .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+
+    /* ── QUICK NAV ── */
+    .quick-nav {
+      position: sticky; top: 65px; z-index: 999;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .quick-nav-container {
+      max-width: 1400px; margin: 0 auto;
+      padding: 0 40px;
+      display: flex; gap: 28px; overflow-x: auto;
+    }
+    .quick-nav a {
+      text-decoration: none; color: var(--text-muted);
+      padding: 16px 0; font-size: 14px; font-weight: 500;
+      border-bottom: 2px solid transparent; white-space: nowrap;
+      transition: color .2s, border-color .2s;
+    }
+    .quick-nav a:hover, .quick-nav a.active {
+      color: var(--primary); border-bottom-color: var(--primary);
+    }
+    [data-theme="dark"] .quick-nav a:hover,
+    [data-theme="dark"] .quick-nav a.active { color: #7ea8d8; border-bottom-color: #7ea8d8; }
+
+    /* ── LAYOUT ── */
+    .main-container {
+      max-width: 1400px; margin: 0 auto;
+      padding: 64px 40px;
+      display: grid; grid-template-columns: 1fr 320px; gap: 60px;
+    }
+    .content-section { margin-bottom: 88px; scroll-margin-top: 145px; }
+    .section-label {
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      color: var(--primary); margin-bottom: 14px;
+    }
+    [data-theme="dark"] .section-label { color: #7ea8d8; }
+    .section-title { font-size: 32px; font-weight: 800; margin-bottom: 22px; line-height: 1.2; letter-spacing: -0.02em; }
+    .section-text { color: var(--text-muted); margin-bottom: 20px; font-size: 16px; line-height: 1.8; }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border-color);
+      border-radius: 18px; padding: 32px; margin-bottom: 20px;
+      box-shadow: var(--shadow);
+    }
+    .card-grid {
+      display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+      gap: 20px; margin-top: 24px;
+    }
+    .metric-card {
+      background: var(--bg-alt); border: 1px solid var(--border-color);
+      border-radius: 16px; padding: 28px; text-align: center;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .metric-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+    .metric-icon {
+      width: 52px; height: 52px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      border-radius: 14px; font-size: 24px;
+    }
+    .metric-icon.blue  { background: #e8f0fe; }
+    .metric-icon.green { background: #e6f4ec; }
+    .metric-icon.purple{ background: #f0e8f8; }
+    .metric-icon.orange{ background: #fef3e2; }
+    .metric-value { font-size: 34px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.02em; }
+    .metric-label { font-size: 14px; color: var(--text-muted); line-height: 1.5; }
+
+    /* ── HIGHLIGHT ── */
+    .highlight-box {
+      background: var(--hero-bg);
+      border-left: 4px solid var(--primary);
+      border-radius: 12px; padding: 26px 30px; margin: 28px 0;
+    }
+    .highlight-box.green  { border-left-color: var(--green); }
+    .highlight-box.purple { border-left-color: var(--purple); }
+    .highlight-box h3 { margin-bottom: 12px; font-size: 20px; font-weight: 700; }
+    .highlight-box p  { color: var(--text-muted); font-size: 15.5px; line-height: 1.75; }
+
+    /* ── TIMELINE ── */
+    .timeline { position: relative; padding-left: 40px; margin-top: 32px; }
+    .timeline::before {
+      content: ''; position: absolute; top: 0; left: 8px; bottom: 0;
+      width: 2px; background: var(--border-color);
+    }
+    .timeline-item { position: relative; margin-bottom: 40px; }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -38px; top: 7px;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--primary);
+      border: 3px solid var(--bg-body);
+      box-shadow: 0 0 0 3px var(--border-color);
+    }
+    .timeline-label {
+      font-size: 12px; text-transform: uppercase; letter-spacing: 1px;
+      color: var(--primary); font-weight: 700; margin-bottom: 6px;
+    }
+    [data-theme="dark"] .timeline-label { color: #7ea8d8; }
+    .timeline-title { font-size: 19px; margin-bottom: 10px; font-weight: 700; }
+    .timeline-text { color: var(--text-muted); font-size: 15px; line-height: 1.7; }
+
+    /* ── LISTS ── */
+    .custom-list { list-style: none; margin-top: 12px; }
+    .custom-list li {
+      position: relative; padding-left: 28px;
+      margin-bottom: 13px; color: var(--text-muted); font-size: 15px; line-height: 1.65;
+    }
+    .custom-list li::before { content: "→"; position: absolute; left: 0; color: var(--primary); font-weight: 700; }
+
+    /* ── TABS ── */
+    .tabs {
+      display: flex; gap: 4px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 24px; flex-wrap: wrap;
+    }
+    .tab {
+      background: transparent; border: none;
+      padding: 13px 22px; color: var(--text-muted);
+      font-size: 14px; font-weight: 500; cursor: pointer;
+      border-bottom: 2px solid transparent;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: color .2s, border-color .2s;
+    }
+    .tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+    [data-theme="dark"] .tab.active { color: #7ea8d8; border-bottom-color: #7ea8d8; }
+    .tab-content { display: none; animation: fadeIn 0.25s ease; }
+    .tab-content.active { display: block; }
+
+    /* ── CODE ── */
+    .code-container { margin-top: 24px; border-radius: 16px; overflow: hidden; background: #0d1b2a; }
+    .code-header {
+      padding: 13px 20px; background: #111e35;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .code-title { color: #7ea8d8; font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+    .copy-btn {
+      border: none; background: rgba(255,255,255,0.1); color: #f1f5f9;
+      padding: 5px 12px; border-radius: 6px; font-size: 11px; cursor: pointer;
+      transition: background .2s;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,0.2); }
+    .code-block { overflow-x: auto; padding: 24px; }
+    .code-block code {
+      font-family: 'JetBrains Mono', monospace; color: #e2e8f0;
+      font-size: 13px; line-height: 1.7; white-space: pre-wrap; display: block;
+    }
+    .code-comment  { color: #475569; }
+    .code-keyword  { color: #7dd3fc; }
+    .code-string   { color: #86efac; }
+    .code-function { color: #fbbf24; }
+    .code-number   { color: #f9a8d4; }
+
+    /* ── RESULTS TABLE ── */
+    .results-table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 20px 0; }
+    .results-table th {
+      background: var(--primary); color: white;
+      padding: 11px 14px; text-align: left;
+      font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+    }
+    .results-table td { padding: 11px 14px; border-bottom: 1px solid var(--border-color); color: var(--text-muted); }
+    .results-table tr:hover td { background: var(--bg-alt); }
+    .pill {
+      display: inline-block; padding: 3px 10px; border-radius: 20px;
+      font-size: 11px; font-weight: 600;
+    }
+    .pill.green  { background: #e6f4ec; color: #1D5C3A; }
+    .pill.blue   { background: #e8f0fe; color: #1A2E5A; }
+    .pill.orange { background: #fef3e2; color: #92400e; }
+
+    /* ── TECH GRID ── */
+    .tech-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(110px,1fr));
+      gap: 16px; margin-top: 36px;
+    }
+    .tech-item {
+      background: var(--bg-alt); border: 1px solid var(--border-color);
+      border-radius: 14px; padding: 18px 14px; text-align: center;
+      transition: transform .2s, border-color .2s;
+    }
+    .tech-item:hover { transform: translateY(-3px); border-color: var(--primary); }
+    .tech-icon { font-size: 30px; margin-bottom: 10px; }
+    .tech-name { font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+
+    /* ── IMAGE ── */
+    .image-placeholder {
+      margin-top: 24px; border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--border-color); background: var(--bg-alt);
+    }
+    .image-placeholder img { width: 100%; height: auto; object-fit: cover; }
+
+    /* ── KPI MINI ROW ── */
+    .kpi-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin: 24px 0; }
+    .kpi-mini {
+      background: var(--bg-card); border: 1px solid var(--border-color);
+      border-radius: 12px; padding: 18px;
+      border-top: 3px solid var(--primary);
+    }
+    .kpi-mini.green  { border-top-color: var(--green); }
+    .kpi-mini.purple { border-top-color: var(--purple); }
+    .kpi-mini.orange { border-top-color: #c05e10; }
+    .kpi-mini-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); margin-bottom: 6px; }
+    .kpi-mini-value { font-size: 20px; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em; }
+    .kpi-mini-sub   { font-size: 11px; color: var(--green); margin-top: 3px; font-weight: 500; }
+    [data-theme="dark"] .kpi-mini-sub { color: #4ade80; }
+
+    /* ── SIDEBAR ── */
+    .sidebar { position: sticky; top: 140px; height: fit-content; }
+    .sidebar-section {
+      background: var(--bg-alt); border: 1px solid var(--border-color);
+      border-radius: 18px; padding: 24px; margin-bottom: 22px;
+    }
+    .sidebar-title {
+      font-size: 13px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .7px; margin-bottom: 18px; color: var(--text-main);
+    }
+    .sidebar-item { padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--border-color); }
+    .sidebar-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    .sidebar-label { font-size: 11px; text-transform: uppercase; letter-spacing: .5px; color: var(--text-muted); margin-bottom: 4px; }
+    .sidebar-value { font-size: 14px; font-weight: 500; color: var(--text-main); }
+    .tag-container { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      padding: 5px 12px; border-radius: 999px;
+      background: var(--bg-card); border: 1px solid var(--border-color);
+      font-size: 12px; color: var(--text-muted);
+    }
+    .action-btn {
+      display: block; width: 100%; text-decoration: none; text-align: center;
+      padding: 12px; border-radius: 10px;
+      background: var(--primary); color: white;
+      font-size: 14px; font-weight: 600; margin-bottom: 12px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      border: 1px solid var(--primary); transition: background .2s;
+    }
+    .action-btn:hover { background: var(--primary-dark); }
+    .action-btn.secondary {
+      background: var(--bg-card); color: var(--text-muted);
+      border-color: var(--border-color);
+    }
+    .action-btn.secondary:hover { border-color: var(--primary); color: var(--primary); }
+    .share-row { display: flex; gap: 8px; }
+    .share-row .action-btn { flex: 1; font-size: 18px; padding: 10px; }
+
+    /* ── ANIMATION ── */
+    @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width:1024px) {
+      .main-container { grid-template-columns: 1fr; }
+      .sidebar { position: relative; top: 0; }
+      .hero-stats { grid-template-columns: repeat(2,1fr); }
+      .hero-title { font-size: 40px; }
+      .kpi-row { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width:768px) {
+      .nav-container, .quick-nav-container, .hero-container, .main-container { padding-left: 20px; padding-right: 20px; }
+      .hero { padding: 70px 20px 50px; }
+      .hero-title { font-size: 32px; }
+      .hero-stats { grid-template-columns: 1fr; }
+      .nav-actions { gap: 8px; }
+      .nav-btn { padding: 8px 12px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ── -->
+<nav class="nav">
+  <div class="nav-container">
+    <a href="../projects/all-projects.html" class="nav-back">←  Back to Portfolio</a>
+    <div class="nav-actions">
+      <button id="theme-toggle" class="nav-btn" aria-label="Toggle Theme">
+        <span id="theme-icon">🌙</span>
+      </button>
+      <a href="https://public.tableau.com/app/profile/kostanca.kovaci/vizzes" target="_blank" class="nav-btn">View Dashboard</a>
+      <a href="mailto:kovacikostancal@email.com" class="nav-btn primary">Get in Touch</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-container">
+    <div class="breadcrumb">
+      <span>Projects</span>
+      <span>/</span>
+      <span>Business Intelligence</span>
+      <span>/</span>
+      <span>Retail Analytics</span>
+    </div>
+
+    <h1 class="hero-title">Retail Sales Analytics<br>Executive Dashboard</h1>
+
+    <p class="hero-subtitle">
+      A retail business lacked visibility into what was actually driving revenue, which customers were most valuable, 
+      and where margin was being lost. I built a 3-dashboard interactive Business Intelligence suite in Tableau Public 
+      — uncovering a recurring €2,044 seasonal gap, flagging the top-selling product as the most margin-inefficient 
+      item in the catalog, and delivering 5 data-backed strategic recommendations.
+    </p>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-value">€84.5K</span>
+        <span class="stat-label">Total Revenue Analyzed</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">489</span>
+        <span class="stat-label">Unique Customers Segmented</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">3</span>
+        <span class="stat-label">Live Interactive Dashboards</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">5</span>
+        <span class="stat-label">Strategic Recommendations</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── QUICK NAV ── -->
+<nav class="quick-nav">
+  <div class="quick-nav-container">
+    <a href="#overview" class="active">Overview</a>
+    <a href="#challenge">The Challenge</a>
+    <a href="#approach">Approach</a>
+    <a href="#technical">Technical Details</a>
+    <a href="#results">Results</a>
+    <a href="#learnings">Key Learnings</a>
+    <a href="#conclusion">Conclusion</a>
+  </div>
+</nav>
+
+<!-- ── MAIN ── -->
+<div class="main-container">
+<main>
+
+  <!-- OVERVIEW -->
+  <section id="overview" class="content-section">
+    <div class="section-label">Project Overview</div>
+    <h2 class="section-title">Transforming Retail Transactions into Executive-Level Intelligence</h2>
+
+    <p class="section-text">
+      A retail business was sitting on a full year of transactional data — 2,000 sales records, 489 customers, 
+      15 products across 6 categories — but had no visibility into what was actually driving revenue, which 
+      customers were most valuable, or where margin was being lost quietly.
+    </p>
+    <p class="section-text">
+      I built a fully interactive, three-dashboard Business Intelligence suite in Tableau Public that answered 
+      all of these questions simultaneously. Any stakeholder can filter by date range, category, or product 
+      and get a real-time answer in seconds — no spreadsheet required, no analyst needed at runtime.
+    </p>
+
+    <div class="highlight-box">
+      <h3>Business Impact</h3>
+      <p>
+        The dashboard identified Sugar — the #1 revenue product — as the most margin-inefficient item in the 
+        catalog at 21.9%. A 5% reprice alone would add an estimated €525 in annual profit with zero additional 
+        volume. Dairy, meanwhile, generates 42.3% of total revenue and was being under-invested relative to 
+        its contribution. These findings were invisible in the raw data without the right analytical lens.
+      </p>
+    </div>
+
+    <div class="card-grid">
+      <div class="metric-card">
+        <div class="metric-icon blue">📈</div>
+        <div class="metric-value">€84,558</div>
+        <div class="metric-label">Total Revenue — Full Year 2024</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon green">💰</div>
+        <div class="metric-value">€21,789</div>
+        <div class="metric-label">Total Profit Tracked &amp; Analyzed</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon purple">🛒</div>
+        <div class="metric-value">2,000</div>
+        <div class="metric-label">Transactions Processed</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHALLENGE -->
+  <section id="challenge" class="content-section">
+    <div class="section-label">Problem Statement</div>
+    <h2 class="section-title">The Challenge</h2>
+
+    <p class="section-text">
+      The business had good data but zero visibility. Four critical blind spots were costing real money every month:
+    </p>
+
+    <div class="card">
+      <ul class="custom-list">
+        <li>
+          <strong>No seasonal awareness.</strong> Revenue dropped €2,044 between May and November every year 
+          — a predictable, fixable gap — but nobody had measured it or built a strategy around it.
+        </li>
+        <li>
+          <strong>No margin visibility.</strong> Sugar led all products in revenue (€10,503) but carried the 
+          worst profit margin in the entire catalog at 21.9%. The business was celebrating the top line while 
+          quietly losing ground at the bottom.
+        </li>
+        <li>
+          <strong>No customer segmentation.</strong> 489 customers were treated identically. The top 10% 
+          generated 21.7% of total revenue with no loyalty recognition, no retention strategy, and no VIP tier.
+        </li>
+        <li>
+          <strong>No category strategy.</strong> Dairy drove 42.3% of revenue and 44.5% of profit — the 
+          strongest category by far — but there was no data-backed rationale for where to invest or where 
+          to rationalize the range.
+        </li>
+      </ul>
+    </div>
+
+    <div class="image-placeholder">
+      <img src="../images/dashboard_1.png" alt="Dashboard 1 — Executive Sales Overview" />
+      <br>
+      <img src="../images/dashboard_2.png" alt="Dashboard 2 — Customer Insights" />
+      <br>
+      <img src="../images/dashboard_3.png" alt="Dashboard 3 — Product & Profit Performance" />
+    </div>
+  </section>
+
+  <!-- APPROACH -->
+  <section id="approach" class="content-section">
+    <div class="section-label">Methodology</div>
+    <h2 class="section-title">Solution Approach</h2>
+
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-label">Phase 1</div>
+        <div class="timeline-title">Data Connection &amp; Preparation</div>
+        <div class="timeline-text">
+          Connected the raw CSV file in Tableau Public. Corrected data types — transaction_date set to Date, 
+          transaction_id and customer_id set to String to prevent incorrect aggregation. Validated all 
+          15 product fields, 6 category groups, and 2,000 transaction records for integrity before building 
+          any sheet.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-label">Phase 2</div>
+        <div class="timeline-title">Calculated Fields &amp; Parameter Logic</div>
+        <div class="timeline-text">
+          Built 8 custom calculated fields from scratch: Profit Margin %, Avg Order Value, Revenue per Customer, 
+          Avg Purchases per Customer, Active Customers, Profit Tier (scatter quadrant classifier), and a 
+          Dynamic Date Filter anchored to MAX(transaction_date) — not TODAY() — so the filter works correctly 
+          on historical data regardless of the current date.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-label">Phase 3</div>
+        <div class="timeline-title">11 Analytical Sheets Built</div>
+        <div class="timeline-text">
+          Developed all analytical views individually before assembling them into dashboards:
+          <ul class="custom-list">
+            <li>Revenue Over Time line chart (12-month trend)</li>
+            <li>Top 10 Products by Revenue — horizontal bar, sorted descending</li>
+            <li>4 KPI cards: Total Revenue, Total Profit, Transactions, Avg Order Value</li>
+            <li>Revenue by Customer bar chart — top 10 customers ranked</li>
+            <li>Customer Revenue Distribution histogram with revenue bins</li>
+            <li>Top 10 Customers data table with transaction counts</li>
+            <li>Profit by Product, Revenue by Category, Profit vs Quantity scatter plot</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-label">Phase 4</div>
+        <div class="timeline-title">3 Interactive Dashboards Assembled</div>
+        <div class="timeline-text">
+          Each dashboard was designed for a specific audience and decision type: Dashboard 1 (Executive 
+          Overview) for senior leadership, Dashboard 2 (Customer Insights) for marketing and CRM, 
+          Dashboard 3 (Product &amp; Profit) for category managers. All three share the same date 
+          parameter and category filter — one selection updates every chart simultaneously.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-label">Phase 5</div>
+        <div class="timeline-title">Interactivity &amp; Actions</div>
+        <div class="timeline-text">
+          Implemented 7 interactive actions across all dashboards: Filter Actions (click a bar to drill 
+          down), Highlight Actions (hover to spotlight across all charts), Parameter Controls (date range 
+          selector), Category Quick Filter (applied across all sheets), Custom Tooltips (revenue, profit, 
+          margin on hover), and Navigation Buttons connecting all three dashboards seamlessly.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TECHNICAL -->
+  <section id="technical" class="content-section">
+    <div class="section-label">Technical Implementation</div>
+    <h2 class="section-title">Technical Deep Dive</h2>
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab(event,'tab1')">Calculated Fields</button>
+      <button class="tab" onclick="switchTab(event,'tab2')">Date Parameter</button>
+      <button class="tab" onclick="switchTab(event,'tab3')">Dashboard Actions</button>
+    </div>
+
+    <!-- TAB 1 -->
+    <div id="tab1" class="tab-content active">
+      <p class="section-text">
+        Eight custom calculated fields were built from scratch. None of these exist in the raw CSV — 
+        they were engineered specifically to answer the business questions each dashboard targets.
+      </p>
+
+      <div class="code-container">
+        <div class="code-header">
+          <span class="code-title">calculated_fields.tableau</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-block">
+<code><span class="code-comment">// Profit Margin % — profitability ratio per product / category</span>
+<span class="code-keyword">SUM</span>([profit]) / <span class="code-keyword">SUM</span>([revenue])
+
+<span class="code-comment">// Avg Order Value — average spend per unique transaction</span>
+<span class="code-keyword">SUM</span>([revenue]) / <span class="code-keyword">COUNTD</span>([transaction_id])
+
+<span class="code-comment">// Avg Purchases per Customer — purchase frequency metric</span>
+<span class="code-keyword">COUNTD</span>([transaction_id]) / <span class="code-keyword">COUNTD</span>([customer_id])
+
+<span class="code-comment">// Active Customers — customers with at least one purchase</span>
+<span class="code-keyword">COUNTD</span>(<span class="code-keyword">IF</span> [revenue] > <span class="code-number">0</span> <span class="code-keyword">THEN</span> [customer_id] <span class="code-keyword">END</span>)
+
+<span class="code-comment">// Profit Tier — classifies every product into one of 4 strategic quadrants</span>
+<span class="code-keyword">IF</span> <span class="code-keyword">SUM</span>([profit]) > <span class="code-number">2000</span> AND <span class="code-keyword">SUM</span>([quantity]) > <span class="code-number">800</span>
+  <span class="code-keyword">THEN</span> <span class="code-string">"High Profit / High Qty"</span>
+<span class="code-keyword">ELSEIF</span> <span class="code-keyword">SUM</span>([profit]) > <span class="code-number">2000</span>
+  <span class="code-keyword">THEN</span> <span class="code-string">"High Profit / Low Qty"</span>
+<span class="code-keyword">ELSEIF</span> <span class="code-keyword">SUM</span>([quantity]) > <span class="code-number">800</span>
+  <span class="code-keyword">THEN</span> <span class="code-string">"Low Profit / High Qty"</span>
+<span class="code-keyword">ELSE</span> <span class="code-string">"Low Profit / Low Qty"</span>
+<span class="code-keyword">END</span></code>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2 -->
+    <div id="tab2" class="tab-content">
+      <p class="section-text">
+        A String Parameter drives the date range selector. The critical design decision was anchoring 
+        to <code style="background:var(--bg-alt);padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:13px;">MAX(transaction_date)</code> 
+        rather than <code style="background:var(--bg-alt);padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:13px;">TODAY()</code> 
+        — ensuring the filter works correctly on historical data regardless of when the dashboard is viewed.
+      </p>
+
+      <div class="code-container">
+        <div class="code-header">
+          <span class="code-title">date_filter.tableau</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-block">
+<code><span class="code-comment">// Parameter: "Select Date Range"</span>
+<span class="code-comment">// Type: String | Allowable: List</span>
+<span class="code-comment">// Values: "Last 3 Months" | "Last 6 Months" | "Last 12 Months"</span>
+
+<span class="code-comment">// Date Filter calculated field (applied to ALL 11 sheets via Filters shelf)</span>
+[transaction_date] >= <span class="code-keyword">DATEADD</span>(<span class="code-string">'month'</span>,
+  <span class="code-keyword">IF</span> [Select Date Range] = <span class="code-string">"Last 3 Months"</span>  <span class="code-keyword">THEN</span> -<span class="code-number">3</span>
+  <span class="code-keyword">ELSEIF</span> [Select Date Range] = <span class="code-string">"Last 6 Months"</span>  <span class="code-keyword">THEN</span> -<span class="code-number">6</span>
+  <span class="code-keyword">ELSE</span> -<span class="code-number">12</span>
+  <span class="code-keyword">END</span>,
+  {<span class="code-keyword">MAX</span>([transaction_date])}
+)
+
+<span class="code-comment">// Why MAX() not TODAY():</span>
+<span class="code-comment">// Data ends December 2024. TODAY() in 2025+ would return empty results.</span>
+<span class="code-comment">// MAX() anchors to the last date in your actual data — always correct.</span></code>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3 -->
+    <div id="tab3" class="tab-content">
+      <p class="section-text">
+        Seven interactive actions make the dashboards behave like a real application rather than 
+        a static report. Every action was set up under Dashboard → Actions → This Workbook.
+      </p>
+
+      <table class="results-table">
+        <thead>
+          <tr><th>Action Name</th><th>Type</th><th>Trigger</th><th>Behaviour</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Product filters Revenue</td><td><span class="pill blue">Filter</span></td><td>Select (click)</td><td>Revenue Over Time filters to clicked product only</td></tr>
+          <tr><td>Customer bar filters table</td><td><span class="pill blue">Filter</span></td><td>Select (click)</td><td>Top 10 table and distribution filter to clicked customer</td></tr>
+          <tr><td>Highlight Product</td><td><span class="pill orange">Highlight</span></td><td>Hover</td><td>Selected item highlights across all charts simultaneously</td></tr>
+          <tr><td>Revenue Over Time tooltip</td><td><span class="pill green">Tooltip</span></td><td>Hover</td><td>Shows Month, Revenue, and trend context</td></tr>
+          <tr><td>Product tooltip</td><td><span class="pill green">Tooltip</span></td><td>Hover</td><td>Shows Product, Revenue, Profit, Margin %</td></tr>
+          <tr><td>Date Range control</td><td><span class="pill blue">Parameter</span></td><td>Dropdown</td><td>All KPIs and charts update across all 3 dashboards</td></tr>
+          <tr><td>Dashboard navigation</td><td><span class="pill orange">Navigate</span></td><td>Click button</td><td>Moves between dashboards, preserving active filters</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tech-grid">
+      <div class="tech-item"><div class="tech-icon">📊</div><div class="tech-name">Tableau Public</div></div>
+      <div class="tech-item"><div class="tech-icon">📁</div><div class="tech-name">CSV / Excel</div></div>
+      <div class="tech-item"><div class="tech-icon">🔢</div><div class="tech-name">Calc Fields</div></div>
+      <div class="tech-item"><div class="tech-icon">🎛</div><div class="tech-name">Parameters</div></div>
+      <div class="tech-item"><div class="tech-icon">⚡</div><div class="tech-name">Actions</div></div>
+      <div class="tech-item"><div class="tech-icon">🎨</div><div class="tech-name">Dashboard Design</div></div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="results" class="content-section">
+    <div class="section-label">Impact &amp; Outcomes</div>
+    <h2 class="section-title">Results &amp; Business Impact</h2>
+
+    <p class="section-text">
+      The dashboards delivered five findings that were completely invisible in the raw CSV — 
+      and each one is immediately actionable for the business.
+    </p>
+
+    <div class="kpi-row">
+      <div class="kpi-mini"><div class="kpi-mini-label">Revenue Peak</div><div class="kpi-mini-value">May 2024</div><div class="kpi-mini-sub">€8,265 — highest month</div></div>
+      <div class="kpi-mini green"><div class="kpi-mini-label">Seasonal Gap</div><div class="kpi-mini-value">€2,044</div><div class="kpi-mini-sub">May vs November — every year</div></div>
+      <div class="kpi-mini purple"><div class="kpi-mini-label">Top Category</div><div class="kpi-mini-value">Dairy</div><div class="kpi-mini-sub">42.3% of all revenue</div></div>
+      <div class="kpi-mini orange"><div class="kpi-mini-label">Worst Margin</div><div class="kpi-mini-value">Sugar</div><div class="kpi-mini-sub">21.9% — lowest in catalog</div></div>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:18px;font-weight:700;margin-bottom:16px;">Revenue Findings</h3>
+      <ul class="custom-list">
+        <li>Revenue peaked at <strong>€8,265 in May</strong> and fell to <strong>€6,221 in November</strong> — a 24.7% seasonal swing that repeats annually and is fully preventable with targeted promotions.</li>
+        <li>Top 3 products (Sugar, Butter, Bread) account for <strong>35.7% of total revenue</strong> — a concentration risk if any one SKU faces supply disruption.</li>
+        <li><strong>Butter is the standout performer</strong>: second in revenue at €9,976 AND highest profit at €2,878 (28.8% margin) — the single most efficient product in the business.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:18px;font-weight:700;margin-bottom:16px;">Customer Findings</h3>
+      <ul class="custom-list">
+        <li>Top customer spends <strong>€562/year — 116% above average</strong>. There is no loyalty program. This is the most immediate retention risk in the business.</li>
+        <li><strong>72% of customers</strong> fall in the €100–€500 spend bracket — a large, reachable upsell segment with proven purchasing intent already demonstrated.</li>
+        <li>Only 2 customers spend over €500/year. Growing this number to 12 would add an estimated <strong>€5,000+ in annual revenue</strong> at zero acquisition cost.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:18px;font-weight:700;margin-bottom:16px;">Product &amp; Category Findings</h3>
+      <ul class="custom-list">
+        <li>Dairy generates <strong>€35,778 (42.3% of revenue)</strong> and <strong>€9,694 (44.5% of profit)</strong> — the dominant category with clear room to expand range and shelf presence.</li>
+        <li>Beverages generates just €5,699 — less than 1/6th of Dairy — despite likely consuming comparable operational resource and attention.</li>
+        <li>The scatter analysis confirmed <strong>Butter and Apples as ideal products</strong> (high profit + high volume), while Rice and Coffee sit in the danger quadrant — low profit and low quantity.</li>
+      </ul>
+    </div>
+
+  </section>
+
+  <!-- LEARNINGS -->
+  <section id="learnings" class="content-section">
+    <div class="section-label">Insights &amp; Reflections</div>
+    <h2 class="section-title">Key Learnings</h2>
+
+    <div class="card">
+      <h3 style="font-size:18px;font-weight:700;margin-bottom:12px;">1. Revenue without margin context produces dangerously misleading conclusions.</h3>
+      <p class="section-text" style="margin-bottom:0;">
+        Sugar looked like the star of the product lineup — until the margin analysis revealed it was the least efficient product in the catalog. 
+        Without profit visibility alongside revenue, a business can optimise for the wrong metric entirely. 
+        Every revenue ranking needs a margin column next to it.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:18px;font-weight:700;margin-bottom:12px;">2. Seasonal patterns are only visible when you look for them across time.</h3>
+      <p class="section-text" style="margin-bottom:0;">
+        The €2,044 November dip had been happening every year. Without a time-series view, it was invisible — 
+        just a "bad month." The Revenue Over Time chart made it structurally obvious and immediately 
+        actionable. The gap is not random; it is predictable and therefore preventable.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:18px;font-weight:700;margin-bottom:12px;">3. Interactivity is the difference between a dashboard people use and one they ignore.</h3>
+      <p class="section-text" style="margin-bottom:0;">
+        Static reports answer one question. Interactive dashboards answer the follow-up question — 
+        and the one after that. When a stakeholder can click a category and immediately see how it 
+        affects revenue trend, customer distribution, and product profit all at once, 
+        the dashboard becomes a thinking tool, not just a display.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:18px;font-weight:700;margin-bottom:12px;">4. The most valuable insight is the one that changes a decision.</h3>
+      <p class="section-text" style="margin-bottom:0;">
+        The dashboard's value is not in the charts — it is in the five specific decisions it made possible: 
+        a seasonal promotion, a pricing adjustment, a loyalty programme, a category expansion, 
+        and a product review. Analytics that doesn't connect to action is just decoration.
+      </p>
+    </div>
+  </section>
+
+  <!-- CONCLUSION -->
+  <section id="conclusion" class="content-section">
+    <div class="section-label">Conclusion</div>
+    <h2 class="section-title">Building Smarter Retail Intelligence</h2>
+
+    <div class="card" style="border-left:4px solid var(--primary);">
+      <p class="section-text" style="margin-bottom:0;">
+        This project proves that business intelligence does not require a data engineering team or an 
+        enterprise platform. With the right structure — clean data, purposeful calculated fields, and 
+        dashboards designed around specific business questions — Tableau Public delivers executive-grade 
+        insight that directly changes how a business operates. The dashboards identified five specific, 
+        quantified opportunities worth an estimated <strong>€8,000–€12,000 in annual revenue and profit 
+        improvement</strong> from a dataset that was previously sitting unused in a spreadsheet.
+      </p>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3 style="margin-bottom:16px;color:var(--primary);font-weight:700;">Strategic Recommendations</h3>
+        <ul class="custom-list">
+          <li><strong>Reprice Sugar by 5%</strong> — lowest margin at 21.9%, est. +€525 annual profit.</li>
+          <li><strong>Launch Nov promo campaign</strong> — close the €2,044 seasonal gap, est. +€1,022 Q4.</li>
+          <li><strong>VIP loyalty tier</strong> for top 49 customers — est. +€1,833 annual revenue.</li>
+          <li><strong>Expand Dairy range</strong> — 42.3% revenue share justifies investment priority.</li>
+          <li><strong>Review Rice &amp; Coffee</strong> — low profit + low volume, reallocate resource.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="margin-bottom:16px;color:var(--primary);font-weight:700;">What I Would Do Next</h3>
+        <ul class="custom-list">
+          <li>Connect to a live database for real-time dashboard updates.</li>
+          <li>Add a year-over-year comparison layer across all KPIs.</li>
+          <li>Build a customer cohort retention and repeat-purchase view.</li>
+          <li>Model the monthly impact of each recommendation after implementation.</li>
+          <li>Automate weekly executive reporting via Tableau scheduled extracts.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+
+  <div class="sidebar-section">
+    <h3 class="sidebar-title">Project Info</h3>
+    <div class="sidebar-item">
+      <div class="sidebar-label">Context</div>
+      <div class="sidebar-value">Retail Business — BI &amp; Analytics Project</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-label">Industry</div>
+      <div class="sidebar-value">Retail / FMCG</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-label">Platform</div>
+      <div class="sidebar-value">Tableau Public (Free)</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-label">Data Period</div>
+      <div class="sidebar-value">January – December 2024</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-label">Role</div>
+      <div class="sidebar-value">Data Analyst | BI Developer</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-label">Deliverables</div>
+      <div class="sidebar-value">3 Dashboards · 11 Sheets · 8 Calculated Fields</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-label">Status</div>
+      <div class="sidebar-value">✅ Published on Tableau Public</div>
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <h3 class="sidebar-title">Key Numbers</h3>
+    <div class="sidebar-item">
+      <div class="sidebar-label">Total Revenue</div>
+      <div class="sidebar-value">€84,558 analyzed</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-label">Top Revenue Product</div>
+      <div class="sidebar-value">Sugar — €10,503</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-label">Best Margin Product</div>
+      <div class="sidebar-value">Butter — 28.8% margin</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-label">Top Category</div>
+      <div class="sidebar-value">Dairy — 42.3% of revenue</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-label">Seasonal Gap</div>
+      <div class="sidebar-value">€2,044 — May vs November</div>
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <h3 class="sidebar-title">Tags</h3>
+    <div class="tag-container">
+      <span class="tag">Tableau Public</span>
+      <span class="tag">Business Intelligence</span>
+      <span class="tag">Retail Analytics</span>
+      <span class="tag">Data Visualization</span>
+      <span class="tag">Dashboard Design</span>
+      <span class="tag">KPI Tracking</span>
+      <span class="tag">Customer Segmentation</span>
+      <span class="tag">Profitability Analysis</span>
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <h3 class="sidebar-title">Actions</h3>
+    <a href="https://public.tableau.com/app/profile/kostanca.kovaci/vizzes" target="_blank" class="action-btn">View Live Dashboard →</a>
+    <a href="../index.html#projects" class="action-btn secondary">← Back to Portfolio</a>
+  </div>
+
+  <div class="sidebar-section">
+    <h3 class="sidebar-title">Share</h3>
+    <div class="share-row">
+      <a href="javascript:void(0)" onclick="copyLink()" class="action-btn secondary" title="Copy link">🔗</a>
+      <a href="mailto:yourmail@email.com?subject=Retail Sales BI Dashboard&body=I saw your Retail Sales Analytics project and wanted to connect." class="action-btn secondary" title="Email">📧</a>
+      <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="action-btn secondary" title="LinkedIn">💼</a>
+    </div>
+  </div>
+
+</aside>
+</div>
+
+<script>
+  // THEME TOGGLE
+  const toggleBtn  = document.getElementById('theme-toggle');
+  const themeIcon  = document.getElementById('theme-icon');
+  const htmlEl     = document.documentElement;
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  if (savedTheme === 'dark') { htmlEl.setAttribute('data-theme','dark'); themeIcon.textContent = '☀️'; }
+  toggleBtn.addEventListener('click', () => {
+    const dark = htmlEl.getAttribute('data-theme') === 'dark';
+    htmlEl.setAttribute('data-theme', dark ? 'light' : 'dark');
+    themeIcon.textContent = dark ? '🌙' : '☀️';
+    localStorage.setItem('theme', dark ? 'light' : 'dark');
+  });
+
+  // TABS
+  function switchTab(evt, tabId) {
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    evt.currentTarget.classList.add('active');
+  }
+
+  // COPY CODE
+  function copyCode(btn) {
+    const code = btn.closest('.code-container').querySelector('code').innerText;
+    navigator.clipboard.writeText(code);
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  }
+
+  // COPY LINK
+  function copyLink() {
+    navigator.clipboard.writeText(window.location.href)
+      .then(() => alert('Link copied to clipboard!'));
+  }
+
+  // ACTIVE QUICK NAV ON SCROLL
+  const sections = document.querySelectorAll('.content-section');
+  const navLinks  = document.querySelectorAll('.quick-nav a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 200) current = s.id; });
+    navLinks.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+  }, { passive: true });
+</script>
+</body>
+</html>
