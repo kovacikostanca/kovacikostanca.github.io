@@ -379,6 +379,7 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0 auto;
 }
 
 .profile-image {
@@ -392,6 +393,8 @@ ul {
   animation: paused;
   position: relative;
   z-index: 2;
+  transform: translateY(0); /* Force a starting position */
+  will-change: transform;
 }
 
 .profile-ring {
@@ -442,6 +445,12 @@ ul {
 .accent-word-red {
   color: #5e76ff !important;
   -webkit-text-fill-color: #5e76ff !important;
+}
+
+.profile-container, .profile-image {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
 }
 
 /* Outer rotating dashed ring */
